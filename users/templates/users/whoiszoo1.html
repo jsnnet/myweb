@@ -1,0 +1,78 @@
+{% extends 'users/header3.html' %}
+{% block content %}
+    <style>
+      p { margin:20px 0px; }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <p>주인공 맞춰보기</p>
+            <ul class="nav nav-tabs">
+              <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#round1">1라운드</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#round2">2라운드</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#round3">3라운드</a>
+              </li>
+                <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#round4">4라운드</a>
+              </li><li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#round5">5라운드</a>
+              </li><li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#round6">6라운드</a>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="round1">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc id ornare libero. Vivamus iaculis, justo vel mattis pharetra, nisi ligula varius nisl, sit amet mollis tortor ligula vitae nisi.</p>
+                </div>
+                <div class="tab-pane fade" id="round2">
+                    <p>Nunc vitae turpis id nibh sodales commodo et non augue. Proin fringilla ex nunc. Integer tincidunt risus ut facilisis tristique.</p>
+                </div>
+                <div class="tab-pane fade" id="round3">
+                    <p>Curabitur dignissim quis nunc vitae laoreet. Etiam ut mattis leo, vel fermentum tellus. Sed sagittis rhoncus venenatis. Quisque commodo consectetur faucibus. Aenean eget ultricies justo.</p>
+                </div>
+                <div class="tab-pane fade" id="round4">
+                    <table style="width:240px; float:left">
+                        <thead>
+                        <th>승률이 가장 높은 주인공</th>
+                        <th>응원을 가장 많이 받은 주인공</th>
+                        </thead>
+                        <tbody>
+                        <img src="/static/image/toprating.jpg" style="width:240px; height:240px">
+                        </tbody>
+
+                        <td></td>
+                    </table>
+                    <table style="width:240px; float:right">
+                        <thead>
+                        <th>
+                            <td>
+                            <tr>
+                                <p>1234</p>
+                            </tr>
+                        </td>
+                        </th>
+                        <a>응원을 가장 많이 받은 주인공</a>
+                        </thead>
+                        <tbody>
+                        <td><img src="/static/image/toplike.jpg" style="width:240px; height:240px"></td>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="round5">
+                    <p>5라운드꺼</p>
+                </div>
+                <div class="tab-pane fade" id="round6">
+                    <p>6라운드꺼</p>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </body>
+{% endblock %}
