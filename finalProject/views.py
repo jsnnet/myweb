@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib import auth
-from users.models import Survey,Answer
+from finalProject.models import Survey,Answer
 
 
 # Create your views here.
@@ -9,7 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 
 def home1(request):
-    return render(request, "users/home1.html")
+    return render(request, "finalProject/home1.html")
 
 
 def join(request):
@@ -19,8 +19,8 @@ def join(request):
     #             username=request.POST["username"],password=request.POST["password1"])
     #         auth.login(request,user)
     #         return redirect('home')
-    #     return render(request, 'users/join.html')
-    return render(request, "users/join.html")
+    #     return render(request, 'finalProject/join.html')
+    return render(request, "finalProject/join.html")
 
 
 def login(request):
@@ -34,51 +34,51 @@ def login(request):
     #     else:
     #         return render(request, 'login.html', {'error': 'username or password is incorrect'})
     # else:
-    return render(request, "users/login.html")
+    return render(request, "finalProject/login.html")
 
 
 def logout(request):
     # auth.logout(request)
-    return render(request, "users/home1.html")
+    return render(request, "finalProject/home1.html")
 
 def qna1(request):
-    return render(request, "users/qna1.html")
+    return render(request, "finalProject/qna1.html")
 
 def notice1(request):
-    return render(request, "users/notice1.html")
+    return render(request, "finalProject/notice1.html")
 
 def ride1(request):
-    return render(request, "users/ride1.html")
+    return render(request, "finalProject/ride1.html")
 
 def race1(request):
-    return render(request, "users/race1.html")
+    return render(request, "finalProject/race1.html")
 
 def header3(request):
-    return render(request, "users/header3.html")
+    return render(request, "finalProject/header3.html")
 
 def footer(request):
-    return render(request, "users/footer.html")
+    return render(request, "finalProject/footer.html")
 
 def rideintro1(request):
-    return render(request, "users/rideintro1.html")
+    return render(request, "finalProject/rideintro1.html")
 
 def riderecom1(request):
-    return render(request, "users/riderecom1.html")
+    return render(request, "finalProject/riderecom1.html")
 
 def raceintro1(request):
-    return render(request, "users/raceintro1.html")
+    return render(request, "finalProject/raceintro1.html")
 
 def whoiszoo1(request):
-    return render(request, "users/whoiszoo1.html")
+    return render(request, "finalProject/whoiszoo1.html")
 
 def whoispick1(request):
-    return render(request, "users/whoispick1.html")
+    return render(request, "finalProject/whoispick1.html")
 
 def todayzoo1(request):
-    return render(request, "users/todayzoo1.html")
+    return render(request, "finalProject/todayzoo1.html")
 
 def countdown(request):
-    return render(request, "users/countdown.html")
+    return render(request, "finalProject/countdown.html")
 
 
 def survey_form(request):
