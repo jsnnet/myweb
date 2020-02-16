@@ -1,6 +1,14 @@
-{% extends 'users/header3.html'%}
+{% extends 'users/header4.html'%}
 {% block content %}
+
+{% load static %}
+{% static "" as baseUrl %}
+<script src="{% static 'js/countdown.js'%}"></script>
+
 <body>
+
 <a>오늘의 주인공은?</a>
+
 </body>
+
 {% endblock %}

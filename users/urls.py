@@ -18,5 +18,13 @@ urlpatterns = [
     path('whoiszoo1', views.whoiszoo1),
     path('whoispick1', views.whoispick1),
     path('todayzoo1', views.todayzoo1),
+    path('countdown', views.countdown),
+    #설문조사
+    path('survey_form', views.survey_form),
+    path('save_survey', views.save_survey),
+    # 결과 페이지로 가는 url이 필요
+    path('show_result',views.show_result),
+    # jQuery Mobile 을 위한 페이지
+    path('show_result2',views.show_result2),
 
 ]

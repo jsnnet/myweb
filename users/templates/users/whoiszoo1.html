@@ -1,29 +1,133 @@
-{% extends 'users/header3.html' %}
+{% extends 'users/header4.html' %}
 {% block content %}
-    <style>
+<style>
       p { margin:20px 0px; }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <div class="row">
+<style type="text/css">
+            @import url(http://fonts.googleapis.com/css?family=Open+Sans:300,400);
+
+            body {
+<!--                background: #363f48;-->
+                color: black;
+                font: normal 12px 'Open Sans', sans-serif;
+                margin-top: 20px;
+            }
+
+            ul.countdown {
+                list-style: none;
+                margin: 75px 0;
+                padding: 0;
+                display: block;
+                text-align: center;
+            }
+
+            ul.countdown li {
+                display: inline-block;
+            }
+
+            ul.countdown li span {
+                font-size: 80px;
+                font-weight: 300;
+                line-height: 80px;
+            }
+
+            ul.countdown li.seperator {
+                font-size: 80px;
+                line-height: 70px;
+                vertical-align: top;
+            }
+
+            ul.countdown li p {
+                color: #a7abb1;
+                font-size: 14px;
+            }
+
+            a {
+                color: #76949F;
+                text-decoration: none;
+            }
+
+            a:hover {
+                text-decoration: underline;
+            }
+
+            .source {
+                width: 405px;
+                margin: 0 auto;
+                background: #4f5861;
+                color: #a7abb1;
+                font-weight: bold;
+                display: block;
+                white-space: pre;
+                -webkit-border-radius: 3px;
+                   -moz-border-radius: 3px;
+                        border-radius: 3px;
+            }
+
+            .btn {
+                background: #f56c4c;
+                margin: 40px auto;
+                padding: 12px;
+                display: block;
+                width: 100px;
+                color: white;
+                text-align: center;
+                text-transform: uppercase;
+                font-weight: bold;
+                text-decoration: none;
+                -webkit-border-radius: 2px;
+                   -moz-border-radius: 2px;
+                        border-radius: 2px;
+            }
+
+            .btn:hover {
+                text-decoration: none;
+                opacity: .7;
+            }
+    </style>
+</head>
+<body>
+<ul class="countdown">
+    <!--        <li>-->
+    <!--            <span class="days">00</span>-->
+    <!--            <p class="days_ref">days</p>-->
+    <!--        </li>-->
+    <!--        <li class="seperator">.</li>-->
+    <li>
+        <span class="hours">00</span>
+        <p class="hours_ref">hours</p>
+    </li>
+    <li class="seperator">:</li>
+    <li>
+        <span class="minutes">00</span>
+        <p class="minutes_ref">minutes</p>
+    </li>
+    <li class="seperator">:</li>
+    <li>
+        <span class="seconds">00</span>
+        <p class="seconds_ref">seconds</p>
+    </li>
+</ul>
+
+<div class="container">
+    <div class="row">
         <div class="col">
-          <p>주인공 맞춰보기</p>
+            <p>주인공 맞춰보기</p>
             <ul class="nav nav-tabs">
-              <li class="nav-item">
-                <a class="nav-link active" data-toggle="tab" href="#round1">1라운드</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#round2">2라운드</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#round3">3라운드</a>
-              </li>
                 <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#round4">4라운드</a>
-              </li><li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#round1">1라운드</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#round2">2라운드</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#round3">3라운드</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#round4">4라운드</a>
+                </li><li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#round5">5라운드</a>
-              </li><li class="nav-item">
+            </li><li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#round6">6라운드</a>
             </ul>
             <div class="tab-content">
@@ -51,7 +155,7 @@
                     <table style="width:240px; float:right">
                         <thead>
                         <th>
-                            <td>
+                        <td>
                             <tr>
                                 <p>1234</p>
                             </tr>
@@ -72,7 +176,23 @@
                 </div>
             </div>
         </div>
-      </div>
     </div>
-  </body>
+</div>
+</body>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+{% load static %}
+{% static "" as baseUrl %}
+<script type="text/javascript" src="{% static 'js/countdown.js' %}"></script>
+
+<!--시차가 utc 기준 kst 와 +9 이므로 아래 offset 바꿔주기-->
+<script> //class="source" type="text/javascript"
+        $('.countdown').downCount({
+            date: '02/16/2020 06:30:00',
+            offset: +9
+        }, function () {
+            alert('바로 시작합니다 :)');
+        });
+    </script>
+
+
 {% endblock %}
