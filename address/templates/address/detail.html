@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+    <meta charset="UTF-8">
+    <title>detail.html</title>
+</head>
+<body>
+<div><!-- 자바 스크립트 기준으로
+    name="form1" 을 자바스크립트 객체로 인식
+    document.form1.action="" 이렇게 하면 insert 가 아닌 다른 액션으로 바뀔 수 있다
+    document.form1.submit() : form의 데이터를 자바스크립트형식으로 전송할 수 있다
+-->
+    <form method="post" action="insert" name="form1" id="form1">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td>이름</td>
+                <td><input type = "text" name="name" id="name" value="{{addr.name}}"></td>
+            </tr>
+            <tr>
+                <td>전화번호</td>
+                <td><input type = "text" name="tel" id="tel" value="{{addr.tel}}"></td>
+            </tr>
+            <tr>
+                <td>이메일</td>
+                <td><input type = "email" name="email" id="email" value="{{addr.email}}"></td>
+            </tr>
+            <tr>
+                <td>주소</td>
+                <td><input type = "text" name="address" id="address" value="{{addr.address}}"></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="hidden" name="idx" id="idx" value="{{addr.idx}}">
+                    <input type="button" value="수정" id="update">
+                    <input type="button" value="삭제" id="del">
+                    <input type="button" value="목록" id="list">
+                </td>
+            </tr>
+            <thead>
+            <tr>
+                <th colspan="2">
+                    주소록 상세 페이지
+                </th>
+            </tr>
+            </thead>
+        </table>
+    </form>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    $(function(){
+    $('#list').click(function(){
+        location.href="/address"
+    });
+    // 수정 처리
+    $('#update').click(function(){
+    document.form1.action="update";
+    document.form1.submit();
+
+    });
+    // 삭제 처리
+    $('#del').click(function(){
+        if(confirm('삭제하시겠습니까?')){
+            document.form1.action="delete";
+            document.form1.submit();
+        }
+    });
+    });
+</script>
+</body>
+</html>

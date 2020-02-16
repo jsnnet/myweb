@@ -1,0 +1,202 @@
+        <!DOCTYPE html>
+<html lang="kr">
+<head>
+    <meta charset="UTF-8">
+    <title>index.html</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <style>
+        .ui-li-static.ui-collapsible > .ui-collapsible-heading {
+            margin: 0;
+        }
+        .ui-li-static.ui-collapsible {
+            padding: 0;
+        }
+        .ui-li-static.ui-collapsible > .ui-collapsible-heading > .ui-btn {
+            border-top-width: 0;
+        }
+        .ui-li-static.ui-collapsible > .ui-collapsible-heading.ui-collapsible-heading-collapsed > .ui-btn,
+        .ui-li-static.ui-collapsible > .ui-collapsible-content {
+            border-bottom-width: 0;
+        }
+    </style>
+    {% load static %}
+    {% static "" as baseUrl %}
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+    <link rel="stylesheet" href="{% static 'css/c3.min.css'%}" />
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script src="{% static 'js/d3.min.js'%}"></script>
+    <script src="{% static 'js/c3.min.js'%}"></script>
+</head>
+
+<body>
+<!-- 전체는 페이지로 인식이 된다. data-role="page" 브라우저에서 하나의 모바일 페이지로 인식을 한다. -->
+<div id="page1" data-role="page" >
+    <div id="header" date-role="header">
+        <div data-role="navbar">
+        <ul><li><a href="#page1" data-transition="slideup" class="ui-btn-active">Home</a></li>
+            <li><a href="#page2" data-transition="slideup">Address</a></li>
+            <li><a href="survey">설문조사</a></li>
+            <li><a href="admin">관리자</a></li>
+            <li><a href="chart2">차트2</a></li>
+            <li><a href="address/chart3">차트3</a></li>
+            <li><a href="member">회원페이지</a></li>
+        </ul>
+        </div>
+    </div >
+    <div id="content" data-role="main">내용이 들어갈 자리 content</div>
+    <form class="ui-filterable">
+        <input id="myfilter" data-type="search">
+    </form>
+    <div>
+        <!-- listview 들어갈 자리  -->
+        <ul data-role="listview" data-inset="true" data-shadow="false">
+          <li data-role="collapsible" data-iconpos="right" data-inset="false">
+            <h2>Birds</h2>
+            <ul data-role="listview" data-theme="b">
+              <li><a href="#">Condor</a></li>
+              <li><a href="#">Eagle</a></li>
+              <li><a href="#">Sparrow</a></li>
+            </ul>
+          </li>
+          <li><a href="#">Humans</a></li>
+            <li data-role="collapsible" data-iconpos="right" data-inset="false">
+            <h2>Fish</h2>
+              <!-- 필터링 하는 방법
+      data-filter="true" 리스트는 필터링 대상되는 리스트로 적용
+      data-input="#아이디" 폼 요소에서 검색하는 내용을 여기서 필터링 하겠다.
+      data-inset="true" 일반적인 리스트를 화면의 폭을 가득 채우는 형태지만,
+      리스트를 박싱해서 정보들 간의 그룹핑을 시각적으로 표현해야 하는 경우에 사용한다.
+      -->
+            <ul data-role="listview" data-theme="b" data-filter="true"
+            data-input="#myfilter" data-insert="true">
+              <li><a href="#">홍길동</a></li>
+              <li><a href="#">홍길순</a></li>
+              <li><a href="#">홍미나</a></li>
+              <li><a href="#">Salmon</a></li>
+              <li><a href="#">Pollock</a></li>
+              <li><a href="#">Trout</a></li>
+              <li><a href="#">Arout</a></li>
+            </ul>
+          </li>
+          <li data-role="collapsible" data-iconpos="right" data-inset="false">
+            <h2>Choose your preference</h2>
+            <form>
+              <fieldset data-role="controlgroup" data-type="horizontal">
+                <label>Birds<input type="checkbox" id="choose-birds-regular"></label>
+                <label>Humans<input type="checkbox" id="choose-humans-regular"></label>
+                <label>Fish<input type="checkbox" id="choose-fish-regular"></label>
+              </fieldset>
+            </form>
+          </li>
+        </ul>
+                <!-- listview 들어갈 자리  -->
+    </div>
+
+
+
+
+    <div id="footer" data-role="footer">여기는 footer.</div>
+</div>
+<!-- page 2 -->
+<div id="page2" data-role="page">
+     <div id="header2" date-role="header">
+        <div data-role="navbar">
+        <ul><li><a href="#page1" data-transition="slideup">Home</a> </li>
+            <li><a href="#page2">Address</a> </li>
+            <li><a href="survey/show_result2?survey_idx=1" data-prefetch="true">Survey</a> </li>
+            <li><a href="#page3">Chart</a> </li>
+        </ul>
+        </div>
+    </div >
+    <div data-role="main" class="ui-content">
+        <h2>
+            여기는 두번째 페이지입니다.
+        </h2>
+        <div>
+            <table style="border:3px solid; text-align:center;">
+                <colgroup><col width="200"/><col width="200"/></colgroup>
+                <thead>
+                    <th>ID</th>
+                    <th>result</th>
+                </thead>
+            </table>
+        </div>
+        <div>
+            <a href="#page1" data-transition="slide" date-direction="reverse">
+                Page1으로 이동합니다.
+            </a>
+        </div>
+    </div>
+    <div data-role="footer">
+        <h2> Footer Content................ </h2>
+    </div>
+</div>
+
+
+
+<script>
+    $.ajax({
+        url : 'http://192.168.0.126:8081/spring1127/jsonpTest2',
+        data : "id=user",
+        type : 'GET',
+        dataType : 'jsonp',
+        jsonp : 'callback',
+        success : function(result){
+            console.log(result);
+            var $data = "<tr><td>"+result['id']+"</td><td>"+result['result']+"</td></tr>";
+            $('#table').append($data);
+            },
+            error : function(result){
+            console.log("error >> "+ $(result).text());
+            }
+        });
+</script>
+
+
+<!-- page 3 -->
+<div id="page3" data-role="page">
+    <div id="header3" data-role="header">
+        <div data-role="navbar">
+        <ul><li><a href="/" data-transition="slideup"  >Home</a> </li>
+            <li><a href="/#page2" data-transition="slideup">Address </a></li>
+            <li><a href="survey/show_result2?survey_idx=2" >survey</a> </li>
+            <li><a href="address/chart" class="ui-btn-active">Chart</a> </li>
+        </ul>
+        </div>
+    </div>
+    <div data-role="main" class="ui-content">
+        <h2>
+            여기는 세번째 페이지
+        </h2>
+
+        <div>
+            <div id="chart"></div>
+        </div>
+
+    </div>
+    <div data-role="footer">
+        <h2>Footer content.......</h2>
+    </div>
+
+    <script>
+    $(function(){
+
+var chart = c3.generate({
+    data: {
+        columns: [
+            ['data1', 100, 300, 200, 400, 500],
+            ['data2', 10, 30, 20, 40, 50]
+        ],
+    type: 'pie'
+    }
+});
+
+    });
+    </script>
+</div>
+</body>
+</html>

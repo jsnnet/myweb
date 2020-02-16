@@ -1,0 +1,23 @@
+select count(*) from survey_answer;
+select count(*) ,num from survey_answer
+where survey_idx = 1 and num = 1
+group by num;
+
+-- survey_idx / num / sum_num / rate
+-- 1          / 1   / 1       / 9.1
+-- 1          / 2   / 4       / 36.4
+-- 1          / 3   / 5       / 45.5
+-- 1          / 4   / 1       / 9.1
+
+select survey_idx, num, count(*) sum_num,
+round((select count(*) from survey_answer 
+where survey_idx=a.survey_idx and num = a.num) * 100.0
+/(select count(*) from survey_answer where survey_idx=a.survey_idx)
+,1) rate
+from survey_answer a where survey_idx = 1
+group by survey_idx,num
+order by num asc;
+
+-----------------------------------------------------------------------------------------
+
+select survey_idx, num from survey_answer;

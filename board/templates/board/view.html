@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+    <meta charset="UTF-8">
+    <title>모든 게시물 보기</title>
+</head>
+<body>
+<div>
+    <form method="post" action="add" name="form1" id="form1">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td>비밀번호</td>
+                <td><input type = "text" name="pwd" id="pwd" value="{{add_up.pwd}}"></td>
+            </tr>
+            <tr>
+                <td>작성자</td>
+                <td><input type = "text" name="writer" id="writer" value="{{add_up.writer}}"></td>
+            </tr>
+            <tr>
+                <td>주제</td>
+                <td><input type = "text" name="subject" id="subject" value="{{add_up.subject}}"></td>
+            </tr>
+            <tr>
+                <td>내용</td>
+                <td><input type = "text" name="content" id="content" value="{{add_up.content}}"></td>
+            </tr>
+            <tr>
+                <td>날짜</td>
+                <td><input type = "text" name="regdate" id="regdate" value="{{add_up.regdate}}"></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="hidden" name="no_idx" id="no_idx" value="{{add_up.no_idx}}">
+                    <input type="button" value="수정" id="update">
+                    <input type="button" value="삭제" id="del">
+                    <input type="button" value="목록" id="list">
+                </td>
+            </tr>
+            <thead>
+            <tr>
+                <th colspan="2">
+                    게시글 보기 페이지
+                </th>
+            </tr>
+            </thead>
+        </table>
+    </form>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    $(function(){
+    $('#list').click(function(){
+        location.href="/address"
+    });
+    // 수정 처리
+    $('#update').click(function(){
+    document.form1.action="update";
+    document.form1.submit();
+
+    });
+    // 삭제 처리
+    $('#del').click(function(){
+        if(confirm('삭제하시겠습니까?')){
+            document.form1.action="delete";
+            document.form1.submit();
+        }
+    });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+    <meta charset="UTF-8">
+    <title>주소 등록</title>
+</head>
+<body>
+<div>
+    <form method="post" action="insert">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td>이름</td>
+                <td><input type = "text" name="name" id="name"></td>
+            </tr>
+            <tr>
+                <td>전화번호</td>
+                <td><input type = "text" name="tel" id="tel"></td>
+            </tr>
+            <tr>
+                <td>이메일</td>
+                <td><input type = "email" name="email" id="email"></td>
+            </tr>
+            <tr>
+                <td>주소</td>
+                <td><input type = "text" name="address" id="address"></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" value="등록">
+                    &nbsp
+                    <input type="button" value="목록" id="list">
+                </td>
+            </tr>
+            <thead>
+            <tr>
+                <th colspan="2">
+                    주소록 등록 폼 예제
+                </th>
+            </tr>
+            </thead>
+        </table>
+    </form>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    $(function(){
+    $('#list').click(function(){
+        location.href="/address"
+    });
+    });
+</script>
+</body>
+</html>

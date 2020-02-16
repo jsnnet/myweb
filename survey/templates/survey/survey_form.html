@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+    <meta charset="UTF-8">
+    <title>survey_form</title>
+</head>
+<body>
+<h2>설문 조사 예제</h2>
+<form method="post" action="save_survey" name="form1" id="form1">
+    <input type="hidden" name="ans" value="" id="ans">
+    {% csrf_token %}
+    <p>설문 제목 : {{survey.question}}</p>
+    <p>
+        <input type="radio" name="num" value="1" class="num">
+        <span>{{survey.ans1}}</span>
+    </p>
+    <p>
+        <input type="radio" name="num" value="2" class="num">
+        <span>{{survey.ans2}}</span>
+    </p>
+    <p>
+        <input type="radio" name="num" value="3" class="num">
+        <span>{{survey.ans3}}</span>
+    </p>
+    <p>
+        <input type="radio" name="num" value="4" class="num">
+        <span>{{survey.ans4}}</span>
+    </p>
+    <p>
+        <input type="hidden" name="survey_idx" value="{{survey.survey_idx}}">
+        <input type="submit" value="투표하기">
+        <input type="button" value="결과확인" id="resBtn">
+
+    </p>
+</form>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    $(function(){
+        $('#resBtn').click(function(){
+            location.href="show_result?survey_idx={{survey.survey_idx}}";
+        });
+        $('.num').click(function(){
+        console.log($(this).next().text())
+        //선택한 라다오 버튼의 값을 히든으로 처리한 ans 로 입력하여 전송
+            $('#ans').val($(this).next().text());
+        });
+        $('#surveyBtn').click(function(){
+            document.form1.action="save_survey";
+            document.form1.submit();
+        });
+    });
+</script>
+</body>
+</html>

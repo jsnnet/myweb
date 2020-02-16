@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+    {% load static %}
+    {% static "" as baseUrl %}
+    <meta charset="UTF-8">
+    <title>chart</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+<link rel="stylesheet" href="{% static 'css/c3.min.css'%}" />
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+<script src="{% static 'js/d3.min.js'%}"></script>
+<script src="{% static 'js/c3.min.js'%}"></script>
+</head>
+<body>
+
+<div id="page1" data-role="page">
+    <div id="header3" data-role="header">
+        <div data-role="navbar">
+        <ul><li><a href="/" data-transition="slideup"  >Home</a> </li>
+            <li><a href="/#page2" data-transition="slideup">Address </a></li>
+            <li><a href="survey/show_result2?survey_idx=2" >survey</a> </li>
+            <li><a href="address/chart" class="ui-btn-active">Chart</a> </li>
+        </ul>
+        </div>
+    </div>
+    <div data-role="main" class="ui-content">
+        <h2>
+            여기는 세번째 페이지
+        </h2>
+
+        <div>
+            <div id="chart"></div>
+        </div>
+
+    </div>
+    <div data-role="footer">
+        <h2>Footer content.......</h2>
+    </div>
+
+    <script>
+    $(function(){
+
+var chart = c3.generate({
+    data: {
+        columns: [
+            ['data1', 100, 300, 200, 400, 500],
+            ['data2', 10, 30, 20, 40, 50]
+        ],
+    type: 'pie'
+    }
+});
+
+    });
+    </script>
+</div>
+</body>
+</html>

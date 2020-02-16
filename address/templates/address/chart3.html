@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+    {% load static %}
+    {% static "" as baseUrl %}
+    <meta charset="UTF-8">
+    <title>chart3</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+<link rel="stylesheet" href="{% static 'css/c3.min.css'%}" />
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+<script src="{% static 'js/d3.min.js'%}"></script>
+<script src="{% static 'js/c3.min.js'%}"></script>
+</head>
+<body>
+<div id="page1" data-role="page">
+    <div id="header3" data-role="header">
+        <div data-role="navbar">
+        <ul><li><a href="/" data-transition="slideup"  >Home</a> </li>
+            <li><a href="/#page2" data-transition="slideup">Address </a></li>
+            <li><a href="survey/show_result2?survey_idx=2" >survey</a> </li>
+            <li><a href="chart2" class="ui-btn-active">Chart2</a> </li>
+        </ul>
+        </div>
+    </div>
+    <div data-role="main" class="ui-content">
+        <h2>
+            <input type="button" value="Ajax" id="btn1">
+        </h2>
+        <div>
+            <div id="chart3"></div> <!-- chart3 로 url 을 입력할 것이므로 수정 -->
+        </div>
+    </div>
+    <div data-role="footer">
+        <h2>Footer content.......</h2>
+    </div>
+    <script>
+    $(function(){
+    $('#btn1').click(function(){
+<!--    console.log("test");--> <!-- 버튼 클릭시 작동하는지 확인용 -->
+        $.ajaxPrefilter('json',function(options,orig,jqXHR){
+            return 'jsonp';
+            });
+        $.ajax({
+            url : 'http://192.168.0.126/spring1127/jsonpTest3',
+            type: 'GET',
+            dataType : 'jsonp',
+            jsonp : 'callback',
+            success: function (result) {
+<!--                console.log("result:"+result);--> <!-- result 값이 스프링으로부터 넘어오는지 확인용 -->
+                makeDonutChart(result);
+                },
+            error : function (result) {
+                console.log("error >>"+$(result).text());
+                }
+    });
+function makeDonutChart(jsonData){
+   console.log("jsonData: "+jsonData)
+        var datas = new Array();
+        for(var row in jsonData){ <!-- for문을 반복해 붓꽃 이름과 붓꽃의 데이터 값을 차례로 temp 배열에 넣어준다 -->
+            var temp = new Array();
+            console.log(row);
+            temp.push(row);
+            console.log(jsonData[row]);
+            temp.push(jsonData[row]);
+            datas.push(temp); <!-- temp 배열에 넣었던 데이터를 datas 에 for문이 반복되는 동안 차례로 넣는다 -->
+        }
+        console.log("Datas : "+datas);
+        var chart = c3.generate({
+        bindto : '#chart3', <!-- chart2와 겹치지 않게 3으로 변경 -->
+        data :{
+        type : 'donut', <-- 차트 타입도 도넛으로 변경 -->
+        columns : datas
+        }
+    });
+    }
+    });
+    });
+</script>
+</div>
+</body>
+</html>

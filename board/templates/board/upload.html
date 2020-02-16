@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 업로</title>
+</head>
+<body>
+<div>
+    <form method="post" action="add">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td>비밀번호</td>
+                <td><input type = "text" name="pwd" id="pwd"></td>
+            </tr>
+            <tr>
+                <td>작성자</td>
+                <td><input type = "text" name="writer" id="writer"></td>
+            </tr>
+            <tr>
+                <td>주제</td>
+                <td><input type = "text" name="subject" id="subject"></td>
+            </tr>
+            <tr>
+                <td>내용</td>
+                <td><input type = "text" name="content" id="content"></td>
+            </tr>
+<!--            <tr>-->
+<!--                <td>날짜</td>-->
+<!--                <td><input type = "text" name="regdate" id="regdate"></td>-->
+<!--            </tr>-->
+            <tr>
+                <td colspan="2">
+                    <input type="submit" value="게시">
+                    &nbsp
+                    <input type="button" value="목록" id="list">
+                </td>
+            </tr>
+            <thead>
+            <tr>
+                <th colspan="2">
+                    게시글 등록 페이지
+                </th>
+            </tr>
+            </thead>
+        </table>
+    </form>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    $(function(){
+    $('#list').click(function(){
+        location.href="/address"
+    });
+    });
+</script>
+</body>
+</html>
