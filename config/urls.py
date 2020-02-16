@@ -35,6 +35,6 @@ urlpatterns = [
     path('shop/',include('shop.urls')),
     # back
     path('back/',include('back.urls')),
-    #users
-    path('users/',include('users.urls')),
+    #finalProject
+    path('finalProject/',include('finalProject.urls')),
 ]
