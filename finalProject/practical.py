@@ -13,11 +13,10 @@ cursor.execute('select*from test_member')
 # cursor.execute(sql_select_by_id, mid='admin')
 # print(cursor.fetchone())
 # insert
-sql_insert = 'insert into test_member VALUES(test_member_seq.nextVal, :id, :password, :email)'
-cursor.execute(sql_insert, id='kosmo2', password='kosmo21234', email='kosmo2@ikosmo.com')
-conn.commit()  # insert한 내용을 commit
-# print(cursor.fetchall())
-
-
+# sql_insert = 'insert into test_member VALUES(test_member_seq.nextVal, :id, :password, :email)'
+# cursor.execute(sql_insert, id='kosmo3', password='kosmo31234', email='kosmo3@ikosmo.com')
+# conn.commit()
+# insert한 내용을 commit
+print(cursor.fetchall())
 cursor.close()
 conn.close

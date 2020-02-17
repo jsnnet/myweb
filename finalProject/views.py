@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib import auth
-from finalProject.models import Survey,Answer
+import cx_Oracle as oci
 
 
 # Create your views here.
@@ -42,7 +42,50 @@ def logout(request):
     return render(request, "finalProject/home1.html")
 
 def qna1(request):
-    return render(request, "finalProject/qna1.html")
+    conn = oci.connect('doosun/doosun@localhost:1521/xe')
+    print(conn.version)
+    cursor = conn.cursor()
+    cursor.execute('select*from test_member')
+    # id로 검색
+    # sql_select_by_id = 'select * from test_member where id = :mid'
+    # cursor = conn.cursor()
+    # cursor.execute(sql_select_by_id, mid='admin')
+    print(cursor.fetchone())
+    # insert
+    # sql_insert = 'insert into test_member VALUES(test_member_seq.nextVal, :id, :password, :email)'
+    # cursor.execute(sql_insert, id='kosmo3', password='kosmo31234', email='kosmo3@ikosmo.com')
+    mid = request.POST.get("mid")
+    print("mid : ", mid)
+    qtitle = request.POST.get("qtitle")
+    print("qtitle : ", qtitle)
+    qcontent = request.POST.get("qcontent")
+    print("qcontent : ", qcontent)
+    if (mid != None):
+        sql_insert = 'insert into test_question VALUES(test_question_seq.nextVal, :mid, :qtitle, :qcontent, :qhit, sysdate)'
+        cursor.execute(sql_insert, mid=mid, qtitle=qtitle, qcontent=qcontent, qhit = 0)
+        conn.commit()
+        cursor.execute('select*from test_question')
+        print(cursor.fetchall())
+        cursor.close()
+        conn.close
+        return render(request, "finalProject/qna1.html")
+    else:
+        return render(request, "finalProject/qna1.html")
+    # insert한 내용을 commit
+    # cursor.execute('select*from test_question')
+    # print(cursor.fetchall())
+    # cursor.close()
+    # conn.close
+    # return render(request, "finalProject/qna1.html")
+
+def myquestion(request):
+    conn = oci.connect('doosun/doosun@localhost:1521/xe')
+    print(conn.version)
+    cursor = conn.cursor()
+    cursor.execute('select*from test_question')
+    print(cursor.fetchall())
+
+    return render(request, "finalProject/myquestion.html")
 
 def notice1(request):
     return render(request, "finalProject/notice1.html")
@@ -81,59 +124,3 @@ def countdown(request):
     return render(request, "finalProject/countdown.html")
 
 
-def survey_form(request):
-    # filter 는 where 절
-    # order_by 뒤에 - 표시는 : 내림차순 의미
-    # [0] : 레코드 중에서 첫번째 요소 limit 0 과 같다
-    survey = Survey.objects.filter(status = 'y').order_by("-survey_idx")[0]
-    return render(request, "survey/survey_form.html",{"survey":survey})
-
-# def success(request):
-#     return render(request, "survey/success.html")
-
-@csrf_exempt
-def save_survey(request):
-    survey_idx=request.POST["survey_idx"]
-    survey_dto = Answer(survey_idx=int(request.POST["survey_idx"]),num=request.POST["num"])
-    print("ans:",request.POST["ans"])
-    ans= request.POST["ans"]
-    survey_dto.save()
-    return render(request,"survey/success.html",{"ans":ans})
-
-def show_result(request):
-    idx = request.GET['survey_idx']
-    #select * from survey where survey_idx=1
-    ans = Survey.objects.get(survey_idx=idx)
-    answer_dto = [ans.ans1,ans.ans2,ans.ans3,ans.ans4]
-
-    surveyList = Survey.objects.raw("""
-    select survey_idx,num,count(*) sum_sum,
-    round((select count(*) from survey_answer
-    where survey_idx=a.survey_idx and num= a.num) * 100.0
-    /(select count(*) from survey_answer where survey_idx=a.survey_idx)
-    ,1) rate
-    from survey_answer a where survey_idx=%s
-    group by survey_idx,num
-    order by num asc
-    """,idx)
-    surveyList = zip(surveyList,answer_dto)
-    return render(request,"survey/result.html",{"surveyList":surveyList})
-
-def show_result2(request):
-    idx = request.GET['survey_idx']
-    #select * from survey where survey_idx=1
-    ans = Survey.objects.get(survey_idx=idx)
-    answer_dto = [ans.ans1,ans.ans2,ans.ans3,ans.ans4]
-
-    surveyList = Survey.objects.raw("""
-    select survey_idx,num,count(*) sum_sum,
-    round((select count(*) from survey_answer
-    where survey_idx=a.survey_idx and num= a.num) * 100.0
-    /(select count(*) from survey_answer where survey_idx=a.survey_idx)
-    ,1) rate
-    from survey_answer a where survey_idx=%s
-    group by survey_idx,num
-    order by num asc
-    """,idx)
-    surveyList = zip(surveyList,answer_dto)
-    return render(request,"survey/result2.html",{"surveyList":surveyList})

@@ -7,6 +7,7 @@ urlpatterns = [
     path('login', views.login),
     path('logout', views.logout),
     path('qna1',views.qna1),
+    path('myquestion',views.myquestion),
     path('notice1',views.notice1),
     path('ride1',views.ride1),
     path('race1',views.race1),
@@ -19,12 +20,6 @@ urlpatterns = [
     path('whoispick1', views.whoispick1),
     path('todayzoo1', views.todayzoo1),
     path('countdown', views.countdown),
-    #설문조사
-    path('survey_form', views.survey_form),
-    path('save_survey', views.save_survey),
-    # 결과 페이지로 가는 url이 필요
-    path('show_result',views.show_result),
-    # jQuery Mobile 을 위한 페이지
-    path('show_result2',views.show_result2),
+
 
 ]
