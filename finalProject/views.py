@@ -82,10 +82,48 @@ def myquestion(request):
     conn = oci.connect('doosun/doosun@localhost:1521/xe')
     print(conn.version)
     cursor = conn.cursor()
-    cursor.execute('select*from test_question')
-    print(cursor.fetchall())
+    # idm = request.GET['mid']
+    # myq = request.POST.get("mid")
+    # qlist_dto = [myq.qnum,myq.mid,myq.qtitle,myq.qcontent,myq.qhit,myq.qdate]
+    # idQlist = cursor.execute('select*from test_question where mid = idm')
+    # idQlist = zip(idQlist,qlist_dto)
+    # return render(request, "finalProject/myQlist2.html", {"idQlist": idQlist})
 
-    return render(request, "finalProject/myquestion.html")
+    cursor.execute('select*from test_question')
+    # select 된 값들이 잘 보여지는지 출력
+    # print("fecth : ", cursor.fetchall())
+    # print(cursor.fetchall())
+    # 여기선 확인용/ 여기말고 myQlist.html에서 사용하기
+    #qlist = cursor.fetchall()
+    #print(cursor.fetchall())
+    #qnum, mid, qtitle, qcontent, qhit, qdate = qlist
+    #return render(request, "finalProject/myQlist2.html")  #, {"qlist":qlist} ,
+    #qlist = cursor.fetchall()
+    # qnum, mid, qtitle, qcontent, qhit, qdate = qlist
+    for e in cursor.fetchall():
+        print("e"," : ",e)
+        qnum, mid, qtitle, qcontent, qhit, qdate = e
+        print("글번호: ",qnum)
+        print("회원ID : ",mid)
+        print("제목 : ",qtitle)
+        print("조회수 : ",qhit)
+        print("작성날짜 : ",qdate)
+
+    return render(request, "finalProject/myQlist2.html")
+    # #{"qnum":qnum,"mid":mid,"qtitle":qtitle,"qhit":qhit,"qdate":qdate}
+
+
+    # cursor.fetchall()
+    # qnum = request.POST.get("qnum")
+    # # print("qnum : ", qnum)
+    # mid = request.POST.get("mid")
+    # qtitle = request.POST.get("qtitle")
+    # qhit = request.POST.get("qhit")
+    # qdate = request.POST.get("qdate")
+    # return render(request, "finalProject/myquestion.html")
+
+def myQlist2(request):
+    return render(request, "finalProject/myQlist2.html")
 
 def notice1(request):
     return render(request, "finalProject/notice1.html")

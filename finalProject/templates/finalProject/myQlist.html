@@ -14,19 +14,25 @@
         </tr>
         </thead>
         <tbody>
-        {% for test_question in test_question %}
+<!--            for e in cursor.fetchall():-->
+<!--        print("e"," : ",e)-->
+<!--        qnum, mid, qtitle, qcontent, qhit, qdate = e-->
+<!--        print("글번호: ",qnum)-->
+<!--        print("회원ID : ",mid)-->
+<!--        print("제목 : ",qtitle)-->
+<!--        print("조회수 : ",qhit)-->
+<!--        print("작성날짜 : ",qdate)-->
+        {% for e in qlist %}
         <tr>
-
-            <td>{{test_question.qnum}}</td>
-            <td>{{test_question.mid}}</td>
-            <td>{{candidate.qtitle}}</td>
-            <td>{{candidate.qhit}}</td>
-            <td>{{candidate.qdate}}</td>
+            <td>{{e.qnum}}</td>
+            <td>{{e.mid}}</td>
+            <td>{{e.qtitle}}</td>
+            <td>{{e.qhit}}</td>
+            <td>{{e.qdate}}</td>
         </tr>
         {% endfor %}
-
         <tbody>
-    <a>qnum</a>
+
     </table>
 </form>
 </body>
