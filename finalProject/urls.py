@@ -8,6 +8,7 @@ urlpatterns = [
     path('logout', views.logout),
     path('qna1',views.qna1),
     path('myquestion',views.myquestion),
+    path('myquestion2',views.myquestion2),
     path('myQlist2',views.myQlist2),
     path('notice1',views.notice1),
     path('ride1',views.ride1),

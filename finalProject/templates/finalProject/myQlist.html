@@ -1,7 +1,7 @@
 {% extends 'finalProject/header4.html'%}
 {% block content %}
 <body>
-<form action="myquestion" method="post">
+<form>
     {% csrf_token %}
     <table class="table table-striped">
         <thead>
@@ -32,7 +32,6 @@
         </tr>
         {% endfor %}
         <tbody>
-
     </table>
 </form>
 </body>
