@@ -2,15 +2,12 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib import auth
 import cx_Oracle as oci
-
-
-# Create your views here.
 from django.views.decorators.csrf import csrf_exempt
 
+# Create your views here.
 
 def home1(request):
     return render(request, "finalProject/home1.html")
-
 
 def join(request):
     # if request.method == "POST":
@@ -46,14 +43,7 @@ def qna1(request):
     print(conn.version)
     cursor = conn.cursor()
     cursor.execute('select*from test_member')
-    # id로 검색
-    # sql_select_by_id = 'select * from test_member where id = :mid'
-    # cursor = conn.cursor()
-    # cursor.execute(sql_select_by_id, mid='admin')
     print(cursor.fetchone())
-    # insert
-    # sql_insert = 'insert into test_member VALUES(test_member_seq.nextVal, :id, :password, :email)'
-    # cursor.execute(sql_insert, id='kosmo3', password='kosmo31234', email='kosmo3@ikosmo.com')
     mid = request.POST.get("mid")
     print("mid : ", mid)
     qtitle = request.POST.get("qtitle")
@@ -71,32 +61,12 @@ def qna1(request):
         return render(request, "finalProject/qna1.html")
     else:
         return render(request, "finalProject/qna1.html")
-    # insert한 내용을 commit
-    # cursor.execute('select*from test_question')
-    # print(cursor.fetchall())
-    # cursor.close()
-    # conn.close
-    # return render(request, "finalProject/qna1.html")
 
 def myquestion(request):
     conn = oci.connect('doosun/doosun@localhost:1521/xe')
     print(conn.version)
     cursor = conn.cursor()
-    # idm = request.GET['mid']
-    # myq = request.POST.get("mid")
-    # qlist_dto = [myq.qnum,myq.mid,myq.qtitle,myq.qcontent,myq.qhit,myq.qdate]
-    # idQlist = cursor.execute('select*from test_question where mid = idm')
-    # idQlist = zip(idQlist,qlist_dto)
-    # return render(request, "finalProject/myQlist2.html", {"idQlist": idQlist})
     cursor.execute('select*from test_question')
-    # select 된 값들이 잘 보여지는지 출력
-    # print("fecth : ", cursor.fetchall())
-    # print(cursor.fetchall())
-    # 여기선 확인용/ 여기말고 myQlist.html에서 사용하기
-    #qlist = cursor.fetchall()
-    #print(cursor.fetchall())
-    #qnum, mid, qtitle, qcontent, qhit, qdate = qlist
-    #return render(request, "finalProject/myQlist2.html")  #, {"qlist":qlist} ,
     qlist = cursor.fetchall()
     # qnum, mid, qtitle, qcontent, qhit, qdate = qlist
     for (qnum, mid, qtitle, qcontent, qhit, qdate) in qlist:
@@ -107,29 +77,47 @@ def myquestion(request):
         print("조회수 : ",qhit)
         print("작성날짜 : ",qdate)
     return render(request, "finalProject/myQlist.html",{"qlist":qlist})
-# def myquestion2(request):
+
+# def myQlist2(request):
 #     conn = oci.connect('doosun/doosun@localhost:1521/xe')
 #     print(conn.version)
 #     cursor = conn.cursor()
-#     #cursor.execute('select*from test_question')
-#     sql_select = "select qnum,mid,qtitle,qhit,to_char(qdate,'yyyy-mm-dd')\
-#             qdate from test_question order by 1 desc"
-#     cursor.execute(sql_select)
-#     selectlists = myquestion2()
-#     for row in selectlists:
-#         stv = list(row)  # 튜플을 리스트로 변환
-#         str1 = ''.join(str(e) for e in stv)  # 리스트로부터 하나씩 인자를 뽑아서 문자열로 변환
-#         print(str1)
-#     cursor.close()
-#     conn.close()
-#     return render(request, "finalProject/myQlist.html")
-#     # {"qnum":qnum,"mid":mid,"qtitle":qtitle,"qhit":qhit,"qdate":qdate}
-
-def myQlist2(request):
-    return render(request, "finalProject/myQlist2.html")
+#     cursor.execute('select*from test_notice')
+#     nlist = cursor.fetchall()
+#     # qnum, mid, qtitle, qcontent, qhit, qdate = qlist
+#     # NNUM
+#     # NTITLE
+#     # NCONTENT
+#     # NHIT
+#     # NDATE
+#     for (nnum, ntitle, ncontent, nhit, ndate) in nlist:
+#         # print("qlist : ",qlist)
+#         print("글번호: ", nnum)
+#         print("제목 : ", ntitle)
+#         print("조회수 : ", nhit)
+#         print("작성날짜 : ", ndate)
+#     return render(request, "finalProject/notice1.html", {"nlist": nlist})
 
 def notice1(request):
-    return render(request, "finalProject/notice1.html")
+    conn = oci.connect('doosun/doosun@localhost:1521/xe')
+    print(conn.version)
+    cursor = conn.cursor()
+    cursor.execute('select*from test_notice')
+    nlist = cursor.fetchall()
+    # qnum, mid, qtitle, qcontent, qhit, qdate = qlist
+    # NNUM
+    # NTITLE
+    # NCONTENT
+    # NHIT
+    # NDATE
+    for (nnum, ntitle, ncontent, nhit, ndate) in nlist:
+        # print("qlist : ",qlist)
+        print("글번호: ", nnum)
+        print("제목 : ", ntitle)
+        print("내용 : ", ncontent)
+        print("조회수 : ", nhit)
+        print("작성날짜 : ", ndate)
+    return render(request, "finalProject/notice1.html", {"nlist": nlist})
 
 def ride1(request):
     return render(request, "finalProject/ride1.html")

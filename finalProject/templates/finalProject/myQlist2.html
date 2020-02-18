@@ -4,27 +4,25 @@
 <div id="content" data-role="main">
 
     <h1>Q&A</h1>
-    <p>{{e.qnum}}</p>
+    <p>{{qlist}}</p>
     <table id="customers">
         <thead>
         <tr>
-            <th>글번호</th>
+<!--            <th>글번호</th>-->
             <th>아이디</th>
             <th>제목</th>
             <th>조회수</th>
-            <th>작성날짜</th>
+<!--            <th>작성날짜</th>-->
         </tr>
         </thead>
-        {% for e in qlist %}
-            {% for list in e %}
-            <tr>
-                <td>{{list.qnum}}</td>
-                <td>{{list.mid}}</td>
-                <td>{{list.qtitle}}</td>
-                <td>{{list.qhit}}</td>
-                <td>{{list.qdate}}</td>
-            </tr>
-            {% endfor %}
+        {% for (qnum, mid, qtitle, qcontent, qhit, qdate) in qlist %}
+        <tr>
+<!--            <td>{{qnum}}</td>-->
+            <td>{{mid}}</td>
+            <td>{{qtitle}}</td>
+            <td>{{qhit}}</td>
+<!--            <td>{{qdate}}</td>-->
+        </tr>
         {% endfor %}
     </table>
 </div>

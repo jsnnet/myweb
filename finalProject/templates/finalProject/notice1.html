@@ -68,23 +68,33 @@ table.type08 td {
 <!--			</table>-->
 <table class="type08" style="width: 99% ;">
     <thead>
+<!--    # NNUM-->
+<!--    # NTITLE-->
+<!--    # NCONTENT-->
+<!--    # NHIT-->
+<!--    # NDATE-->
     <tr>
-        <th scope="cols">글번호</th>
+<!--        <th scope="cols">글번호</th>-->
         <th scope="cols">제목</th>
-        <th scope="cols">글쓴이</th>
-        <th scope="cols">날짜</th>
+        <th scope="cols">조회수</th>
+<!--        <th scope="cols">등록날짜</th>-->
     </tr>
     </thead>
     <tbody>
     <tr>
 <!--        <th scope="row">항목명</th>-->
-        <td>내용이 들어갑니다.</td>
-        <td>내용이 들어갑니다.</td>
-        <td>내용이 들어갑니다.</td>
-        <td>내용이 들어갑니다.</td>
+       {% for (nnum, ntitle, ncontent, nhit, ndate) in nlist %}
+        <tr>
+<!--            <td>{{nnum}}</td>-->
+            <td><a href="#">{{ntitle}}</a></td>
+            <td>{{nhit}}</td>
+<!--            <td>{{ndate}}</td>-->
+        </tr>
+        {% endfor %}
     </tr>
     <!-- for 문으로 그리고 페이징 처리도 -->
     </tbody>
+    {{nlist}}
 </table>
 </body>
 {% endblock %}
