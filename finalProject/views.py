@@ -94,8 +94,7 @@ def login3(request):
     return render(request, 'login.html')
 
 class UserLoginView(LoginView):           # 로그인
-    template_name = 'user/login_form.html'
-
+    template_name = 'finalProject/login.html'
     def form_invalid(self, form):
         messages.error(self.request, '로그인에 실패하였습니다.', extra_tags='danger')
         return super().form_invalid(form)
