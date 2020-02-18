@@ -100,50 +100,30 @@ def myquestion(request):
     qlist = cursor.fetchall()
     # qnum, mid, qtitle, qcontent, qhit, qdate = qlist
     for (qnum, mid, qtitle, qcontent, qhit, qdate) in qlist:
-        print("qlist : ",qlist)
-        # print("글번호: ", qnum)
-        # print("회원ID : ",mid)
-        # print("제목 : ",qtitle)
-        # print("조회수 : ",qhit)
-        # print("작성날짜 : ",qdate)
-
-    # for e in cursor.fetchall():
-    #     print("e"," : ",e)
-        # qnum, mid, qtitle, qcontent, qhit, qdate = e
-        # print("글번호: ",qnum)
-        # print("회원ID : ",mid)
-        # print("제목 : ",qtitle)
-        # print("조회수 : ",qhit)
-        # print("작성날짜 : ",qdate)
-    return render(request, "finalProject/myQlist.html")
-    # {"qnum":qnum,"mid":mid,"qtitle":qtitle,"qhit":qhit,"qdate":qdate}
-
-    # cursor.fetchall()
-    # qnum = request.POST.get("qnum")
-    # # print("qnum : ", qnum)
-    # mid = request.POST.get("mid")
-    # qtitle = request.POST.get("qtitle")
-    # qhit = request.POST.get("qhit")
-    # qdate = request.POST.get("qdate")
-    # return render(request, "finalProject/myquestion.html")
-
-def myquestion2(request):
-    conn = oci.connect('doosun/doosun@localhost:1521/xe')
-    print(conn.version)
-    cursor = conn.cursor()
-    #cursor.execute('select*from test_question')
-    sql_select = "select qnum,mid,qtitle,qhit,to_char(qdate,'yyyy-mm-dd')\
-            qdate from test_question order by 1 desc"
-    cursor.execute(sql_select)
-    selectlists = myquestion2()
-    for row in selectlists:
-        stv = list(row)  # 튜플을 리스트로 변환
-        str1 = ''.join(str(e) for e in stv)  # 리스트로부터 하나씩 인자를 뽑아서 문자열로 변환
-        print(str1)
-    cursor.close()
-    conn.close()
-    return render(request, "finalProject/myQlist.html")
-    # {"qnum":qnum,"mid":mid,"qtitle":qtitle,"qhit":qhit,"qdate":qdate}
+        # print("qlist : ",qlist)
+        print("글번호: ", qnum)
+        print("회원ID : ",mid)
+        print("제목 : ",qtitle)
+        print("조회수 : ",qhit)
+        print("작성날짜 : ",qdate)
+    return render(request, "finalProject/myQlist.html",{"qlist":qlist})
+# def myquestion2(request):
+#     conn = oci.connect('doosun/doosun@localhost:1521/xe')
+#     print(conn.version)
+#     cursor = conn.cursor()
+#     #cursor.execute('select*from test_question')
+#     sql_select = "select qnum,mid,qtitle,qhit,to_char(qdate,'yyyy-mm-dd')\
+#             qdate from test_question order by 1 desc"
+#     cursor.execute(sql_select)
+#     selectlists = myquestion2()
+#     for row in selectlists:
+#         stv = list(row)  # 튜플을 리스트로 변환
+#         str1 = ''.join(str(e) for e in stv)  # 리스트로부터 하나씩 인자를 뽑아서 문자열로 변환
+#         print(str1)
+#     cursor.close()
+#     conn.close()
+#     return render(request, "finalProject/myQlist.html")
+#     # {"qnum":qnum,"mid":mid,"qtitle":qtitle,"qhit":qhit,"qdate":qdate}
 
 def myQlist2(request):
     return render(request, "finalProject/myQlist2.html")
