@@ -4,8 +4,11 @@ from . import views
 urlpatterns = [
     path('home1', views.home1),
     path('join', views.join),
+    path('join2', views.join2),
     path('login', views.login),
-    path('logout', views.logout),
+    path('login2',views.login2),
+    # path('login3',views.login3),
+    path('logout',views.logout),
     path('qna1',views.qna1),
     path('myquestion',views.myquestion),
     path('notice1',views.notice1),
@@ -20,6 +23,4 @@ urlpatterns = [
     path('whoispick1', views.whoispick1),
     path('todayzoo1', views.todayzoo1),
     path('countdown', views.countdown),
-
-
 ]
