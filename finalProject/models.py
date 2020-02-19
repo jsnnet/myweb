@@ -1,25 +1,23 @@
 from django.db import models
-
+from django.forms import ModelForm
 # Create your models here.
+# 데이터베이스로 만들어질 때 규칙: address.Address -> address_address로 소문자로 바뀐다
+class JoinForm(models.Model): # 클래스이지 DB는 아니다
+    # DB의 자료형을 따왔다
+    # models를 상속 받아서 모델을 정의해야 한다
+    # 컬럼명 = (속성) 데이터 타입, 속성값을 인자로 가지는 함수
+    # sequence 처럼 버ㅕㄴ호를 자동으로 증가시켜주는 기능 가진 함수
 
-# class Recom(models.Model):
-#       category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True, related_name='documents')
-#       author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='documents')
-# # on_delete=models.SET_NULL : 참조하고 있는 Category 객체가 지워져도 삭제되지 않음
-#       title = models.CharField(max_length=100)
-# # db_index=True : DB에 인덱싱 가능
-#       slug = models.SlugField(max_length=120, db_index=True, unique= True, allow_unicode=True, blank=True)
-#       text = models.TextField()
-#       image = models.ImageField(upload_to='board_images/%Y/%m/%d')
-#       created = models.DateTimeField(auto_now_add=True)
-#       updated = models.DateTimeField(auto_now=True)
-#
-# def __str__(self):
-#     return self.title
-#
-# def save(self, *args, **kwargs):
-#     self.slug = slugify(self.title, allow_unicode=True)
-#     super(Recom, self).save(*args, **kwargs)
-#
-# def get_absolute_url(self):
-#     return reverse('board:detail', args=[self.id])
+    # 회원 테이블의 관리자 (madmin) 인지 아닌지 가입시 구분
+    ADMIN_CHOICES = (
+        ('0','회원'),
+        ('1','관리자'),
+    )
+
+    mnum = models.AutoField(primary_key = True)
+    mid = models.CharField(max_length=50, blank=True, null=True, unique=True)
+    mpwd = models.CharField(max_length=50, blank=True, null=False)
+    mname = models.CharField(max_length=50, blank=True, null=False)
+    mtel = models.IntegerField(max_length=50, blank=True, null=False)
+    madmin = models.CharField(max_length=10, choices=ADMIN_CHOICES, null=True)
+    mdate = models.DateTimeField(auto_now_add=True)

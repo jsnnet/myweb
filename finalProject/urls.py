@@ -2,14 +2,19 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('home1', views.home1),
+    path('home1', views.home1, name="home"),
     path('join', views.join),
     path('join2', views.join2),
+    path('join3', views.join3),
     path('login', views.login),
     path('login2',views.login2),
     path('login4',views.login4),
     # path('login3',views.login3),
+    # path('login5',views.login5),
+    path('login5',views.login5, name="login_success"),
+
     path('logout',views.logout),
+    path('logout5',views.logout5),
     path('qna1',views.qna1),
     path('myquestion',views.myquestion),
     path('notice1',views.notice1),

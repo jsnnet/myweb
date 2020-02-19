@@ -1,0 +1,59 @@
+{% extends 'finalProject/header4.html'%}
+{% block content %}
+<body>
+<div>
+    <form method="post" action="join3">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td>아이디</td>
+                <td><input type = "text" name="mid" id="mid"></td>
+            </tr>
+            <tr>
+                <td>비밀번호</td>
+                <td><input type = "password" name="mpwd" id="mpwd"></td>
+            </tr>
+            <tr>
+                <td>이름</td>
+                <td><input type = "text" name="mname" id="mname"></td>
+            </tr>
+            <tr>
+                <td>연락처</td>
+                <td><input type = "text" name="mtel" id="mtel"></td>
+            </tr>
+            <tr>
+                <td>가입형태</td>
+                <td>
+                    <select name="madmin" id="madmin" style="float:left">
+                        <option value="">선택</option>
+                        <option value="0">회원</option>
+                        <option value="1">관리자</option>
+                    </select>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" value="회원가입" style="float:right">
+                    &nbsp
+                    <input type="button" value="취소" id="cancel" style="float:right">
+                </td>
+            </tr>
+            <thead>
+            <tr>
+                <th colspan="2">
+                    회원 가입 페이지
+                </th>
+            </tr>
+            </thead>
+        </table>
+    </form>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    $(function(){
+    $('#cancel').click(function(){
+        location.href="/finalProject/home1"
+    });
+    });
+</script>
+</body>
+{% endblock %}

@@ -13,6 +13,7 @@ from django.contrib.auth.views import auth_logout
 from django.shortcuts import render
 from django.db.models import Q
 # from .models import Document
+from django.db import models
 # -----------------------------------
 
 # Create your views here.
@@ -21,7 +22,44 @@ def home1(request):
     return render(request, "finalProject/home1.html")
 
 def join(request):
-    return render(request, "finalProject/join2.html")
+    return render(request, "finalProject/join3.html")
+
+from .forms import LoginForm
+from finalProject.models import JoinForm
+from django.contrib import auth
+@csrf_exempt
+def join3(request):
+    sign_up = JoinForm(mid=request.POST['mid'],
+                   mpwd=request.POST['mpwd'],
+                   mname=request.POST['mname'],
+                   mtel=request.POST['mtel'],
+                   madmin=request.POST['madmin']
+                      )
+
+    sign_up.save()
+    return redirect('home')
+
+def logout5(request):
+    auth.logout(request)
+    return redirect("home")
+
+def login5(request):
+    if request.method == "POST":
+        form = LoginForm(request.POST)
+        mid = request.POST["username"]
+        mpwd = request.POST["password"]
+        print("아이디 : ",mid)
+        print("비밀번호 : ",mpwd)
+        #인증함수, 로그인을 체크해주는 함수이다. 암호화가 되어서 체크해준다.
+        user = auth.authenticate(username=mid, password=mpwd)
+        if user is not None: # 인증완료 되었다면
+            auth.login(request, user) #로그인 세션 등록
+            return redirect("home")
+        else: #인증 실패
+            return render(request, "finalProject/join3.html", {"msg": "로그인 실패!"})
+    else:
+        form = LoginForm()
+        return render(request, "finalProject/login5.html",{"form":form})
 
 def join2(request):
     conn = oci.connect('doosun/doosun@localhost:1521/xe')
@@ -49,6 +87,7 @@ def join2(request):
         return render(request, "finalProject/join2.html")
 
 def login(request):
+
     return render(request, 'finalProject/login.html')
 
 def login2(request):
