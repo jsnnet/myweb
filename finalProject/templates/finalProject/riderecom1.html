@@ -30,34 +30,53 @@ table.type09 td {
 }
 </style>
 <body>
-<table class="type09" align="center">
-    <thead>
-    <tr>
-        <th scope="cols">제주도</th>
-<!--        <th scope="cols">내용</th>-->
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-<!--        <th scope="row">항목명</th>-->
+<form method="get" action="recom_list">
+    {% csrf_token %}
+    <table class="type09" align="center">
+        <thead>
+        <tr>
+            <th scope="cols">제주도</th>
+            <!--        <th scope="cols">내용</th>-->
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <!--        <th scope="row">항목명</th>-->
 
-        <td><input type="checkbox">옵션1</input></td>
-        <td><input type="checkbox">옵션2</input></td>
-        <td><input type="checkbox">옵션3</input></td>
-        <td><input type="checkbox">옵션4</input></td>
-    </tr>
-    <tr colspan="4">
-        <th colspan="4">
-            <img src="/static/image/riderecom1.jpg" title="제주" style="width:30%" >
-            <img src="/static/image/riderecom2.jpg" title="제주" style="width:30%">
-            <img src="/static/image/riderecom3.jpg" title="제주" style="width:30%">
+            <td><input type="checkbox">옵션1</input></td>
+            <td><input type="checkbox">옵션2</input></td>
+            <td><input type="checkbox">옵션3</input></td>
+            <td><input type="checkbox">옵션4</input></td>
+        </tr>
+        <tr colspan="4">
+            <th colspan="4">
+                <img src="/static/image/riderecom1.jpg" title="제주" style="width:30%" >
+                <img src="/static/image/riderecom2.jpg" title="제주" style="width:30%">
+                <img src="/static/image/riderecom3.jpg" title="제주" style="width:30%">
 
-        </th>
-    </tr>
-    <!--    <tr>-->
-    <!--        <th scope="row">항목명</th>-->
-    <!--        <td>내용이 들어갑니다.</td>-->
-    <!--    </tr>-->
-    </tbody>
-</table>
+            </th>
+        </tr>
+        <!--    <tr>-->
+        <!--        <th scope="row">항목명</th>-->
+        <!--        <td>내용이 들어갑니다.</td>-->
+        <!--    </tr>-->
+        </tbody>
+        <tfoot>
+        {% for (pnum, pname, paddr, ptel, plink, pplace, pdate) in plist %}
+        <tr>
+            <td>{{pnum}}</td>
+            <td>{{pname}}</td>
+            <td>{{paddr}}</td>
+            <td>{{ptel}}</td>
+            <td>{{plink}}</td>
+            <td>{{pplace}}</td>
+            <td>{{pdate}}</td>
+        </tr>
+        {% endfor %}
+        </tfoot>
+    </table>
+    {{plist}}
+    <input type="text" name="q" value="{{ q }}">
+    <input type="submit" value="검색">
+</form>
 {% endblock %}

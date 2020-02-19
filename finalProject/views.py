@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate
+from django.contrib.sites import requests
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .forms import LoginForm
@@ -8,7 +9,11 @@ import cx_Oracle as oci
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.views import auth_login, LoginView
 from django.contrib.auth.views import auth_logout
-
+# 승마장추천 필터링을 위해 ------------
+from django.shortcuts import render
+from django.db.models import Q
+# from .models import Document
+# -----------------------------------
 
 # Create your views here.
 
@@ -93,11 +98,32 @@ def login3(request):
         return render(request, 'login.html')
     return render(request, 'login.html')
 
-class UserLoginView(LoginView):           # 로그인
-    template_name = 'finalProject/login.html'
-    def form_invalid(self, form):
-        messages.error(self.request, '로그인에 실패하였습니다.', extra_tags='danger')
-        return super().form_invalid(form)
+def login4(request):
+    if request.method == 'POST':
+        user_id = request.POST['mid']
+        user_pwd = request.POST['mpwd']
+        if login_verification(user_id, user_pwd):
+            save_session(request, user_id, user_pwd)
+            return render(request, 'finalProject/home1.html')
+    return render(request,'finalProject/login.html')
+
+def save_session(request, user_id, user_pwd):
+    request.session['user_id'] = user_id
+    request.session['user_pwd'] = user_pwd
+
+def login_verification(user_id, user_pwd):
+    payload = {
+        'user_id' : str(user_id),
+        'user_pwd' : str(user_pwd)
+    }
+    with requests.Session() as s:
+        s.post('http://localhost:8099/finalProject/login', data = payload)
+        auth = s.get('http://localhost:8099/finalProject/login4')
+        if auth.status_code == 200 : # 성공적으로 가져왔을 때
+            return True
+        else : # 로그인 실패시
+            return False
+
 
 def logout(request):
     response = render(request, 'finalProject/home1.html')
@@ -183,7 +209,22 @@ def rideintro1(request):
     return render(request, "finalProject/rideintro1.html")
 
 def riderecom1(request):
-    return render(request, "finalProject/riderecom1.html")
+    conn = oci.connect('doosun/doosun@localhost:1521/xe')
+    print(conn.version)
+    cursor = conn.cursor()
+    cursor.execute('select*from test_place')
+    plist = cursor.fetchall()
+    # qnum, mid, qtitle, qcontent, qhit, qdate = qlist
+    for (pnum, pname, paddr, ptel, plink, pplace, pdate) in plist:
+        # print("qlist : ",qlist)
+        print("승마장 번호: ", pnum)
+        print("승마장 이름 : ", pname)
+        print("주소 : ", paddr)
+        print("연락처 : ", ptel)
+        print("링크 : ", plink)
+        print("부대시설 : ", pplace)
+        print("등록날짜 : ", pdate)
+    return render(request, "finalProject/riderecom1.html", {"plist": plist})
 
 def raceintro1(request):
     return render(request, "finalProject/raceintro1.html")
@@ -200,4 +241,18 @@ def todayzoo1(request):
 def countdown(request):
     return render(request, "finalProject/countdown.html")
 
-
+def recom_list(request):
+    conn = oci.connect('doosun/doosun@localhost:1521/xe')
+    print(conn.version)
+    cursor = conn.cursor()
+    cursor.execute('select*from test_place')
+    rsearch = cursor.fetchall()
+    print("포스트 대신에 출력 해볼 : ",rsearch)
+    # r = request.GET.get()
+    q = request.GET.get('q', '')  # GET request의 인자중에 q 값이 있으면 가져오고, 없으면 빈 문자열 넣기
+    print("넘어오는 값은 : ",q)
+    search_sql = "SELECT 'pnum', 'pname', 'paddr', 'ptel', 'plink', 'pplace', 'pdate' FROM 'test_place' WHERE 'pplace' = %s"
+    cursor.execute(search_sql,pplace)
+    # if q:  # q가 있으면
+        # rsearch = rsearch.filter(pplace=q) # 제목에 q가 포함되어 있는 레코드만 필터링
+    return render(request, 'finalProject/riderecom1.html', {'riderecom1': rsearch, 'q': q})
