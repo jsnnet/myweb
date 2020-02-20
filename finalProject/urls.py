@@ -3,18 +3,16 @@ from . import views
 
 urlpatterns = [
     path('home1', views.home1, name="home"),
+    # 로그인 첫화면
     path('join', views.join),
-    path('join2', views.join2),
-    path('join3', views.join3),
+    # sqlite & oracle DB 동시 회원가입
+    path('join_Oraclite', views.join_Oraclite),
+    # 로그인 버튼 누르면 로그인 폼으로 이동
     path('login', views.login),
-    path('login2',views.login2),
-    path('login4',views.login4),
-    # path('login3',views.login3),
-    # path('login5',views.login5),
-    path('login5',views.login5, name="login_success"),
+    # 로그인 폼으로 이동하여 정보 입력 후 버튼 누르면 세션에 등록
+    path('login_session', views.login_session),
 
     path('logout',views.logout),
-    path('logout5',views.logout5),
     path('qna1',views.qna1),
     path('myquestion',views.myquestion),
     path('notice1',views.notice1),

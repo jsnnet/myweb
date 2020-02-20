@@ -1,10 +1,10 @@
 {% extends 'finalProject/header4.html'%}
 {% block content %}
 <body>
-<div>
-    <form method="post" action="join3">
+    <form method="post" action="join_Oraclite">
         {% csrf_token %}
-        <table>
+        <br>
+        <table >
             <tr>
                 <td>아이디</td>
                 <td><input type = "text" name="mid" id="mid"></td>
@@ -46,7 +46,6 @@
             </thead>
         </table>
     </form>
-</div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
     $(function(){

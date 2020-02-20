@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>로그인 완료?</title>
+</head>
+<body>
+{{request.session.user_id}}
+{% if request.session.user_id %}
+{% endif %}
+</body>
+</html>

@@ -39,12 +39,12 @@ button {
     margin-right: .5em;
 }
 </style>
-<form method="post" action="login4">
+<form method="post" action="login_session">
     {% csrf_token %}
 <table>
     <tr>
         <td>아이디</td>
-        <td><input id="mid" name="mid" maxlength="10"></td>
+        <td><input type="text" id="mid" name="mid" maxlength="10"></td>
     </tr>
     <tr>
         <td>비밀번호</td>
@@ -55,9 +55,9 @@ button {
          <input type="submit" value="로그인">
 <!--         <input type="button" value="취소" onclick="location=" style="float:right">-->
         </td>
-        {{request.session.user_id}}
-        {% if request.session.user_id %}
-        {% endif %}
+<!--        {{request.session.user_id}}-->
+<!--        {% if request.session.user_id %}-->
+<!--        {% endif %}-->
     </tr>
 </table>
 </form>

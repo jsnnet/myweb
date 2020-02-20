@@ -1,14 +1,10 @@
-from django.contrib.auth import authenticate
-from django.contrib.sites import requests
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from .forms import LoginForm
 from django.contrib.auth.models import User
-from django.contrib import auth
 import cx_Oracle as oci
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth.views import auth_login, LoginView
-from django.contrib.auth.views import auth_logout
+from .models import JoinForm
+
 # 승마장추천 필터링을 위해 ------------
 from django.shortcuts import render
 from django.db.models import Q
@@ -16,53 +12,53 @@ from django.db.models import Q
 from django.db import models
 # -----------------------------------
 
-# Create your views here.
-
 def home1(request):
     return render(request, "finalProject/home1.html")
 
 def join(request):
     return render(request, "finalProject/join3.html")
 
-from .forms import LoginForm
-from finalProject.models import JoinForm
+# (상) sqlite 과 oracle DB에 동시 회원가입하는 부분====================================
+from .forms import LoginForm,UserForm
 from django.contrib import auth
 @csrf_exempt
-def join3(request):
-    sign_up = JoinForm(mid=request.POST['mid'],
-                   mpwd=request.POST['mpwd'],
-                   mname=request.POST['mname'],
-                   mtel=request.POST['mtel'],
-                   madmin=request.POST['madmin']
-                      )
+def join_Oraclite(request):
+    if request.method == "POST":  # POST이면 이걸 실행하고 아니면 아래 else 부분 실행하라는 의미
+        form = UserForm(request.POST)
+        print("폼 : ", form)
+        # 입력값에 문제가 없으면(모든 유효성 검증 규칙을 통과할 때)
+        # 회원 가입 -> 가입처리 후 로그인 세션을 등록 auth.login -> index.html (로그인 했냐 안했냐를 판단) -> 그리고 최종적으로 home다 으로 보낸
+        if form.is_valid():  # vaidation 체크를 직접한다
+            # form.cleaned_data
+            # 검증에 성공한 값들을 딕셔너리 타입으로 저장하고 있는 데이터
+            # ** keyword argument, 키워드 인자 (이름으로 호출할 수있는 매개변수)
+            # 새로운 사용자가 생성됨
+            new_user = User.objects.create_user(**form.cleaned_data)
+            # 로그인 처리
+            auth.login(request, new_user)
+            # 시작 페이지로 이동
+            return redirect("home1")
+        else:
+            render(request, "finalProject/home1.html", {"msg": "회원가입 실패!"})
+    else:  # GET 방식으로 보냈을 때에는 여기로
+        form = UserForm()  # 회원가입 폼 객체를 생성
+        # join.html로 넘어가서 출력됨, 폼을 내장하고 있는 객체를 전달한다.
+        return render(request, "finalProject/join3.html", {"form": form})
+    return render(request, "finalProject/home1.html")
 
-    sign_up.save()
-    return redirect('home')
+    # 폼 안쓰고 새로 생성한 모델 활용 ==================================================================================
+    # sign_up = JoinForm(mid=request.POST['mid'],
+    #                mpwd=request.POST['mpwd'],
+    #                mname=request.POST['mname'],
+    #                mtel=request.POST['mtel'],
+    #                madmin=request.POST['madmin']
+    #                   )
+    # sign_up.save()
+    # ================================================================================================================
 
-def logout5(request):
-    auth.logout(request)
-    return redirect("home")
-
-def login5(request):
-    if request.method == "POST":
-        form = LoginForm(request.POST)
-        mid = request.POST["username"]
-        mpwd = request.POST["password"]
-        print("아이디 : ",mid)
-        print("비밀번호 : ",mpwd)
-        #인증함수, 로그인을 체크해주는 함수이다. 암호화가 되어서 체크해준다.
-        user = auth.authenticate(username=mid, password=mpwd)
-        if user is not None: # 인증완료 되었다면
-            auth.login(request, user) #로그인 세션 등록
-            return redirect("home")
-        else: #인증 실패
-            return render(request, "finalProject/join3.html", {"msg": "로그인 실패!"})
-    else:
-        form = LoginForm()
-        return render(request, "finalProject/login5.html",{"form":form})
-
-def join2(request):
-    conn = oci.connect('doosun/doosun@localhost:1521/xe')
+    # sqlite 에 회원가입 완료
+    # oracle 에 회원 가입 시작
+    conn = oci.connect('doosun/doosun@192.168.0.126:1521/xe')
     print(conn.version)
     cursor = conn.cursor()
     cursor.execute("select*from test_member")
@@ -84,85 +80,48 @@ def join2(request):
         conn.close()
         return render(request, "finalProject/home1.html")
     else:
-        return render(request, "finalProject/join2.html")
+        return render(request, "finalProject/join3.html")
+    return redirect('home')
+# (하) sqlite 과 oracle DB에 동시 회원가입하는 부분==============================================================================
 
 def login(request):
-
     return render(request, 'finalProject/login.html')
 
 def login2(request):
     if request.method == "POST":
-        # form = LoginForm(request.POST)
-        mid = request.POST.get("mid")
-        mpwd = request.POST.get("mpwd")
-        # 인증함수, 로그인을 체크해주는 함수이다. 암호화가 되어서 체크해준다.
-        user = auth.authenticate(mid=mid, mpwd=mpwd)
-        if user is not None:  # 인증완료 되었다면
-            auth.login(request, user)  # 로그인 세션 등록
-            return redirect("home1")
-        else:  # 인증 실패
-            return render(request, "finalProject/login.html")
+        form = LoginForm(request.POST)
+        name = request.POST["username"]
+        pwd = request.POST["password"]
+        #인증함수, 로그인을 체크해주는 함수이다. 암호화가 되어서 체크해준다.
+        user = auth.authenticate(username=name, password=pwd)
+        if user is not None: # 인증완료 되었다면
+            auth.login(request, user) #로그인 세션 등록
+            return redirect("home")
+        else: #인증 실패
+            return render(request, "member/index.html", {"msg": "로그인 실패!"})
     else:
-        return render(request, "finalProject/home1.html")
+        form = LoginForm()
+        return render(request, "member/loginform.html",{"form":form})
 
-def login3(request):
-    # 해당 쿠키에 값이 없을 경우 None을 return 한다.
-    if request.COOKIES.get('mid') is not None:
-        mid = request.COOKIES.get('mid')
-        mpwd = request.COOKIES.get('mpwd')
-        user = auth.authenticate(request, mid=mid, mpwd=mpwd)
-        if user is not None:
-            auth.login(request, user)
-            return redirect("home1")
-        else:
-            return render(request, "login.html")
+# 로그인 하면 session 에 등록
+def login_session(request):
+    print("html 에서 어떤 갑이 넘어오나 : ", request.POST["mid"])
+    mid = request.POST["mid"]
+    print("넘어온 아이디 : ", mid)
+    request.session['id'] = mid
+    print("아이디 세션으로 : ", request.session['id'])
+    #request.session['password'] = ' '
+    # return HttpResponse("finalProject/home1.html")
+    return render(request, "finalProject/home1.html")
 
-    elif request.method == "POST":
-        mid = request.COOKIES.get('mid')
-        mpwd = request.COOKIES.get('mpwd')
-        # 해당 user가 있으면 username, 없으면 None
-        user = auth.authenticate(request, mid=mid, mpwd=mpwd)
-
-        if user is not None:
-            auth.login(request, user)
-            if request.POST.get("keep_login") == "TRUE":
-                response = render(request, 'account/home.html')
-                response.set_cookie('mid',mid)
-                response.set_cookie('mpwd',mpwd)
-                return response
-            return redirect("home1")
-        else:
-            return render(request, 'login.html', {'error':'username or password is incorrect'})
-    else:
-        return render(request, 'login.html')
-    return render(request, 'login.html')
-
-def login4(request):
-    if request.method == 'POST':
-        user_id = request.POST['mid']
-        user_pwd = request.POST['mpwd']
-        if login_verification(user_id, user_pwd):
-            save_session(request, user_id, user_pwd)
-            return render(request, 'finalProject/home1.html')
-    return render(request,'finalProject/login.html')
-
-def save_session(request, user_id, user_pwd):
-    request.session['user_id'] = user_id
-    request.session['user_pwd'] = user_pwd
-
-def login_verification(user_id, user_pwd):
-    payload = {
-        'user_id' : str(user_id),
-        'user_pwd' : str(user_pwd)
-    }
-    with requests.Session() as s:
-        s.post('http://localhost:8099/finalProject/login', data = payload)
-        auth = s.get('http://localhost:8099/finalProject/login4')
-        if auth.status_code == 200 : # 성공적으로 가져왔을 때
-            return True
-        else : # 로그인 실패시
-            return False
-
+# session 확인
+# def access_session(request):
+#     response = "<h1>Welcome to Sessions of dataflair</h1><br>"
+#     if request.session.get('id'):
+#         response += "Name : {0} <br>".format(request.session.get('id'))
+#         return HttpResponse(response)
+#     else:
+#         return redirect('login_session')
 
 def logout(request):
     response = render(request, 'finalProject/home1.html')
@@ -172,7 +131,7 @@ def logout(request):
     return response
 
 def qna1(request):
-    conn = oci.connect('doosun/doosun@localhost:1521/xe')
+    conn = oci.connect('doosun/doosun@192.168.0.126:1521/xe')
     print(conn.version)
     cursor = conn.cursor()
     cursor.execute('select*from test_member')
@@ -196,7 +155,7 @@ def qna1(request):
         return render(request, "finalProject/qna1.html")
 
 def myquestion(request):
-    conn = oci.connect('doosun/doosun@localhost:1521/xe')
+    conn = oci.connect('doosun/doosun@192.168.0.126:1521/xe')
     print(conn.version)
     cursor = conn.cursor()
     cursor.execute('select*from test_question')
@@ -212,7 +171,7 @@ def myquestion(request):
     return render(request, "finalProject/myQlist.html",{"qlist":qlist})
 
 def notice1(request):
-    conn = oci.connect('doosun/doosun@localhost:1521/xe')
+    conn = oci.connect('doosun/doosun@192.168.0.126:1521/xe')
     print(conn.version)
     cursor = conn.cursor()
     cursor.execute('select*from test_notice')
@@ -248,7 +207,7 @@ def rideintro1(request):
     return render(request, "finalProject/rideintro1.html")
 
 def riderecom1(request):
-    conn = oci.connect('doosun/doosun@localhost:1521/xe')
+    conn = oci.connect('doosun/doosun@192.168.0.126:1521/xe')
     print(conn.version)
     cursor = conn.cursor()
     cursor.execute('select*from test_place')
@@ -281,7 +240,7 @@ def countdown(request):
     return render(request, "finalProject/countdown.html")
 
 def recom_list(request):
-    conn = oci.connect('doosun/doosun@localhost:1521/xe')
+    conn = oci.connect('doosun/doosun@192.168.0.126:1521/xe')
     print(conn.version)
     cursor = conn.cursor()
     cursor.execute('select*from test_place')
