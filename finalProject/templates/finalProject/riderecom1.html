@@ -28,9 +28,12 @@ table.type09 td {
     vertical-align: top;
     border-bottom: 1px solid #ccc;
 }
+a.title{
+    position : bottom
+}
 </style>
 <body>
-<form method="get" action="recom_list">
+<form method="get" action="recom_list" style="width:auto; float:right">
     {% csrf_token %}
     <table class="type09" align="center">
         <thead>
@@ -40,16 +43,16 @@ table.type09 td {
         </tr>
         </thead>
         <tbody>
-        <tr>
+        <tr colspan="6">
             <!--        <th scope="row">항목명</th>-->
-
             <td><input type="checkbox">옵션1</input></td>
             <td><input type="checkbox">옵션2</input></td>
             <td><input type="checkbox">옵션3</input></td>
             <td><input type="checkbox">옵션4</input></td>
+            <td><input type="text" name="q" value="{{ q }}"><input type="submit" value="검색"></td>
         </tr>
-        <tr colspan="4">
-            <th colspan="4">
+        <tr>
+            <th colspan="6">
                 <img src="/static/image/riderecom1.jpg" title="제주" style="width:30%" >
                 <img src="/static/image/riderecom2.jpg" title="제주" style="width:30%">
                 <img src="/static/image/riderecom3.jpg" title="제주" style="width:30%">
@@ -62,21 +65,22 @@ table.type09 td {
         <!--    </tr>-->
         </tbody>
         <tfoot>
-        {% for (pnum, pname, paddr, ptel, plink, pplace, pdate) in plist %}
-        <tr>
-            <td>{{pnum}}</td>
-            <td>{{pname}}</td>
-            <td>{{paddr}}</td>
-            <td>{{ptel}}</td>
-            <td>{{plink}}</td>
-            <td>{{pplace}}</td>
-            <td>{{pdate}}</td>
+        <tr colspan="4" style="">
+            {% for (pnum, pname, paddr, ptel, plink, pplace, pdate) in plist %}
+            <!--            <td>{{pnum}}</td>-->
+            <td>
+                <a id="title" name="title">{{pname}}</a>
+            </td>
+            <!--            <td>{{paddr}}</td>-->
+            <!--            <td>{{ptel}}</td>-->
+            <!--            <td>{{plink}}</td>-->
+            <!--            <td>{{pplace}}</td>-->
+            <!--            <td>{{pdate}}</td>-->
+            {% endfor %}
         </tr>
-        {% endfor %}
         </tfoot>
     </table>
-    {{plist}}
-    <input type="text" name="q" value="{{ q }}">
-    <input type="submit" value="검색">
+    <!--    {{plist}}-->
+
 </form>
 {% endblock %}

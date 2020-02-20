@@ -28,4 +28,8 @@ urlpatterns = [
     path('whoispick1', views.whoispick1),
     path('todayzoo1', views.todayzoo1),
     path('countdown', views.countdown),
+
+    # 검색 기능
+    path('rideSearch', views.rideSearch, name='rideSearch'),
+
 ]

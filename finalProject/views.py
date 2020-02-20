@@ -130,6 +130,7 @@ def logout(request):
     auth.logout(request)
     return response
 
+# 문의사항 입력
 def qna1(request):
     conn = oci.connect('doosun/doosun@192.168.0.126:1521/xe')
     print(conn.version)
@@ -154,6 +155,7 @@ def qna1(request):
     else:
         return render(request, "finalProject/qna1.html")
 
+# 문의사항 출력 (추후에 내 문의로 수정할 것)
 def myquestion(request):
     conn = oci.connect('doosun/doosun@192.168.0.126:1521/xe')
     print(conn.version)
@@ -170,6 +172,7 @@ def myquestion(request):
         print("작성날짜 : ",qdate)
     return render(request, "finalProject/myQlist.html",{"qlist":qlist})
 
+# 공지사항 불러오기
 def notice1(request):
     conn = oci.connect('doosun/doosun@192.168.0.126:1521/xe')
     print(conn.version)
@@ -191,6 +194,7 @@ def notice1(request):
         print("작성날짜 : ", ndate)
     return render(request, "finalProject/notice1.html", {"nlist": nlist})
 
+
 def ride1(request):
     return render(request, "finalProject/ride1.html")
 
@@ -206,6 +210,7 @@ def footer(request):
 def rideintro1(request):
     return render(request, "finalProject/rideintro1.html")
 
+# 승마장 추천
 def riderecom1(request):
     conn = oci.connect('doosun/doosun@192.168.0.126:1521/xe')
     print(conn.version)
@@ -239,6 +244,7 @@ def todayzoo1(request):
 def countdown(request):
     return render(request, "finalProject/countdown.html")
 
+# 승마장 추천 필터링 하려는 테스트
 def recom_list(request):
     conn = oci.connect('doosun/doosun@192.168.0.126:1521/xe')
     print(conn.version)
@@ -254,3 +260,16 @@ def recom_list(request):
     # if q:  # q가 있으면
         # rsearch = rsearch.filter(pplace=q) # 제목에 q가 포함되어 있는 레코드만 필터링
     return render(request, 'finalProject/riderecom1.html', {'riderecom1': rsearch, 'q': q})
+
+def rideSearch(request):
+    conn = oci.connect('doosun/doosun@192.168.0.126:1521/xe')
+    print(conn.version)
+    cursor = conn.cursor()
+    cursor.execute('select*from test_place')
+    srch = cursor.fetchall()  # test_place 테이블의 모든 값을 srch에 저장하라
+    w = request.GET.get('w', '')  # GET request의 인자중에 b 값이 있으면 가져오고, 없으면 빈 문자열 넣기
+    if w:  # w에 값이 들어있으면 true
+        srch = srch.filter(pplace=w)  # 검색어가 contains srch의 pplace(부대시설)에 포함되어 있으면 srch에 저장
+    return render(request, 'finalProject/riderecom2.html', {'search': srch, 'w': w})
+    # br에는 Border 테이블에 title 이름이 'Singapore'인 데이터들이 들어있고,
+    # b에는 내가 처음에 입력했던 'Singapore'가 들어있다.

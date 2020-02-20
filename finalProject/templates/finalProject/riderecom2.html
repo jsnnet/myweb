@@ -1,0 +1,33 @@
+{% extends 'finalProject/header4.html' %}
+{% block content %}
+
+<center><h1>border</h1></center>
+<div class="bordertable">
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">pnum</th>
+            <th scope="col">pname</th>
+            <th scope="col">paddr</th>
+            <th scope="col">ptel</th>
+            <th scope="col">text</th>
+            <th scope="col">photo</th>
+        </tr>
+    </thead>
+        {% for (pnum, pname, paddr, ptel, plink, pplace, pdate) in srch %}
+            <tr>
+                <th scope="row"></th>
+                <td>{{forloop.counter }}</td>
+                <td><a href="">{{post.title}}</a></td>
+                <td>{{post.author}}</td>
+                <td>{{post.text}}</td>
+                <td>{{post.photo}}</td>
+                <td>{{post.number}}</td>
+                {{post.b}}
+            </tr>
+    {% endfor %}
+        <h1>당신이 입력한 검색어는 {{b.title}}</h1>
+    </tbody>
+</table>
+</div>
+{% endblock %}
