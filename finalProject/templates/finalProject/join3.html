@@ -1,7 +1,18 @@
 {% extends 'finalProject/header4.html'%}
 {% block content %}
+<style>
+    form {
+    /* Just to center the form on the page */
+    margin: 0 auto;
+    width: 280px;
+    /* To see the outline of the form */
+    padding: 1em;
+    border: 1px solid #CCC;
+    border-radius: 1em;
+}
+</style>
 <body>
-    <form method="post" action="join_Oraclite">
+    <form method="post" action="join_Oraclite" style="padding-top:5px">
         {% csrf_token %}
         <br>
         <table >
