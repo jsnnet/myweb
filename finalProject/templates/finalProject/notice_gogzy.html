@@ -36,65 +36,34 @@ table.type08 td {
 
 </style>
 <body>
-<a>공지사항</a>
+<h1>NOTICE BOARD</h1>
 <br>
-<!--<table style="width:90%; float:center">-->
-<!--				<thead>-->
-<!--					<tr>-->
-<!--						<th>번호</th>-->
-
-<!--						<th>제목</th>-->
-<!--						<th>작성자</th>-->
-<!--						<th>날짜</th>-->
-<!--					</tr>-->
-<!--				</thead>-->
-<!--				<tfoot>-->
-<!--					<tr>-->
-<!--						<td colspan="4" style="text-align: right;">-->
-<!--						<input type="button" id="wBtn" value="write">-->
-<!--					</td>-->
-<!--					</tr>-->
-<!--				</tfoot>-->
-<!--				<tbody>-->
-<!--					<c:forEach var="e" items="${lists }">-->
-<!--						<tr>-->
-<!--							<td>${e.num }</td>-->
-<!--							<td>${e.title }</td>-->
-<!--							<td>${e.writer }</td>-->
-<!--							<td>${e.rdate }</td>-->
-<!--						</tr>-->
-<!--					</c:forEach>-->
-<!--				</tbody>-->
-<!--			</table>-->
 <table class="type08" style="width: 99% ;">
     <thead>
-<!--    # NNUM-->
-<!--    # NTITLE-->
-<!--    # NCONTENT-->
-<!--    # NHIT-->
-<!--    # NDATE-->
     <tr>
 <!--        <th scope="cols">글번호</th>-->
         <th scope="cols">제목</th>
-        <th scope="cols">조회수</th>
+<!--        <th scope="cols">조회수</th>-->
 <!--        <th scope="cols">등록날짜</th>-->
     </tr>
     </thead>
     <tbody>
     <tr>
 <!--        <th scope="row">항목명</th>-->
+<!--        https://djangobook.com/mdj2-django-templates/-->
        {% for (nnum, ntitle, ncontent, nhit, ndate) in nlist %}
         <tr>
 <!--            <td>{{nnum}}</td>-->
             <td><a href="#">{{ntitle}}</a></td>
-            <td>{{nhit}}</td>
+<!--            <td>{{nhit}}</td>-->
 <!--            <td>{{ndate}}</td>-->
         </tr>
         {% endfor %}
     </tr>
-    <!-- for 문으로 그리고 페이징 처리도 -->
+    <!-- for 문으로 그리고 페이징 처리도 후순위로 고려 중-->
     </tbody>
-    {{nlist}}
+<!--    for 문 없이도 값이 넘어오는지 테스트 용-->
+<!--    {{nlist}}-->
 </table>
 </body>
 {% endblock %}

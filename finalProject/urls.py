@@ -32,4 +32,12 @@ urlpatterns = [
     # 검색 기능
     path('rideSearch', views.rideSearch, name='rideSearch'),
 
+    # 페이징
+    path('index', views.index, name='page'),
+    path('home', views.home, name='paging'),
+
+    # 리뷰
+    path('review', views.review),
+
+
 ]

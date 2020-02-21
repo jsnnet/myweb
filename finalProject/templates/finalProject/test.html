@@ -1,0 +1,38 @@
+<!--후순위인 페이징 처리를 위한 페이지-->
+{% extends 'finalProject/header4.html' %}
+{% block content %}
+<!--위의 두 줄은 헤더를 붙이기 위한-->
+<!--아직 미완성 코드 -->
+<body>
+{% for blog in posts %}
+<br>
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">{{ nlist.title }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{ nlist.pub_date }}</h6>
+            <p class="card-text">{{ nlist.body }}</p>
+<!--            <a href="{% url 'detail' blog.id %}" class="card-link">...more</a>-->
+        </div>
+    </div>
+</div>
+<div class = "container">
+    {#first previous#}
+    {% if posts.has_previous %}
+    <a href="?page=1">First</a>
+    <a href="?page={{posts.previous_page_number}}">Previous</a>
+    {% endif %}
+
+    {# 3of4 #}
+    <span>{{posts.number}}</span>
+    <span>of</span>
+    <span>{{posts.paginator.num_pages}}</span>
+
+    {# Next Last #} {% if posts.has_next %}
+    <a href="?page={{posts.next_page_number}}">Next</a>
+    <a href="?page={{posts.paginator.num_pages}}">Last</a>
+    {%endif%}
+</div>
+{% endfor %}
+</body>
+{% endblock %}

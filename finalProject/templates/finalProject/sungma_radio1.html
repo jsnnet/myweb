@@ -1,0 +1,95 @@
+<!--승마장 추천할 때 radio 기능하면 다시 게시글 정렬 해줄 페이지-->
+{% extends 'finalProject/header4.html' %}
+{% block content %}
+<!--위의 두 줄은 헤더 붙이기 위한-->
+<!--아래의 style 도 외부에서 form 가져오면서 그대로 가져옴-->
+<style>
+    table.type09 {
+    border-collapse: collapse;
+    text-align: left;
+    line-height: 1.5;
+}
+table.type09 thead th {
+    padding: 10px;
+    font-weight: bold;
+    vertical-align: top;
+    color: #369;
+    border-bottom: 3px solid #036;
+}
+table.type09 tbody th {
+    width: 150px;
+    padding: 10px;
+    font-weight: bold;
+    vertical-align: top;
+    border-bottom: 1px solid #ccc;
+    background: #f3f6f7;
+}
+table.type09 td {
+    width: 350px;
+    padding: 10px;
+    vertical-align: top;
+    border-bottom: 1px solid #ccc;
+}
+a.title{
+    position : bottom
+}
+tr.colums {
+    padding: 10px;
+    font-weight: bold;
+    vertical-align: top;
+    color: #369;
+    border-bottom: 3px solid #036;
+}
+</style>
+<form action="rideSearch" method="post" style="width:auto ; float:center">
+    {% csrf_token %}
+    <table class="type09">
+        <thead>
+        <tr>
+            <th scope="cols">제주도</th>
+        </tr>
+        </thead>
+        <tfoot>
+        <tr id="colums" class="colums">
+            <td>타이틀</td>
+            <td>주소</td>
+            <td>연락처</td>
+            <td>참고링크</td>
+            <td>부대시설</td>
+        </tr>
+        </tr>
+        {% for (pnum, pname, paddr, ptel, plink, pplace, pdate) in res2 %}
+        <tr>
+            <td>
+                <a id="title" name="title">{{pname}}</a>
+            </td>
+            <td>{{paddr}}</td>
+            <td>{{ptel}}</td>
+            <td>{{plink}}</td>
+            <td>{{pplace}}</td>
+            <td>{{pdate}}</td>
+        </tr>
+        {% endfor %}
+        </tfoot>
+    </table>
+    <div style="float:right">
+        <input type="radio" id="select1" value="parking" name="chk_pplace"><label for="select1">주차장</label>
+        <input type="radio" id="select2" value="park" name="chk_pplace"><label for="select2">공원</label>
+        <input type="radio" id="select3" value="transportation" name="chk_pplace"><label for="select3">역앞</label>
+        <input type="submit" value="정렬" onclick="location.href='rideSearch'">
+    </div>
+    </div>
+</form>
+<script language="javascript">
+$(":checkbox[name='chk_pplace']:checked").length
+
+var checked_seq = "";
+   $(":checkbox[name='chk_pplace']:checked").each(function(i,e){
+       if(checked_seq == ""){
+         checked_seq = e.value;
+        }else{
+         checked_seq += "^"+e.value;
+        }
+   });
+</script>
+{% endblock %}

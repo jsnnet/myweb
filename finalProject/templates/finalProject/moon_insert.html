@@ -1,5 +1,7 @@
 {% extends 'finalProject/header4.html'%}
 {% block content %}
+<!--위의 두 코드는 헤더를 붙이기 위한-->
+<!--아래의 style 은 form 가져오면서 그대로-->
 <style>
 form {
     margin: 0 auto;
@@ -40,7 +42,7 @@ button {
 }
 </style>
 <body>
-<a>문의하기</a>
+<h1>Q&A 등록</h1>
 <form action="qna1" method="post">
     {% csrf_token %}
     <div>
@@ -61,6 +63,7 @@ button {
         <button type="button" onclick="location.href='myquestion'">나의 문의</button>
     </div>
 </form>
+<!--로그인 한 회원 개인이 볼 수 있도록 수정 중-->
 <!--<form action="myquestion" method="post">-->
 <!--    <button type="button" onclick="location.href='finalProject/myquestion.html'">나의 문의</button>-->
 <!--</form>-->

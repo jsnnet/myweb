@@ -45,11 +45,10 @@ a.title{
         <tbody>
         <tr colspan="6">
             <!--        <th scope="row">항목명</th>-->
-            <td><input type="checkbox">옵션1</input></td>
-            <td><input type="checkbox">옵션2</input></td>
-            <td><input type="checkbox">옵션3</input></td>
-            <td><input type="checkbox">옵션4</input></td>
-            <td><input type="text" name="q" value="{{ q }}"><input type="submit" value="검색"></td>
+            <td><input type="checkbox" id="select1" value="parking"><label for="select1">주차장</label></td>
+            <td><input type="checkbox" id="select2" value="park"><label for="select1">공원</label></td>
+            <td><input type="checkbox" id="select3" value="transport"><label for="select1">역앞</label></td>
+            <td><input type="submit" value="정렬" onclick="location.href='rideSearch'"></td>
         </tr>
         <tr>
             <th colspan="6">
@@ -67,20 +66,19 @@ a.title{
         <tfoot>
         <tr colspan="4" style="">
             {% for (pnum, pname, paddr, ptel, plink, pplace, pdate) in plist %}
-            <!--            <td>{{pnum}}</td>-->
+                        <td>{{pnum}}</td>
             <td>
                 <a id="title" name="title">{{pname}}</a>
             </td>
-            <!--            <td>{{paddr}}</td>-->
-            <!--            <td>{{ptel}}</td>-->
-            <!--            <td>{{plink}}</td>-->
-            <!--            <td>{{pplace}}</td>-->
-            <!--            <td>{{pdate}}</td>-->
+                        <td>{{paddr}}</td>
+                        <td>{{ptel}}</td>
+                        <td>{{plink}}</td>
+                        <td>{{pplace}}</td>
+                        <td>{{pdate}}</td>
             {% endfor %}
         </tr>
         </tfoot>
     </table>
     <!--    {{plist}}-->
-
 </form>
 {% endblock %}

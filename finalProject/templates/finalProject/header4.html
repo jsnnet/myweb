@@ -10,6 +10,7 @@
     <title>뱃또롱승마</title>
     <link rel="canonical" href="https://getbootstrap.com/docs/4.4/examples/sign-in/">
 
+<!--    헤더 스타일 (부트스트랩 스타터 형식 그대로 가져온 것) -->
     <style>
       .bd-placeholder-img {
         font-size: 1.125rem;
@@ -28,83 +29,73 @@
         box-sizing: content-box;
       }
     </style>
-
-    <!-- Custom styles for this template -->
-
-    <!-- 카운트 다운 -->
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-<!--    <link rel="stylesheet" type="text/css" href="css/jquery.countdown.css">-->
-<!--    <script type="text/javascript" src="js/jquery.plugin.js"></script>-->
-<!--    <script type="text/javascript" src="js/jquery.countdown.js"></script>-->
   </head>
   <body class="text-center">
 
-<nav class="navbar navbar-dark bg-dark">
-<!-- -brand 뒤에 href='' 있었다 -->
-  <a class="navbar-brand">뱃또롱승마</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarsExample01">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link" href="join">회원가입</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="login">로그인</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="logout">로그아웃</a>
-      </li>
-    </ul>
-  </div>
-</nav>
-
-<div class="container">
-
-  <nav class="navbar navbar-expand-lg navbar-light bg-light rounded">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample10" aria-controls="navbarsExample10" aria-expanded="false" aria-label="Toggle navigation">
+  <nav class="navbar navbar-dark bg-dark">
+    <!-- 로고 또는 텍스트 클릭하면 다른 이동하는 nabar-brand 뒤에 href='' 있었다 -->
+    <a class="navbar-brand">뱃또롱승마</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-
-    <div class="collapse navbar-collapse justify-content-md-center" id="navbarsExample10">
-      <ul class="navbar-nav">
+    <div class="collapse navbar-collapse" id="navbarsExample01">
+      <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link" href="home1">홈</a>
+          <a class="nav-link" href="join">회원가입</a>
         </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="dropdown1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">승마</a>
-          <div class="dropdown-menu" aria-labelledby="dropdown10">
-            <a class="dropdown-item" href="ride1">승마 소개</a>
-            <a class="dropdown-item" href="rideintro1">승마 체험장 소개</a>
-            <a class="dropdown-item" href="riderecom1">승마 체험장 추천</a>
-          </div>
+        <li class="nav-item">
+          <a class="nav-link" href="login">로그인</a>
         </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="dropdown2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">경마</a>
-          <div class="dropdown-menu" aria-labelledby="dropdown10">
+        <li class="nav-item">
+          <a class="nav-link" href="logout">로그아웃</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light rounded">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample10" aria-controls="navbarsExample10" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-md-center" id="navbarsExample10">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="home1">홈</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="dropdown1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">승마</a>
+            <div class="dropdown-menu" aria-labelledby="dropdown10">
+              <a class="dropdown-item" href="ride1">승마 소개</a>
+              <a class="dropdown-item" href="rideintro1">승마 체험장 소개</a>
+              <a class="dropdown-item" href="riderecom1">승마 체험장 추천</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="dropdown2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">경마</a>
+            <div class="dropdown-menu" aria-labelledby="dropdown10">
               <a class="dropdown-item" href="race1">경마 소개</a>
               <a class="dropdown-item" href="raceintro1">경마장 소개</a>
               <a class="dropdown-item" href="whoiszoo1">주인공 맞춰보기</a>
               <a class="dropdown-item" href="whoispick1">주인공 응원하기</a>
               <a class="dropdown-item" href="todayzoo1">오늘의 주인공</a>
-          </div>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="qna1">문의</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="notice1">공지사항</a>
-        </li>
-      </ul>
-    </div>
-  </nav>
-
-
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="qna1">문의</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="notice1">공지사항</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">리뷰</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
 </div>
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
   {% block content %}
+<!--  위와 아래 코드 사이에 헤어에 붙을 .html 페이지들이 들어온다-->
   {% endblock %}

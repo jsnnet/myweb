@@ -1,5 +1,7 @@
 {% extends 'finalProject/header4.html'%}
 {% block content %}
+<!--위의 두 줄은 헤더를 붙이기 위한 코드-->
+<!--아래의 style 은 form 가져오면서 그대로 가져온 style-->
 <style>
     form {
     margin: 0 auto;
@@ -53,13 +55,12 @@ button {
     <tr>
         <td colspan="2">
          <input type="submit" value="로그인">
+<!--            취소버튼 넣을지 말지 고민 중-->
 <!--         <input type="button" value="취소" onclick="location=" style="float:right">-->
         </td>
-<!--        {{request.session.user_id}}-->
-<!--        {% if request.session.user_id %}-->
-<!--        {% endif %}-->
     </tr>
 </table>
 </form>
 </body>
+<!--아래의 코드는 헤더를 붙이기 위한-->
 {% endblock %}
