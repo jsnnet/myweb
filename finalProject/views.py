@@ -3,7 +3,13 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 import cx_Oracle as oci
 from django.views.decorators.csrf import csrf_exempt
+from django.views.generic.base import View
 from .models import JoinForm
+# ==============================================================================지도 api (google) 와 folium 패키지 사용
+# folium 설치가 안되어 있다면 pip install 해줘야 사용가능
+import folium
+import googlemaps
+# ==============================================================================지도 api (google) 와 folium 패키지 사용
 
 # 승마장추천 필터링을 위해 ------------
 from django.shortcuts import render
@@ -17,6 +23,12 @@ from django.core.paginator import Paginator
 
 #--------------페이징 처리------------------------
 
+# 단축키 참고
+# https://kgu0724.tistory.com/95
+# DB 사용에 따른 conn 연결
+conn = oci.connect('doosun/doosun@localhost:1521/xe')
+# conn = oci.connect('doosun/doosun@192.168.0.7:1521/xe')
+# conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
 
 def home1(request):
     return render(request, "finalProject/home_main.html")
@@ -40,7 +52,7 @@ def join_Oraclite(request):
     # ================================================================================================================
     # sqlite 에 회원가입 완료
     # oracle 에 회원 가입 시작
-    conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
+    # conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
     print(conn.version)
     cursor = conn.cursor()
     cursor.execute("select*from member")
@@ -101,7 +113,7 @@ def logout(request):
 
 # 문의사항 입력
 def qna1(request):
-    conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
+    # conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
     print(conn.version)
     cursor = conn.cursor()
     cursor.execute('select*from member')
@@ -126,7 +138,7 @@ def qna1(request):
 
 # 문의사항 출력 (추후에 내 문의로 수정할 것)
 def myquestion(request):
-    conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
+    # conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
     print(conn.version)
     cursor = conn.cursor()
     cursor.execute('select*from question')
@@ -143,7 +155,7 @@ def myquestion(request):
 
 # 공지사항 불러오기
 def notice1(request):
-    conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
+    # conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
     print(conn.version)
     cursor = conn.cursor()
     cursor.execute('select*from notice')
@@ -160,7 +172,7 @@ def notice1(request):
 
 # 승마장 추천
 def riderecom1(request):
-    conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
+    # conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
     print(conn.version)
     cursor = conn.cursor()
     cursor.execute('select*from place')
@@ -179,7 +191,7 @@ def riderecom1(request):
 
 # 승마장 추천 필터링 하려는 테스트
 def recom_list(request):
-    conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
+    # conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
     print(conn.version)
     cursor = conn.cursor()
     cursor.execute('select*from place')
@@ -190,7 +202,7 @@ def rideSearch(request):
     request.POST.getlist('chk_pplace')
     chk_slct = request.POST.get('chk_pplace')
     print(chk_slct)
-    conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
+    # conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
     print("버젼 확인 :",conn.version)
     cursor = conn.cursor()
     # clob 데이터 타입은 char 로 바꿔서 바인딩 해야 한다 https://www.warevalley.com/support/orange_view.asp?page=30&num=11943
@@ -224,10 +236,37 @@ def footer(request):
     return render(request, "finalProject/footer.html")
 
 def rideintro1(request):
-    return render(request, "finalProject/rideintro1.html")
+    cursor = conn.cursor()
+    cursor.execute('select*from place')
+    plist = cursor.fetchall()
+    # qnum, mid, qtitle, qcontent, qhit, qdate = qlist
+    for (pnum, pname, paddr, ptel, plink, pplace, pdate) in plist:
+        # print("qlist : ",qlist)
+        print("승마장 번호: ", pnum)
+        print("승마장 이름 : ", pname)
+        print("주소 : ", paddr)
+        print("연락처 : ", ptel)
+        print("링크 : ", plink)
+        print("부대시설 : ", pplace)
+        print("등록날짜 : ", pdate)
+
+    map_ori = folium.Map(location=[37.479833, 126.880097], zoom_start=17)
+    folium.Marker([37.479833, 126.880097], popup='<b>가산</b>').add_to(map_ori)
+    map_ori.save('finalProject/sungma_cheso.html')
+
+    return render(request, "finalProject/sungma_cheso.html", {'plist':plist})
+
+def rideintro2(request):
+    # gkey = "AIzaSyDAbziSH8lb_794Kdf9VZSl5CIwMR2ImUI"
+    # gmaps = googlemaps.client(key=gkey)
+    # gmaps.geocode('대한민국 서울특별시 송파구 오륜동 올림픽로 424', language = 'ko')
+    # map_ori = folium.Map(location=[37.479833, 126.880097], zoom_start=17)
+    # folium.Marker([37.479833, 126.880097], popup='<b>가산</b>').add_to(map_ori)
+    # map_ori.save('finalProject/map1.html')
+    return render(request, "finalProject/map3.html")
 
 def raceintro1(request):
-    return render(request, "finalProject/raceintro1.html")
+    return render(request, "finalProject/gyungma_jangso.html")
 
 def whoiszoo1(request):
     return render(request, "finalProject/whois_juingong.html")
@@ -245,7 +284,7 @@ def review(request):
     return render(request, "finalProject/review.html")
 
 def index(request):
-    conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
+    # conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
     print(conn.version)
     cursor = conn.cursor()
     cursor.execute('select*from notice')
@@ -267,7 +306,7 @@ def index(request):
 # https://egg-money.tistory.com/111?category=811218
 # https://egg-money.tistory.com/111?category=811218 # detail 이란 함수에 관한 에러 때문에
 def home(request):
-    conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
+    # conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
     print(conn.version)
     cursor = conn.cursor()
     nlist = cursor.execute('select*from notice')

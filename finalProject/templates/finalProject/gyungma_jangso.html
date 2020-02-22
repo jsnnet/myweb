@@ -1,0 +1,76 @@
+{% extends 'finalProject/header4.html' %}
+{% block content %}
+<div class="container">
+    <br>
+    <div align="left">
+        <h1 style="">렛츠런 파크</h1>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col">
+<!--            <h1>경마 소개</h1>-->
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#round1">제주도</a>
+                </li>
+<!--                같은 페이지에서 탭 전환; 아래 탭 추가 필요-->
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link" data-toggle="tab" href="#round2">탭 추가</a>-->
+<!--                </li>-->
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="round1">
+                    <p style="margin-top:-12px">
+                    </p>
+                    <div id="map" style="width:100%;height:350px;"></div>
+                </div>
+
+<!--                위의 탭을 추가했을 때 탭 안에 추가할 내용이 들어가야 하는 부분 (p태그 안에)-->
+<!--                <div class="tab-pane fade" id="round2">-->
+<!--                    <p>Nunc vitae turpis id nibh sodales commodo et non augue. Proin fringilla ex nunc. Integer tincidunt risus ut facilisis tristique.</p>-->
+<!--                </div>-->
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b9f20a9dab54b872622bd9cdef0fd1b4&libraries=services"></script>
+<script>
+var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+    mapOption = {
+        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+        level: 3 // 지도의 확대 레벨
+    };
+
+// 지도를 생성합니다
+var map = new kakao.maps.Map(mapContainer, mapOption);
+
+// 주소-좌표 변환 객체를 생성합니다
+var geocoder = new kakao.maps.services.Geocoder();
+
+// 주소로 좌표를 검색합니다
+geocoder.addressSearch('제주특별자치도 제주시 첨단로 242', function(result, status) {
+
+    // 정상적으로 검색이 완료됐으면
+     if (status === kakao.maps.services.Status.OK) {
+
+        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+        // 결과값으로 받은 위치를 마커로 표시합니다
+        var marker = new kakao.maps.Marker({
+            map: map,
+            position: coords
+        });
+
+        // 인포윈도우로 장소에 대한 설명을 표시합니다
+        var infowindow = new kakao.maps.InfoWindow({
+            content: '<div style="width:150px;text-align:center;padding:6px 0;">렛츠런파크 제주</div>'
+        });
+        infowindow.open(map, marker);
+
+        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+        map.setCenter(coords);
+    }
+});
+</script>
+<!--아래의 코드는 해당 페이지가 헤더에 붙게 마무리하는 코드-->
+{% endblock %}

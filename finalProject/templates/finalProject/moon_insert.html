@@ -20,7 +20,7 @@ label {
 }
 input, textarea {
     font: 1em sans-serif;
-    width: auto;
+    width: 50%;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     border: 1px solid #999;
@@ -41,31 +41,59 @@ button {
     margin-right: .5em;
 }
 </style>
-<body>
-<h1>Q&A 등록</h1>
-<form action="qna1" method="post">
-    {% csrf_token %}
-    <div>
-        <label for="mid">아이디:</label>
-        <input type="text" id="mid" name="mid" />
+<div class="container">
+    <br>
+    <div align="left">
+        <h1 style="">Q&A</h1>
     </div>
-    <div>
-        <label for="qtitle">제목:</label>
-        <input type="text" id="qtitle" name="qtitle" />
-    </div>
-    <div>
-        <label for="qcontent">내용:</label>
-        <textarea id="qcontent" name="qcontent"></textarea>
-    </div>
+    <br>
+    <div class="row">
+        <div class="col">
+            <!--            <h1>경마 소개</h1>-->
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#round1">문의사항 등록</a>
+                </li>
+                <!--                같은 페이지에서 탭 전환; 아래 탭 추가 필요-->
+                <!--                <li class="nav-item">-->
+                <!--                    <a class="nav-link" data-toggle="tab" href="#round2">탭 추가</a>-->
+                <!--                </li>-->
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="round1">
+                    <br>
+                    <form action="qna1" method="post">
+                        {% csrf_token %}
+                        <div>
+                            <label for="mid">ID</label>
+                            <input type="text" id="mid" name="mid" />
+                        </div>
+                        <div>
+                            <label for="qtitle">제목</label>
+                            <input type="text" id="qtitle" name="qtitle" />
+                        </div>
+                        <div>
+                            <label for="qcontent">내용</label>
+                            <textarea id="qcontent" name="qcontent"></textarea>
+                        </div>
 
-    <div class="button">
-        <button type="submit">문의 등록</button>
-        <button type="button" onclick="location.href='myquestion'">나의 문의</button>
+                        <div class="button">
+                            <button type="submit">문의 등록</button>
+                            <button type="button" onclick="location.href='myquestion'">나의 문의</button>
+                        </div>
+                    </form>
+                    <!--로그인 한 회원 개인이 볼 수 있도록 수정 중-->
+                    <!--<form action="myquestion" method="post">-->
+                    <!--    <button type="button" onclick="location.href='finalProject/myquestion.html'">나의 문의</button>-->
+                    <!--</form>-->
+                </div>
+
+                <!--                위의 탭을 추가했을 때 탭 안에 추가할 내용이 들어가야 하는 부분 (p태그 안에)-->
+                <!--                <div class="tab-pane fade" id="round2">-->
+                <!--                    <p>Nunc vitae turpis id nibh sodales commodo et non augue. Proin fringilla ex nunc. Integer tincidunt risus ut facilisis tristique.</p>-->
+                <!--                </div>-->
+            </div>
+        </div>
     </div>
-</form>
-<!--로그인 한 회원 개인이 볼 수 있도록 수정 중-->
-<!--<form action="myquestion" method="post">-->
-<!--    <button type="button" onclick="location.href='finalProject/myquestion.html'">나의 문의</button>-->
-<!--</form>-->
-</body>
+</div>
 {% endblock %}

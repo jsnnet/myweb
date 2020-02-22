@@ -2,7 +2,8 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('home1', views.home1, name="home"),
+    # finalProject/ 뒤에 아무것도 안 붙여도 홈 화면으로 출력되도록 변경ㄴ
+    path('', views.home1),
     # 로그인 첫화면
     path('join', views.join),
     # sqlite & oracle DB 동시 회원가입
@@ -21,6 +22,7 @@ urlpatterns = [
     path('header3',views.header3),
     path('footer',views.footer),
     path('rideintro1', views.rideintro1),
+    path('rideintro2', views.rideintro2),
     path('riderecom1', views.riderecom1),
     path('recom_list', views.recom_list),
     path('raceintro1', views.raceintro1),
@@ -38,6 +40,4 @@ urlpatterns = [
 
     # 리뷰
     path('review', views.review),
-
-
 ]

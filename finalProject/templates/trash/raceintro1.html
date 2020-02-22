@@ -1,0 +1,34 @@
+{% extends 'finalProject/header4.html' %}
+{% block content %}
+<!--위의 두 줄은 헤더를 붙이기 위한-->
+<div class="container">
+<!--    아래 div 순서는 복붙한거라 순서와 의미는 잘 모르겠어요 -->
+    <div class="row">
+        <div class="col">
+<!--            <h1>경마 소개</h1>-->
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#round1">제주도 경마 공원</a>
+                </li>
+<!--                같은 페이지에서 탭 전환; 아래 탭 추가 필요-->
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link" data-toggle="tab" href="#round2">탭 추가</a>-->
+<!--                </li>-->
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="round1">
+                    <p>애월의 숲 제주승마공원, 말과 함께 세상을 달린다.산악승마, 해변승마, 산림욕승마, 승마캠프 등 최장거리 100km의 승마 트레킹 코스를 갖춰 원하는 코스를 다양하게 선택할 수 있다. 말과 함께 펼치는 기승쇼, 부부 승마 아카데미, 어린이 승마캠프, 기업체 승마 워크숍 등 최적의 승마 레저 스포츠를 즐길 수 있다.
+                        국제승마연맹 전문가 초청 강연, 초보에서 고급과정까지 최고의 강사진 프로그램을 운영하고 있다.</p>
+                </div>
+
+<!--                위의 탭을 추가했을 때 탭 안에 추가할 내용이 들어가야 하는 부분 (p태그 안에)-->
+<!--                <div class="tab-pane fade" id="round2">-->
+<!--                    <p>Nunc vitae turpis id nibh sodales commodo et non augue. Proin fringilla ex nunc. Integer tincidunt risus ut facilisis tristique.</p>-->
+<!--                </div>-->
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<!--아래의 코드는 해당 페이지가 헤더에 붙게 마무리하는 코드-->
+{% endblock %}
