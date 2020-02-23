@@ -1,0 +1,40 @@
+<!--경기 후 누가 주인공인지 보여주는 페이지-->
+{% extends 'finalProject/header4.html' %}
+{% block content %}
+<!--위의 두 줄은 헤더를 붙이기 위한 코드-->
+<!--미완성-->
+<style>
+    button.plzlogout:hover{
+        background:#FFFF09
+    }
+    input.plzlogout:hover{
+        background:#FFFF09
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <!--            <p>주인공 맞춰보기</p>-->
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#round1">{{request.session.mid}}님은 현재 로그인 중 입니다...</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="round1">
+                    <br>
+                    <h1>로그 아웃 하시겠습니까?</h1>
+                    <button class="plzlogout" style="width:200px; height:100px" onclick="location.href='logout'">예</button>
+<!--                    <button style="width:100px" onclick="location.href='myquestion'">아니오</button>-->
+                    <input class="plzlogout" type="button" style="width:200px; height:100px" value="아니오" onClick="history.go(-1)">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+{% load static %}
+{% static "" as baseUrl %}
+<script type="text/javascript" src="{% static 'js/countdown.js' %}"></script>
+{% endblock %}

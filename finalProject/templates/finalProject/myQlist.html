@@ -7,26 +7,27 @@
     <table class="table table-striped">
         <thead>
         <tr>
-<!--            <td><B>글 번호</B></td>-->
+            <!--            <td><B>글 번호</B></td>-->
             <td><B>작성 아이디</B></td>
             <td><B>글 제목</B></td>
             <td><B>조회수</B></td>
-<!--            <td><B>작성날짜</B></td>-->
+            <!--            <td><B>작성날짜</B></td>-->
         </tr>
         </thead>
         <tbody>
         {% for (qnum, mid, qtitle, qcontent, qhit, qdate) in qlist %}
         <tr>
-<!--            <td>{{qnum}}</td>-->
+            <!--            <td>{{qnum}}</td>-->
             <td>{{mid}}</td>
             <td><a href="#">{{qtitle}}</a></td>
             <td>{{qhit}}</td>
-<!--            <td>{{qdate}}</td>-->
+            <!--            <td>{{qdate}}</td>-->
         </tr>
         {% endfor %}
         <tbody>
     </table>
     {{qlist}}
 </form>
-</body>
+<!--세션값 확인용-->
+<p>세션값 이름은 1? : {{request.session.mid}}</p>
 {% endblock %}

@@ -25,12 +25,13 @@ from django.core.paginator import Paginator
 
 # 단축키 참고
 # https://kgu0724.tistory.com/95
-# DB 사용에 따른 conn 연결
+
+# DB 사용에 따른 conn 연결 (전역변수 사용하려면 변수 앞에 global 써주고 함수마다 변수 선언해야만 한다)
 conn = oci.connect('doosun/doosun@localhost:1521/xe')
 # conn = oci.connect('doosun/doosun@192.168.0.7:1521/xe')
 # conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
 
-def home1(request):
+def home(request):
     return render(request, "finalProject/home_main.html")
 
 def join(request):
@@ -52,7 +53,6 @@ def join_Oraclite(request):
     # ================================================================================================================
     # sqlite 에 회원가입 완료
     # oracle 에 회원 가입 시작
-    # conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
     print(conn.version)
     cursor = conn.cursor()
     cursor.execute("select*from member")
@@ -80,15 +80,18 @@ def join_Oraclite(request):
 
 # 홈에서 로그인 글씨 누르면 login 페이지로 이동
 def login(request):
-    return render(request, 'finalProject/login.html')
+    if request.session.get('mid') != None:
+        return render(request, 'finalProject/plzlogout.html')
+    else:
+        return render(request, 'finalProject/login.html')
 
 # login 페이지에서 로그인 하면 session 에 등록
 def login_session(request):
     print("html 에서 어떤 갑이 넘어오나 : ", request.POST["mid"])
     mid = request.POST["mid"]
     print("넘어온 아이디 : ", mid)
-    request.session['id'] = mid
-    print("아이디 세션으로 : ", request.session['id'])
+    request.session['mid'] = mid
+    print("아이디 세션으로 : ", request.session['mid'])
     # 비밀번호 테스트용
     # request.session['password'] = ' '
     # return HttpResponse("finalProject/home_main.html")
@@ -109,11 +112,11 @@ def logout(request):
     response.delete_cookie('mid')
     response.delete_cookie('mpwd')
     auth.logout(request)
-    return response
+    return home(request)
 
 # 문의사항 입력
-def qna1(request):
-    # conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
+def qna(request):
+    global conn; #전역변수 사용 위해
     print(conn.version)
     cursor = conn.cursor()
     cursor.execute('select*from member')
@@ -138,41 +141,52 @@ def qna1(request):
 
 # 문의사항 출력 (추후에 내 문의로 수정할 것)
 def myquestion(request):
-    # conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
-    print(conn.version)
+    global conn;  # 전역변수 사용 위해
+    request.session.get('mid')
+    member_id = request.POST.get('mid')
+    print(member_id)
     cursor = conn.cursor()
-    cursor.execute('select*from question')
-    qlist = cursor.fetchall()
-    # qnum, mid, qtitle, qcontent, qhit, qdate = qlist
-    for (qnum, mid, qtitle, qcontent, qhit, qdate) in qlist:
+    myQ_sql = 'select * from question where mid =:mid'
+    cursor.execute(myQ_sql, mid=member_id)
+    myqlist = cursor.fetchall()
+    # qnum, mid, qtitle, qcontent, qhit, qdate = myqlist
+    for (qnum, mid, qtitle, qcontent, qhit, qdate) in myqlist:
         # print("qlist : ",qlist)
         print("글번호: ", qnum)
         print("회원ID : ",mid)
         print("제목 : ",qtitle)
         print("조회수 : ",qhit)
         print("작성날짜 : ",qdate)
-    return render(request, "finalProject/myQlist.html",{"qlist":qlist})
+    return render(request, "finalProject/myQlist.html",{"myqlist":myqlist})
 
 # 공지사항 불러오기
 def notice1(request):
-    # conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
+    global conn;  # 전역변수 사용 위해
     print(conn.version)
     cursor = conn.cursor()
     cursor.execute('select*from notice')
+    # cursor.execute('select nnum, ntitle, ncontent, nhit, to_char(ndate) from notice')
+    # print("공지 제목 날짜 : ",res)
     nlist = cursor.fetchall()
-
-    for (nnum, ntitle, ncontent, nhit, ndate) in nlist:
-        # print("qlist : ",qlist)
-        print("글번호: ", nnum)
-        print("제목 : ", ntitle)
-        print("내용 : ", ncontent)
-        print("조회수 : ", nhit)
-        print("작성날짜 : ", ndate)
+    # for (nnum, ntitle, ncontent, nhit, ndate) in nlist:
+    #     # print("qlist : ",qlist)
+    #     print("글번호: ", nnum)
+    #     print("제목 : ", ntitle)
+    #     print("내용 : ", ncontent)
+    #     print("조회수 : ", nhit)
+    #     print("작성날짜 : ", ndate)
+    # for (ntitle, ndate) in nlist:
+    #     print("qlist : ",qlist)
+    #     print("글번호: ", nnum)
+    #     print("제목 : ", ntitle)
+    #     print("내용 : ", ncontent)
+    #     print("조회수 : ", nhit)
+    #     print("작성날짜 : ", ndate)
     return render(request, "finalProject/notice_gogzy.html", {"nlist": nlist})
 
 # 승마장 추천
 def riderecom1(request):
-    # conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
+    global conn;  # 전역변수 사용 위해
     print(conn.version)
     cursor = conn.cursor()
     cursor.execute('select*from place')
@@ -191,7 +205,7 @@ def riderecom1(request):
 
 # 승마장 추천 필터링 하려는 테스트
 def recom_list(request):
-    # conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
+    global conn;  # 전역변수 사용 위해
     print(conn.version)
     cursor = conn.cursor()
     cursor.execute('select*from place')
@@ -199,10 +213,10 @@ def recom_list(request):
 
 # 승마체험장 추천에서 checkbox 사용 하는 함수
 def rideSearch(request):
+    global conn;  # 전역변수 사용 위해
     request.POST.getlist('chk_pplace')
     chk_slct = request.POST.get('chk_pplace')
     print(chk_slct)
-    # conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
     print("버젼 확인 :",conn.version)
     cursor = conn.cursor()
     # clob 데이터 타입은 char 로 바꿔서 바인딩 해야 한다 https://www.warevalley.com/support/orange_view.asp?page=30&num=11943
@@ -229,13 +243,11 @@ def ride1(request):
 def race1(request):
     return render(request, "finalProject/gyungma_sogae.html")
 
-def header3(request):
-    return render(request, "finalProject/header3.html")
-
 def footer(request):
     return render(request, "finalProject/footer.html")
 
 def rideintro1(request):
+    global conn;  # 전역변수 사용 위해
     cursor = conn.cursor()
     cursor.execute('select*from place')
     plist = cursor.fetchall()
@@ -281,10 +293,14 @@ def countdown(request):
     return render(request, "finalProject/countdown.html")
 
 def review(request):
-    return render(request, "finalProject/review.html")
+    global conn;  # 전역변수 사용 위해
+    cursor = conn.cursor()
+    cursor.execute('select*from review')
+    rlist = cursor.fetchall
+    return render(request, "finalProject/review.html", {"rlist":rlist})
 
 def index(request):
-    # conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
+    global conn;  # 전역변수 사용 위해
     print(conn.version)
     cursor = conn.cursor()
     cursor.execute('select*from notice')
@@ -305,24 +321,23 @@ def index(request):
 
 # https://egg-money.tistory.com/111?category=811218
 # https://egg-money.tistory.com/111?category=811218 # detail 이란 함수에 관한 에러 때문에
-def home(request):
-    # conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
-    print(conn.version)
-    cursor = conn.cursor()
-    nlist = cursor.execute('select*from notice')
-    print("오브젝트냐 리스트냐 : ",nlist) # 리스트여야 한다
-    notice_list = list(nlist)
-    print("최종 자료형은? : ",type(notice_list))
-    # 블로그 모든 글을 대상으로
-    # 블로그 모든 객체를 세개 단위를 한 페이지로 자르기
-    paginator = Paginator(notice_list, 3)
-    # request 된 페이지가 뭔지를 알아내고 (request 페이지를 변수에 담아내고)
-    page = request.GET.get('page')
-    # request 된 페이지를 얻어온 뒤 return 해준다.
-    posts = paginator.get_page(page) # 에러 : object of type 'cx_Oracle.Cursor' has no len()
-    # posts 에는 요청된 페이지가 담겨있으니까, 얘를 return 해주자.
-    return render(request, 'finalProject/test.html', {'nlist':nlist, 'posts': posts})
-
+# def home(request):
+#     global conn;  # 전역변수 사용 위해
+#     print(conn.version)
+#     cursor = conn.cursor()
+#     nlist = cursor.execute('select*from notice')
+#     print("오브젝트냐 리스트냐 : ",nlist) # 리스트여야 한다
+#     notice_list = list(nlist)
+#     print("최종 자료형은? : ",type(notice_list))
+#     # 블로그 모든 글을 대상으로
+#     # 블로그 모든 객체를 세개 단위를 한 페이지로 자르기
+#     paginator = Paginator(notice_list, 3)
+#     # request 된 페이지가 뭔지를 알아내고 (request 페이지를 변수에 담아내고)
+#     page = request.GET.get('page')
+#     # request 된 페이지를 얻어온 뒤 return 해준다.
+#     posts = paginator.get_page(page) # 에러 : object of type 'cx_Oracle.Cursor' has no len()
+#     # posts 에는 요청된 페이지가 담겨있으니까, 얘를 return 해주자.
+#     return render(request, 'finalProject/test.html', {'nlist':nlist, 'posts': posts})
 # -------------------------------------------------------------------------------------------로그인 안하면 접근 못하도록
 # https://jupiny.com/2017/11/25/step-by-step-page-using-django-session/
 from django.views import View

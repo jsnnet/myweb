@@ -2,7 +2,76 @@
 {% block content %}
 <!--위의 두 코드는 헤더를 붙이기 위한-->
 <!--아직 자리만 마련 된 리뷰 페이지-->
-<body>
-<h1>REVIEW</h1>
-</body>
+<div class="container">
+    <br>
+    <div align="left">
+        <h1 >REVIEW</h1>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#round1">제주도</a>
+                </li>
+                <!--                탭을 추가할 필요가 있을 때 아래의 주석 해제-->
+                <!--                <li class="nav-item">-->
+                <!--                    <a class="nav-link" data-toggle="tab" href="#round2">탭 추가 옵션</a>-->
+                <!--                </li>-->
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="round1">
+                    <form action="" method="post" style="width:auto ; float:center">
+                        {% csrf_token %}
+                        <table class="review">
+                            <thead>
+                            <tr>
+                                <td style="width:7.35%">번호</td>
+                                <td>리뷰타이틀</td>
+                                <td>리뷰내용</td>
+                                <td style="width:7.1%">조회수</td>
+                                <td style="width:15%">등록 날짜</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for (renum, retitle, recontent, rehit, redate) in rlist %}
+                            <tr>
+                                <!--                            <td>{{renum}}</td>-->
+                                <td class="counter"></td>
+                                <td>{{retitle}}</td>
+                                <td>{{recontent}}</td>
+                                <td>{{rehit}}</td>
+                                <td>{{redate}}</td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+<!--                        <div style="float:right">-->
+<!--                            <input type="radio" id="select1" value="parking" name="chk_pplace"><label for="select1">주차장</label>-->
+<!--                            <input type="radio" id="select2" value="park" name="chk_pplace"><label for="select2">공원</label>-->
+<!--                            <input type="radio" id="select3" value="transportation" name="chk_pplace"><label for="select3">역앞</label>-->
+<!--                            <input type="submit" value="정렬" onclick="location.href='rideSearch'">-->
+<!--                        </div>-->
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--        radio 클릭으로 부대시설에 따라 추력되는 체험장 리스트 정렬 -->
+        <script language="javascript">
+        $(":checkbox[name='chk_pplace']:checked").length
+        var checked_seq = "";
+        $(":checkbox[name='chk_pplace']:checked").each(function(i,e){
+        if(checked_seq == ""){
+        checked_seq = e.value;
+        }else{
+        checked_seq += "^"+e.value;
+        }
+        });
+        </script>
+    </div>
+    <!--        탭이 추가 되면 그 안에 들어갈 내용을 아래의 div 에 넣어주기로-->
+    <!--            <div class="tab-pane fade" id="round2">-->
+    <!--                <p>Nunc vitae turpis id nibh sodales commodo et non augue. Proin fringilla ex nunc. Integer tincidunt risus ut facilisis tristique.</p>-->
+    <!--            </div>-->
+</div>
 {% endblock %}

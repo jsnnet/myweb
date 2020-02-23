@@ -3,7 +3,7 @@ from . import views
 
 urlpatterns = [
     # finalProject/ 뒤에 아무것도 안 붙여도 홈 화면으로 출력되도록 변경ㄴ
-    path('', views.home1),
+    path('', views.home),
     # 로그인 첫화면
     path('join', views.join),
     # sqlite & oracle DB 동시 회원가입
@@ -14,12 +14,11 @@ urlpatterns = [
     path('login_session', views.login_session),
 
     path('logout',views.logout),
-    path('qna1',views.qna1),
+    path('qna',views.qna),
     path('myquestion',views.myquestion),
     path('notice1',views.notice1),
     path('ride1',views.ride1),
     path('race1',views.race1),
-    path('header3',views.header3),
     path('footer',views.footer),
     path('rideintro1', views.rideintro1),
     path('rideintro2', views.rideintro2),

@@ -41,6 +41,7 @@ button {
     margin-right: .5em;
 }
 </style>
+
 <div class="container">
     <br>
     <div align="left">
@@ -66,7 +67,7 @@ button {
                         {% csrf_token %}
                         <div>
                             <label for="mid">ID</label>
-                            <input type="text" id="mid" name="mid" />
+                            <input type="text" id="mid" name="mid" value=""/>
                         </div>
                         <div>
                             <label for="qtitle">제목</label>
@@ -95,5 +96,10 @@ button {
             </div>
         </div>
     </div>
+    <div>
+<!--        세션값 확인 용-->
+        <p>세션값 이름은 1? : {{request.session.mid}}</p>
+  </div>
 </div>
+
 {% endblock %}
