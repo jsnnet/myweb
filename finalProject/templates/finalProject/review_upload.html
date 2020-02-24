@@ -1,7 +1,6 @@
-{% extends 'finalProject/header4.html'%}
+{% extends 'finalProject/header4.html' %}
 {% block content %}
-<!--위의 두 코드는 헤더를 붙이기 위한-->
-<!--아래의 style 은 form 가져오면서 그대로-->
+
 <style>
 form {
     margin: 0 auto;
@@ -45,7 +44,7 @@ button {
 <div class="container">
     <br>
     <div align="left">
-        <h1 style="">Q&A</h1>
+        <h1 style="">REVIEW 작성</h1>
     </div>
     <br>
     <div class="row">
@@ -53,7 +52,7 @@ button {
             <!--            <h1>경마 소개</h1>-->
             <ul class="nav nav-tabs">
                 <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" href="#round1">문의사항 등록</a>
+                    <a class="nav-link active" data-toggle="tab" href="#round1">{{request.session.mid}} 님의 리뷰</a>
                 </li>
                 <!--                같은 페이지에서 탭 전환; 아래 탭 추가 필요-->
                 <!--                <li class="nav-item">-->
@@ -63,24 +62,19 @@ button {
             <div class="tab-content">
                 <div class="tab-pane fade show active" id="round1">
                     <br>
-                    <form action="qna_up" method="post">
+                    <form action="write_review2" method="post">
                         {% csrf_token %}
                         <div>
-                            <label for="mid">ID</label>
-                            <input type="text" readonly="true" style="text-align:center" id="mid" name="mid" value="{{request.session.mid}}"/>
+                            <label for="retitle">제목</label>
+                            <input type="text" id="retitle" name="retitle" />
                         </div>
                         <div>
-                            <label for="qtitle">제목</label>
-                            <input type="text" id="qtitle" name="qtitle" />
+                            <label for="recontent">내용</label>
+                            <textarea id="recontent" name="recontent"></textarea>
                         </div>
-                        <div>
-                            <label for="qcontent">내용</label>
-                            <textarea id="qcontent" name="qcontent"></textarea>
-                        </div>
-
                         <div class="button">
-                            <button type="submit">문의 등록</button>
-                            <button type="button" onclick="location.href='myquestion'">나의 문의</button>
+                            <button type="submit">리뷰 등록</button>
+                            <button type="button" onclick="location.href='review'">돌아가기</button>
                         </div>
                     </form>
                 </div>

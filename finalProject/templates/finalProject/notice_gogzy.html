@@ -21,9 +21,10 @@
                 <table class="notice" style="width: 99% ;">
                     <thead>
                     <tr>
-                        <th scope="cols" width="7%">번호</th>
+                        <th scope="cols" width="9%">번호</th>
                         <th scope="cols">제목</th>
                         <!--        <th scope="cols">조회수</th>-->
+                        <th scope="cols" width="15%">게시자</th>
                         <th scope="cols" width="20%">등록날짜</th>
                     </tr>
                     </thead>
@@ -34,19 +35,15 @@
                         <!--                            위의 style 에서 DB의 글번호와는 달리 따로 게시글 번호를 부여 받을 수 있도록 하였다-->
                         <td class="counter"></td>
                         <td><a href="#">{{ntitle}}</a></td>
+                        <td>관리자</td>
                         <!--            <td>{{nhit}}</td>-->
                         <td>{{ndate}}</td>
                     </tr>
                     {% endfor %}
                     </tbody>
                     </tr>
-
                 </table>
             </div>
-            <!--                위의 탭을 추가했을 때 탭 안에 추가할 내용이 들어가야 하는 부분 (p태그 안에)-->
-            <!--                <div class="tab-pane fade" id="round2">-->
-            <!--                    <p>Nunc vitae turpis id nibh sodales commodo et non augue. Proin fringilla ex nunc. Integer tincidunt risus ut facilisis tristique.</p>-->
-            <!--                </div>-->
         </div>
     </div>
 </div>

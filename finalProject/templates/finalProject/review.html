@@ -6,6 +6,7 @@
     <br>
     <div align="left">
         <h1 >REVIEW</h1>
+
     </div>
     <br>
     <div class="row">
@@ -21,7 +22,7 @@
             </ul>
             <div class="tab-content">
                 <div class="tab-pane fade show active" id="round1">
-                    <form action="" method="post" style="width:auto ; float:center">
+                    <form method="post" style="width:auto ; float:center">
                         {% csrf_token %}
                         <table class="review">
                             <thead>
@@ -45,6 +46,7 @@
                             </tr>
                             {% endfor %}
                             </tbody>
+
                         </table>
 <!--                        <div style="float:right">-->
 <!--                            <input type="radio" id="select1" value="parking" name="chk_pplace"><label for="select1">주차장</label>-->
@@ -53,6 +55,9 @@
 <!--                            <input type="submit" value="정렬" onclick="location.href='rideSearch'">-->
 <!--                        </div>-->
                     </form>
+                    <br>
+                    <button style="float:right" onclick="location.href='up_review'">리뷰 등록</button>
+
                 </div>
             </div>
         </div>

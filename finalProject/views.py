@@ -27,9 +27,9 @@ from django.core.paginator import Paginator
 # https://kgu0724.tistory.com/95
 
 # DB 사용에 따른 conn 연결 (전역변수 사용하려면 변수 앞에 global 써주고 함수마다 변수 선언해야만 한다)
-conn = oci.connect('doosun/doosun@localhost:1521/xe')
-# conn = oci.connect('doosun/doosun@192.168.0.7:1521/xe')
-# conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
+#conn = oci.connect('doosun/doosun@localhost:1521/xe')
+#conn = oci.connect('doosun/doosun@192.168.0.7:1521/xe')
+conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
 
 def home(request):
     return render(request, "finalProject/home_main.html")
@@ -116,35 +116,51 @@ def logout(request):
 
 # 문의사항 입력
 def qna(request):
+    mid = request.session.get("mid")
+    if (mid != None):
+        return render(request, "finalProject/moon_insert.html")
+    else:
+        return render(request, "finalProject/login_required.html")
+
+def qna_up(request):
     global conn; #전역변수 사용 위해
     print(conn.version)
     cursor = conn.cursor()
-    cursor.execute('select*from member')
-    print(cursor.fetchone())
-    mid = request.POST.get("mid")
+    mid = request.session.get("mid")
     print("mid : ", mid)
     qtitle = request.POST.get("qtitle")
     print("qtitle : ", qtitle)
     qcontent = request.POST.get("qcontent")
     print("qcontent : ", qcontent)
-    if (mid != None):
-        sql_insert = 'insert into question VALUES(question_seq.nextVal, :mid, :qtitle, :qcontent, :qhit, sysdate)'
-        cursor.execute(sql_insert, mid=mid, qtitle=qtitle, qcontent=qcontent, qhit = 0)
-        conn.commit()
-        cursor.execute('select*from question')
-        print(cursor.fetchall())
-        cursor.close()
-        conn.close
-        return render(request, "finalProject/moon_insert.html")
+    # 빈칸으로 남겨두고 버튼을 눌렀을 때 알림 페이지로 이동
+    if (qtitle == ''):
+        return render(request, 'finalProject/none_value.html')
+    elif (qcontent == '' ):
+        return render(request, 'finalProject/none_value.html')
     else:
-        return render(request, "finalProject/moon_insert.html")
+        if (mid != None):
+            qtitle = request.POST.get("qtitle")
+            print("qtitle : ", qtitle)
+            qcontent = request.POST.get("qcontent")
+            print("qcontent : ", qcontent)
+            sql_insert = 'insert into question VALUES(question_seq.nextVal, :mid, :qtitle, :qcontent, :qhit, sysdate)'
+            cursor.execute(sql_insert, mid=mid, qtitle=qtitle, qcontent=qcontent, qhit = 0)
+            conn.commit()
+            cursor.execute('select*from question')
+            print(cursor.fetchall())
+            cursor.close()
+            conn.close
+            return render(request, "finalProject/moon_insert.html")
+        else:
+            return render(request, "finalProject/login_required.html")
 
 # 문의사항 출력 (추후에 내 문의로 수정할 것)
 def myquestion(request):
     global conn;  # 전역변수 사용 위해
     request.session.get('mid')
-    member_id = request.POST.get('mid')
-    print(member_id)
+    print("세션 값 : ",request.session.get('mid'))
+    member_id = request.session.get('mid')
+    print("세션 값 새로 저장 :",member_id)
     cursor = conn.cursor()
     myQ_sql = 'select * from question where mid =:mid'
     cursor.execute(myQ_sql, mid=member_id)
@@ -153,13 +169,63 @@ def myquestion(request):
     for (qnum, mid, qtitle, qcontent, qhit, qdate) in myqlist:
         # print("qlist : ",qlist)
         print("글번호: ", qnum)
+        print("qnum 타입 확인 : ",type(qnum))
+        print("회원ID : ",mid)
+        print("제목 : ",qtitle)
+        print("조회수 : ",qhit)
+        print("qhit 타입 확인 : ", type(qhit))
+        print("작성날짜 : ",qdate)
+        print("qdate 타입 확인 : ", type(qdate))
+    return render(request, "finalProject/myQlist.html",{"myqlist":myqlist})
+
+@csrf_exempt
+def myq_view(request):
+    # 내 문의 보기/수정/삭제 그리고 추가 폼으로 comm 테이블의 리스트 (문의 번호랑 회원 아이디가 FK)
+    global conn;
+    request.POST.get("qtitle")
+    request.POST.get("qcontent")
+    print(request.POST.get("qtitle"))
+    print(request.POST.get("qcontent"))
+    # str(request.POST.get("qnum"))
+    # print("int에서 문자 : ",str(request.POST.get("qnum")))
+    print("타입확인 : ", type(request.POST.get("qnum")))
+    # print("qnum 확인 : ", str(request.POST.get("qnum")))
+    request.session.get('mid')
+    print("세션_my_qview : ", request.session.get('mid'))
+    member_id = request.session.get('mid')
+    print("새로 저장_my_qview :", member_id)
+    cursor = conn.cursor()
+    # 문의글 번호가 PK 회원아이디가 FK
+    # 회원아이디는 세션으로, qnum 은 template 버튼 클릭해서 가져오기
+    myq_detail = 'select * from question where mid = :mid'
+    # qnum = qnum,
+    # qnum = qnum,
+    cursor.execute(myq_detail, mid=member_id)
+    detail_view = cursor.fetchall()
+    print("패치원 : ", detail_view)
+    print("패치원 타입 : ", type(detail_view))
+    # qnum, mid, qtitle, qcontent, qhit, qdate = detail_view
+    for (qnum, mid, qtitle, qcontent, qhit, qdate) in detail_view:
+        print("detail_view : ",detail_view)
+        print("글번호: ", qnum)
         print("회원ID : ",mid)
         print("제목 : ",qtitle)
         print("조회수 : ",qhit)
         print("작성날짜 : ",qdate)
-    return render(request, "finalProject/myQlist.html",{"myqlist":myqlist})
+    return render(request, "finalProject/myQ_detail.html", {"detail_view":detail_view})
+
+def myq_delete(request):
+    # 내 문의글 상세보기에서 삭제 버튼 클릭시 여기로
+    global conn;
+    request.POST.get("qtitle")
+    print("제목 : ",request.POST.get("qtitle"))
+    request.session.get("mid")
+    print("아이디 : ",request.session.get("mid"))
+    del_myq = 'delete from question where mid = :mid and qtitle = :qtitle'
+    return render(request, "finalProject/myQ_delete.html")
 
 # 공지사항 불러오기
+# sysdate 로 생성된 qdate 값이 return 으로 넘어가지 않음
 def notice1(request):
     global conn;  # 전역변수 사용 위해
     print(conn.version)
@@ -183,6 +249,45 @@ def notice1(request):
     #     print("조회수 : ", nhit)
     #     print("작성날짜 : ", ndate)
     return render(request, "finalProject/notice_gogzy.html", {"nlist": nlist})
+
+def up_review(request):
+    global conn;
+    cursor = conn.cursor()
+    mid = request.session.get("mid")
+    if (mid != None):
+        cursor.close()
+        conn.close
+        return render(request, 'finalProject/review_upload.html')
+    else:
+        return render(request, 'finalProject/login_required.html')
+
+def write_review2(request):
+    global conn; #전역변수 사용 위해
+    mid = request.session.get("mid")
+    print(conn.version)
+    cursor = conn.cursor()
+    retitle = request.POST.get("retitle")
+    print("retitle : ", retitle)
+    recontent = request.POST.get("recontent")
+    print("qcontent : ", recontent)
+    print("mid 있는지 : ",mid)
+    # 빈칸으로 남겨두고 버튼을 눌렀을 때 알림 페이지로 이동
+    if (retitle == ''):
+        return render(request, 'finalProject/none_value.html')
+    elif (recontent == ''):
+        return render(request, 'finalProject/none_value.html')
+    else:
+        if (mid != None):
+            sql_insert = 'insert into review VALUES(review_seq.nextVal, :retitle, :recontent, :rehit, sysdate)'
+            cursor.execute(sql_insert, retitle=retitle, recontent=recontent, rehit = 0)
+            conn.commit()
+            cursor.execute('select*from review')
+            print(cursor.fetchall())
+            cursor.close()
+            conn.close
+            return render(request, "finalProject/review_upload.html")
+        else:
+            return render(request, 'finalProject/login_required.html')
 
 # 승마장 추천
 def riderecom1(request):
@@ -338,44 +443,6 @@ def index(request):
 #     posts = paginator.get_page(page) # 에러 : object of type 'cx_Oracle.Cursor' has no len()
 #     # posts 에는 요청된 페이지가 담겨있으니까, 얘를 return 해주자.
 #     return render(request, 'finalProject/test.html', {'nlist':nlist, 'posts': posts})
-# -------------------------------------------------------------------------------------------로그인 안하면 접근 못하도록
-# https://jupiny.com/2017/11/25/step-by-step-page-using-django-session/
-from django.views import View
-from django.shortcuts import redirect, render
-# from django.core.urlresolver import reverse
-from django.core.exceptions import PermissionDenied
-
-class Step1View(View):
-
-    def get(self, request, *args, **kwargs):
-        request.session['step1_complete'] = False
-        request.session['step2_complete'] = False
-        return render(request, 'step1.html')
-
-    def post(self, request, *args, **kwargs):
-        request.session['step1_complete'] = True
-        return redirect(reverse('step2'))
 
 
-class Step2View(View):
-
-    def get(self, request, *args, **kwargs):
-        if not request.session.get('step1_complete', False):
-            raise PermissionDenied
-        request.session['step1_complete'] = False
-        return render(request, 'step2.html')
-
-    def post(self, request, *args, **kwargs):
-        request.session['step2_complete'] = True
-        return redirect(reverse('step3'))
-
-
-class Step3View(View):
-
-    def get(self, request, *args, **kwargs):
-        if not request.session.get('step2_complete', False):
-            raise PermissionDenied
-        request.session['step2_complete'] = False
-        return render(request, 'step3.html')
-
-# -------------------------------------------------------------------------------------------로그인 안하면 접근 못하도록
+        # return render(request, "finalProject/join_gaip.html")

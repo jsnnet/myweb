@@ -1,0 +1,71 @@
+{% extends 'finalProject/header4.html'%}
+{% block content %}
+<style>
+form {
+    margin: 0 auto;
+    width: 500px;
+    padding: 1em;
+    border: 1px solid #CCC;
+    border-radius: 1em;
+}
+form div + div {
+    margin-top: 1em;
+}
+label {
+    display: inline-block;
+    width: 90px;
+    text-align: left;
+}
+input, textarea {
+    font: 1em sans-serif;
+    width: 50%;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 1px solid #999;
+}
+input:focus, textarea:focus {
+    border-color: #000;
+}
+textarea {
+    vertical-align: top;
+    height: 5em;
+    resize: vertical;
+}
+.button {
+    padding-center: 90px;
+}
+</style>
+<!--myq_delete-->
+<h1>문의 글 보기</h1>
+<form action="myq_delete" method="post">
+    {{detail_view}}
+    {{detail_view.qtitle}}
+    <table class="myQDetail">
+
+        <!--        <div>-->
+        <!--            <label for="mid">글번호</label>-->
+        <!--            <input type="text" id="qnum" name="qnum" value="{{qnum}}"/>-->
+        <!--        </div>-->
+        <!--        <div>-->
+        <!--            <label for="mid">회원 아이디</label>-->
+        <!--            <input type="text" id="mid" name="mid" value="{{request.session.mid}}"/>-->
+        <!--        </div>-->
+        <div>
+            <label for="qtitle">제목</label>
+            <input type="text" id="qtitle" name="qtitle" value="{{qtitle}}" style="text-align:center"/>
+        </div>
+        <div>
+            <label for="qcontent">내용</label>
+            <!--            <textarea name="qcontent" id="qcontent" class="form-control" rows="5" value="{{qcontent}}"></textarea>-->
+            <textarea  id="qcontent" name="qcontent" style="height:300px" placeholder="{{qcontent}}" value="{{qcontent}}"></textarea>
+        </div>
+        <div class="button">
+            <button type="submit">삭제</button>
+            <!--            <button type="button" onclick="location.href=''">삭제</button>-->
+        </div>
+<!--        <script>-->
+<!--            val3 = $("textarea#qcontent").val();-->
+<!--        </script>-->
+    </table>
+</form>
+{% endblock %}

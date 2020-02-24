@@ -1,33 +1,59 @@
 {% extends 'finalProject/header4.html'%}
 {% block content %}
 <!--위의 두 줄은 헤더를 붙이기 위한 코드-->
-<body>
-<form>
-    {% csrf_token %}
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <!--            <td><B>글 번호</B></td>-->
-            <td><B>작성 아이디</B></td>
-            <td><B>글 제목</B></td>
-            <td><B>조회수</B></td>
-            <!--            <td><B>작성날짜</B></td>-->
-        </tr>
-        </thead>
-        <tbody>
-        {% for (qnum, mid, qtitle, qcontent, qhit, qdate) in qlist %}
-        <tr>
-            <!--            <td>{{qnum}}</td>-->
-            <td>{{mid}}</td>
-            <td><a href="#">{{qtitle}}</a></td>
-            <td>{{qhit}}</td>
-            <!--            <td>{{qdate}}</td>-->
-        </tr>
-        {% endfor %}
-        <tbody>
-    </table>
-    {{qlist}}
-</form>
-<!--세션값 확인용-->
-<p>세션값 이름은 1? : {{request.session.mid}}</p>
+<style>
+button {
+    margin-right: .5em;
+}
+    td.hover:hover{
+        background:#D3D3D3
+    }
+</style>
+
+<div class="container">
+    <br>
+    <div align="left">
+        <h1 style="">{{request.session.mid}}님의 문의 목록</h1>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col">
+            <!--            <h1>경마 소개</h1>-->
+
+            <form class="myQlist" action="myq_view", method="post">
+                <table class="notice" style="width: 99% ;">
+                    <thead>
+                    <tr>
+                        <th scope="cols" width="7%">번호</th>
+                        <th scope="cols">제목</th>
+                        <!--        <th scope="cols">조회수</th>-->
+                        <th scope="cols" width="20%">등록날짜</th>
+                    </tr>
+                    </thead>
+                    <!--        참고 링크 : https://djangobook.com/mdj2-django-templates/-->
+                    <tbody>
+                    {% for (qnum, mid, qtitle, qcontent, qhit, qdate) in myqlist %}
+                    <tr>
+                        <td>{{qnum}}</td>
+<!--                        <td class="counter"></td>-->
+                        <td>{{qtitle}}</td>
+                        <input type="hidden" value="{{qtitle}}">
+                        <td hidden="hidden">{{qcontent}}</td>
+                        <!--                                <td>{{qhit}}</td>-->
+                        <td>{{qdate}}</td>
+<!--                        <td><button type="submit">상세보기</button></td>-->
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+<div>
+    <!--        세션값 확인 용-->
+    <!--    <p>세션값 : {{request.session.mid}}</p>-->
+</div>
+</div>
 {% endblock %}
