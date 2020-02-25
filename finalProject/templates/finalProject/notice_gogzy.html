@@ -11,10 +11,6 @@
             <li class="nav-item">
                 <a class="nav-link active" data-toggle="tab" href="#round1">공지사항</a>
             </li>
-            <!--                같은 페이지에서 탭 전환; 아래 탭 추가 필요-->
-            <!--                <li class="nav-item">-->
-            <!--                    <a class="nav-link" data-toggle="tab" href="#round2">탭 추가</a>-->
-            <!--                </li>-->
         </ul>
         <div class="tab-content">
             <div class="tab-pane fade show active" id="round1">
@@ -30,14 +26,13 @@
                     </thead>
                     <!--        참고 링크 : https://djangobook.com/mdj2-django-templates/-->
                     <tbody>
-                    {% for (nnum, ntitle, ncontent, nhit, ndate) in nlist %}
+                    {% for e in nlist %}
                     <tr>
                         <!--                            위의 style 에서 DB의 글번호와는 달리 따로 게시글 번호를 부여 받을 수 있도록 하였다-->
                         <td class="counter"></td>
-                        <td><a href="#">{{ntitle}}</a></td>
+                        <td><a href="notice_detail?nnum={{e.0}}">{{e.1}}</a></td>
                         <td>관리자</td>
-                        <!--            <td>{{nhit}}</td>-->
-                        <td>{{ndate}}</td>
+                        <td>{{e.4|date:"Y-m-d"}}</td>
                     </tr>
                     {% endfor %}
                     </tbody>
@@ -46,6 +41,5 @@
             </div>
         </div>
     </div>
-</div>
 </div>
 {% endblock %}

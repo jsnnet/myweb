@@ -1,0 +1,96 @@
+{% extends 'finalProject/header4.html'%}
+{% block content %}
+
+
+<!--<div class="container">-->
+<!--    <br>-->
+<!--    <div align="left">-->
+<!--        <h1 style="">NOTICE BOARD</h1>-->
+<!--    </div>-->
+<!--    <br>-->
+<!--    <div class="row">-->
+<!--        <ul class="nav nav-tabs">-->
+<!--            <li class="nav-item">-->
+<!--                <a class="nav-link active" data-toggle="tab" href="#round1">공지 보기</a>-->
+<!--            </li>-->
+<!--        </ul>-->
+<!--        <div class="tab-content">-->
+<!--            <div class="tab-pane fade show active" id="round1">-->
+<!--                <table class="notice" style="width: 99% ;">-->
+<!--                    <thead>-->
+<!--                    <tr>-->
+<!--                        <td>-->
+<!--                            a-->
+<!--                        </td>-->
+<!--                        <td>-->
+<!--                            a-->
+<!--                        </td>-->
+<!--                        <td>-->
+<!--                            a-->
+<!--                        </td>-->
+<!--                        <td>-->
+<!--                            a-->
+<!--                        </td>-->
+<!--                        <td>-->
+<!--                            a-->
+<!--                        </td>-->
+<!--                    </tr>-->
+
+<!--                    </thead>-->
+<!--                    <tr>-->
+<!--                    {% for e in noti_detail %}-->
+<!--                        <td>{{e.0}}</td>-->
+<!--                        <td>{{e.1}}</td>-->
+<!--                        <td>{{e.2}}</td>-->
+<!--                        <td>{{e.3}}</td>-->
+<!--                        <td>{{e.4}}</td>-->
+<!--                    {% endfor %}-->
+<!--                    </tr>-->
+<!--                </table>-->
+<div class="row">
+    <div class="col-xs-2 col-md-2"></div>
+    <div class="col-xs-8 col-md-8">
+        <h1 class="text-left">Notice Board</h1>
+        <br>
+        <h5 style="text-align:left; color:gray">공지글 자세히 보기</h5>
+        <br>
+        <div class="table table-responsive">
+
+            <table class="table">
+                {% for e in noti_detail %}
+                <tr>
+                    <th class="success">글번호</th>
+                    <td>{{e.0}}</td>
+
+                    <th class="success">작성일</th>
+                    <td>{{e.4}}</td>
+                </tr>
+                <tr>
+                    <th class="success">제목</th>
+                    <td>{{e.1}}</td>
+                    <th class="success">작성자</th>
+                    <td>관리자</td>
+                </tr>
+                <tr>
+                    <th class="success">글 내용</th>
+                    <td colspan="3"></td>
+                </tr>
+                <tr style="height:300px">
+                    <th></th>
+                    <td colspan="3">{{e.2}}</td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td></td>
+                </tr>
+                {% endfor %}
+            </table>
+
+            <!--                        </div>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--            </div>-->
+            <!--        </div>-->
+            <!--    </div>-->
+            <!--</div>-->
+            {% endblock %}

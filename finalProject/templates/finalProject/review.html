@@ -35,14 +35,14 @@
                             </tr>
                             </thead>
                             <tbody>
-                            {% for (renum, retitle, recontent, rehit, redate) in rlist %}
+                            {% for e in rlist %}
                             <tr>
                                 <!--                            <td>{{renum}}</td>-->
                                 <td class="counter"></td>
-                                <td>{{retitle}}</td>
-                                <td>{{recontent}}</td>
-                                <td>{{rehit}}</td>
-                                <td>{{redate}}</td>
+                                <td>{{e.1}}</td>
+                                <td>{{e.2}}</td>
+                                <td>{{e.3}}</td>
+                                <td>{{e.4|date:"Y-m-d"}}</td>
                             </tr>
                             {% endfor %}
                             </tbody>

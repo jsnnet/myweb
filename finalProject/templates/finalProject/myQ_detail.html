@@ -37,11 +37,9 @@ textarea {
 </style>
 <!--myq_delete-->
 <h1>문의 글 보기</h1>
-<form action="myq_delete" method="post">
-    {{detail_view}}
-    {{detail_view.qtitle}}
+<form method="post">
+    {% for e in detail_view %}
     <table class="myQDetail">
-
         <!--        <div>-->
         <!--            <label for="mid">글번호</label>-->
         <!--            <input type="text" id="qnum" name="qnum" value="{{qnum}}"/>-->
@@ -51,21 +49,35 @@ textarea {
         <!--            <input type="text" id="mid" name="mid" value="{{request.session.mid}}"/>-->
         <!--        </div>-->
         <div>
-            <label for="qtitle">제목</label>
-            <input type="text" id="qtitle" name="qtitle" value="{{qtitle}}" style="text-align:center"/>
+            <label style="float:left">제목 :</label>
+            <!--            <input type="text" value="{{e.2}}" style="text-align:center"/>-->
+            <label style="float:left">{{e.2}}</label>
         </div>
+        <br>
+        <br>
+
         <div>
-            <label for="qcontent">내용</label>
-            <!--            <textarea name="qcontent" id="qcontent" class="form-control" rows="5" value="{{qcontent}}"></textarea>-->
-            <textarea  id="qcontent" name="qcontent" style="height:300px" placeholder="{{qcontent}}" value="{{qcontent}}"></textarea>
+            <label style="float:left">내용 :</label>
+            <textarea style="width:400px ; height:300px ; float:center" placeholder="{{e.3}}" value="{{e.3}}"></textarea>
         </div>
+
         <div class="button">
-            <button type="submit">삭제</button>
-            <!--            <button type="button" onclick="location.href=''">삭제</button>-->
+            <button type="button" id="delMyQ">삭제</button>
+            <button type="button" onclick="location.href='myquestion'">내 문의</button>
         </div>
-<!--        <script>-->
-<!--            val3 = $("textarea#qcontent").val();-->
-<!--        </script>-->
     </table>
+    {% endfor %}
 </form>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    $(function(){
+    // 삭제 처리
+        $('#delMyQ').click(function(){
+            if(confirm('삭제하시겠습니까?')){
+                document.delMyQ.action="myq_delete";
+                document.delMyQ.submit();
+            }
+        });
+    });
+</script>
 {% endblock %}
