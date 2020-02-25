@@ -5,14 +5,14 @@
     <div class="row">
         <div class="col-xs-2 col-md-2"></div>
         <div class="col-xs-8 col-md-8">
-            <h1 class="text-left">Notice Board</h1>
+            <h1 class="text-left">REVIEW</h1>
             <br>
-            <h5 style="text-align:left; color:gray">공지글 자세히 보기</h5>
+            <h5 style="text-align:left; color:gray">리뷰 자세히 보기</h5>
             <br>
             <div class="table table-responsive">
 
                 <table class="table">
-                    {% for e in noti_detail %}
+                    {% for e in detail_review %}
                     <tr>
                         <th class="success">글번호</th>
                         <td>{{e.0}}</td>
@@ -23,8 +23,8 @@
                     <tr>
                         <th class="success">제목</th>
                         <td>{{e.1}}</td>
-                        <th class="success">작성자</th>
-                        <td>관리자</td>
+                        <th class="success">조회수</th>
+                        <td>{{e.3}}</td>
                     </tr>
                     <tr>
                         <th class="success">글 내용</th>

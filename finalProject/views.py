@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 import cx_Oracle as oci
@@ -21,6 +21,11 @@ from django.db import models
 #--------------페이징 처리------------------------
 from django.core.paginator import Paginator
 #--------------페이징 처리------------------------
+
+########## 캐시 처리 ###########################################
+from django.core.cache import caches
+from django.core.cache import cache
+########## 캐시 처리 ###########################################
 
 # 단축키 참고
 # https://kgu0724.tistory.com/95
@@ -91,6 +96,14 @@ def login_session(request):
     mid = request.POST["mid"]
     print("넘어온 아이디 : ", mid)
     # login_chk = 'select * from member where :mid'
+    ###########################################################
+    # 연결 에러시 예외처리?
+    # except DatabaseError as e:
+    #     conn = "예외 발생"
+    #     print(e)
+    #     return
+    # return conn
+    ###########################################################
     # cursor.execute(login_chk, mid=mid)
     # chk_member = cursor.fecthall()
     # if chk_member != None:
@@ -304,6 +317,63 @@ def write_review2(request):
         else:
             return render(request, 'finalProject/login_required.html')
 
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
+
+def review_detail(request):
+    global conn;
+    cursor = conn.cursor()
+
+    # 리뷰 중에서 클릭한 글만 보곡 싶을때
+    # 해당 리뷰 번호를 가져온다
+    renum = request.GET["renum"]
+    print("renum : ", renum)
+
+    # cache ; 리뷰 글 번호를 cache로 등록
+    cache.set('renum', renum, None)
+    renum_compare = cache.get('renum')
+    print("방문 페이지 : ", renum_compare)
+
+    # 조회수 증가를 위해 rehit 가져오기
+    # rehit 를 가져오기 위해 .get 을 붙여준다
+    hit_up
+    # rehit = request.GET.get("rehit")
+    print("현재 조회수 :", hit_up)
+
+    # 로그인 아이디 세션 가져오기
+    # member_id = request.session.get('mid')
+
+    # update sawon set sahire = to_date('2019/09/10) where sabun=83;
+
+
+
+
+
+    hitup_sql = 'update review set rehit = :rehit where renum = :renum'
+    cip = get_client_ip(request)
+    print("ip 확인 : ", cip)
+
+    re_detail = 'select * from review where renum = :renum'
+    cursor.execute(re_detail, renum=renum)
+    detail_review = cursor.fetchall()
+    # cursor.close()
+    # conn.commit()
+    # conn.close()
+
+    return render(request, 'finalProject/review_detail.html',{"detail_review":detail_review})
+
+def hit_up(request):
+    rehit = request.GET.get("rehit") + 1
+    return hit_up
+
+
+
 # 승마장 추천
 def riderecom1(request):
     global conn;  # 전역변수 사용 위해
@@ -420,3 +490,4 @@ def todayzoo1(request):
 
 def countdown(request):
     return render(request, "finalProject/countdown.html")
+

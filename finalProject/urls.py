@@ -58,4 +58,5 @@ urlpatterns = [
     path('review', views.review),
     path('up_review', views.up_review),
     path('write_review2', views.write_review2),
+    path('review_detail', views.review_detail),
 ]

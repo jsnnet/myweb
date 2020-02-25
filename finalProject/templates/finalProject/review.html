@@ -29,7 +29,7 @@
                             <tr>
                                 <td style="width:7.35%">번호</td>
                                 <td>리뷰타이틀</td>
-                                <td>리뷰내용</td>
+<!--                                <td>리뷰내용</td>-->
                                 <td style="width:7.1%">조회수</td>
                                 <td style="width:15%">등록 날짜</td>
                             </tr>
@@ -39,8 +39,8 @@
                             <tr>
                                 <!--                            <td>{{renum}}</td>-->
                                 <td class="counter"></td>
-                                <td>{{e.1}}</td>
-                                <td>{{e.2}}</td>
+                                <td><a href="review_detail?renum={{e.0}}&?rehit={{e.3}}">{{e.1}}</a></td>
+<!--                                <td>{{e.2}}</td>-->
                                 <td>{{e.3}}</td>
                                 <td>{{e.4|date:"Y-m-d"}}</td>
                             </tr>
