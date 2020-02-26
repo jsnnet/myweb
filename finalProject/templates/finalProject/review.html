@@ -2,6 +2,47 @@
 {% block content %}
 <!--위의 두 코드는 헤더를 붙이기 위한-->
 <!--아직 자리만 마련 된 리뷰 페이지-->
+<style>
+      table.review {
+      border-collapse: collapse;
+      text-align: center;
+      line-height: 1.5;
+      border-left: 1px solid #ccc;
+      }
+      table.review thead td {
+      padding: 10px;
+      font-weight: bold;
+      vertical-align: top;
+      color: #369;
+      border-bottom: 3px solid #036;
+      }
+      table.review tbody th {
+      width: 150px;
+      padding: 10px;
+      font-weight: bold;
+      vertical-align: top;
+      border-bottom: 1px solid #ccc;
+      background: #ececec;
+      }
+      table.review td {
+          width: 350px;
+      padding: 10px;
+      vertical-align: top;
+      border-right: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+      }
+      body {
+      /* Set "my-sec-counter" to 0 */
+      counter-reset: my-sec-counter;
+      }
+
+      td.counter::before {
+      /* Increment "my-sec-counter" by 1 */
+      counter-increment: my-sec-counter;
+      content: counter(my-sec-counter);
+      }
+      }
+</style>
 <div class="container">
     <br>
     <div align="left">
@@ -39,7 +80,7 @@
                             <tr>
                                 <!--                            <td>{{renum}}</td>-->
                                 <td class="counter"></td>
-                                <td><a href="review_detail?renum={{e.0}}&?rehit={{e.3}}">{{e.1}}</a></td>
+                                <td><a href="review_detail?renum={{e.0}}&rehit={{e.3}}">{{e.1}}</a></td>
 <!--                                <td>{{e.2}}</td>-->
                                 <td>{{e.3}}</td>
                                 <td>{{e.4|date:"Y-m-d"}}</td>

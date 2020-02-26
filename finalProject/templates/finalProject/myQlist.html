@@ -2,12 +2,48 @@
 {% block content %}
 <!--위의 두 줄은 헤더를 붙이기 위한 코드-->
 <style>
-button {
-    margin-right: .5em;
-}
-    td.hover:hover{
-        background:#D3D3D3
+    button {
+        margin-right: .5em;
     }
+    table.qlist {
+      border-collapse: collapse;
+      text-align: center;
+      line-height: 1.5;
+
+      margin: 20px 10px;
+      }
+      table.qlist thead th {
+      padding: 10px;
+      font-weight: bold;
+      vertical-align: top;
+      color: #369;
+      border-bottom: 3px solid #036;
+      }
+      table.qlist tbody th {
+      width: 150px;
+      padding: 10px;
+      font-weight: bold;
+      vertical-align: top;
+      border-bottom: 1px solid #ccc;
+      background: #ececec;
+      }
+      body {
+      /* Set "my-sec-counter" to 0 */
+      counter-reset: my-sec-counter;
+      }
+
+      td.counter::before {
+      /* Increment "my-sec-counter" by 1 */
+      counter-increment: my-sec-counter;
+      content: counter(my-sec-counter);
+      }
+      table.qlist td {
+      width: 350px;
+      padding: 10px;
+      vertical-align: top;
+
+      border-bottom: 1px solid #ccc;
+      }
 </style>
 
 
@@ -19,7 +55,7 @@ button {
     <br>
     <div class="row">
         <div class="col">
-            <table class="notice" style="width: 99% ;">
+            <table class="qlist" style="width: 99% ;">
                 <thead>
                 <tr>
                     <th scope="cols" width="7%">번호</th>

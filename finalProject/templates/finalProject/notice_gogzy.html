@@ -1,5 +1,46 @@
 {% extends 'finalProject/header4.html'%}
 {% block content %}
+<style>
+      table.notice {
+      border-collapse: collapse;
+      text-align: center;
+      line-height: 1.5;
+      border-left: 1px solid #ccc;
+
+      }
+      table.notice thead th {
+      padding: 10px;
+      font-weight: bold;
+      vertical-align: top;
+      color: #369;
+      border-bottom: 3px solid #036;
+      }
+      table.notice tbody th {
+      width: 150px;
+      padding: 10px;
+      font-weight: bold;
+      vertical-align: top;
+      border-bottom: 1px solid #ccc;
+      background: #ececec;
+      }
+      body {
+      /* Set "my-sec-counter" to 0 */
+      counter-reset: my-sec-counter;
+      }
+
+      td.counter::before {
+      /* Increment "my-sec-counter" by 1 */
+      counter-increment: my-sec-counter;
+      content: counter(my-sec-counter);
+      }
+      table.notice td {
+      width: 350px;
+      padding: 10px;
+      vertical-align: top;
+      border-right: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+      }
+</style>
 <div class="container">
     <br>
     <div align="left">

@@ -1,5 +1,40 @@
 {% extends 'finalProject/header4.html' %}
 {% block content %}
+<style>
+  table.sungma_chu {
+  border-collapse: collapse;
+  text-align: left;
+  line-height: 1.5;
+  }
+  table.sungma_chu thead th {
+      padding: 10px;
+      font-weight: bold;
+      vertical-align: top;
+      color: #369;
+      border-bottom: 3px solid #036;
+  }
+  table.sungma_chu tbody th {
+      width: 150px;
+      padding: 10px;
+      font-weight: bold;
+      vertical-align: top;
+      border-bottom: 1px solid #ccc;
+      background: #f3f6f7;
+  }
+  table.sungma_chu td {
+      width: 350px;
+      padding: 10px;
+      vertical-align: top;
+      border-bottom: 1px solid #ccc;
+  }
+  tr.colums {
+      padding: 10px;
+      font-weight: bold;
+      vertical-align: top;
+      color: #369;
+      border-bottom: 3px solid #036;
+  }
+</style>
 <div class="container">
     <br>
     <div align="left">
@@ -8,52 +43,50 @@
     </div>
     <br>
     <div class="row">
-            <ul class="nav nav-tabs">
-                <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" href="#round1">제주도</a>
-                </li>
-                <!--                탭을 추가할 필요가 있을 때 아래의 주석 해제-->
-                <!--                <li class="nav-item">-->
-                <!--                    <a class="nav-link" data-toggle="tab" href="#round2">탭 추가 옵션</a>-->
-                <!--                </li>-->
-            </ul>
-            <div class="tab-content">
-                <div class="tab-pane fade show active" id="round1">
-                    <form action="rideSearch" method="post" style="width:auto ; float:center">
-                        {% csrf_token %}
-                        <table class="sungma_chu">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#round1">제주도</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="round1">
+                <form action="rideSearch" method="post" style="width:auto ; float:center">
+                    {% csrf_token %}
+                    <div style="float:right">
+                        <input type="radio" id="select1" value="제주공항 근처" name="chk_pplace"><label for="select1">제주공항</label>
+                        <input type="radio" id="select2" value="한라산 등산길근처" name="chk_pplace"><label for="select2">한라산</label>
+                        <input type="radio" id="select3" value="사려니숲길 근처" name="chk_pplace"><label for="select3">사려니숲</label>
+                        <input type="submit" value="정렬" onclick="location.href='rideSearch'">
+                    </div>
+                    <br>
+                    <br>
+                    <table class="sungma_chu">
 
-                            <tbody>
-                            <tr id="colums" class="colums" colspan="5">
-                                <td>타이틀</td>
-                                <td>주소</td>
-                                <td>연락처</td>
-                                <td>참고링크</td>
-                                <td>부대시설</td>
-                            </tr>
-                            {% for (pnum, pname, paddr, ptel, plink, pplace, pdate) in plist %}
-                            <tr>
-                                <td>{{pname}}</td>
-                                <td>{{paddr}}</td>
-                                <td>{{ptel}}</td>
-                                <td>{{plink}}</td>
-                                <td>{{pplace}}</td>
-                            </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                        <div style="float:right">
-                            <input type="radio" id="select1" value="parking" name="chk_pplace"><label for="select1">주차장</label>
-                            <input type="radio" id="select2" value="park" name="chk_pplace"><label for="select2">공원</label>
-                            <input type="radio" id="select3" value="transportation" name="chk_pplace"><label for="select3">역앞</label>
-                            <input type="submit" value="정렬" onclick="location.href='rideSearch'">
-                        </div>
-                    </form>
-                </div>
+                        <tbody>
+                        <tr id="colums" class="colums" colspan="5">
+                            <td>타이틀</td>
+                            <td>주소</td>
+                            <td>연락처</td>
+                            <td>참고링크</td>
+                            <td>부대시설</td>
+                        </tr>
+                        {% for (pnum, pname, paddr, ptel, plink, pplace, pdate) in plist %}
+                        <tr>
+                            <td>{{pname}}</td>
+                            <td>{{paddr}}</td>
+                            <td>{{ptel}}</td>
+                            <td>{{plink}}</td>
+                            <td>{{pplace}}</td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </form>
             </div>
         </div>
-<!--        radio 클릭으로 부대시설에 따라 추력되는 체험장 리스트 정렬 -->
-        <script language="javascript">
+    </div>
+    <!--        radio 클릭으로 부대시설에 따라 추력되는 체험장 리스트 정렬 -->
+    <script language="javascript">
         $(":checkbox[name='chk_pplace']:checked").length
         var checked_seq = "";
         $(":checkbox[name='chk_pplace']:checked").each(function(i,e){
@@ -64,10 +97,5 @@
         }
         });
         </script>
-    </div>
-    <!--        탭이 추가 되면 그 안에 들어갈 내용을 아래의 div 에 넣어주기로-->
-    <!--            <div class="tab-pane fade" id="round2">-->
-    <!--                <p>Nunc vitae turpis id nibh sodales commodo et non augue. Proin fringilla ex nunc. Integer tincidunt risus ut facilisis tristique.</p>-->
-    <!--            </div>-->
 </div>
 {% endblock %}
