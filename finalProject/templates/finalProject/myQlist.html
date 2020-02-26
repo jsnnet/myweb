@@ -29,20 +29,15 @@ button {
                 </tr>
                 </thead>
                 <!--        참고 링크 : https://djangobook.com/mdj2-django-templates/-->
-
-
                 <tbody>
-
-
-
                 <!--                    인덱스 순서로 출력 (0 : qnum , 1 : mid, 2 : qtitle, 3,-->
                 <form class="myQlist" id="myQlist" method="post" action="myq_delete">
                     {% csrf_token %}
                     {% for e in myqlist %}
                     <tr>
 <!--                        myq_view로 이동할 때 qnum 을 가지고 간다-->
-                        <td><a href="myq_view?qnum={{e.0}}">{{e.0}}</a></td>
-                        <td>{{e.2}}</td>
+                        <td>{{e.0}}</td>
+                        <td><a href="myq_view?qnum={{e.0}}">{{e.2}}</a></td>
                         <td>{{e.5|date:"Y-m-d"}}</td>
                     </tr>
                     {% endfor %}
@@ -50,6 +45,8 @@ button {
                 </tbody>
                 </tr>
             </table>
+            <br>
+            <button type="button" onclick="location.href='qna'" style="float:right">새 문의 작성</button>
         </div>
     </div>
 </div>

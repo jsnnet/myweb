@@ -46,6 +46,7 @@ from .forms import LoginForm,UserForm
 from django.contrib import auth
 @csrf_exempt
 def join_Oraclite(request):
+    global conn;
     # 폼 안쓰고 새로 생성한 모델 활용 ==================================================================================
     sign_up = JoinForm(mid=request.POST['mid'],
                        mpwd=request.POST['mpwd'],
@@ -73,9 +74,9 @@ def join_Oraclite(request):
     if madmin is not None:
         join_insert = "insert into member VALUES(member_seq.nextVal, :mid, :mpwd, :mname, :mtel, :madmin, sysdate)"
         cursor.execute(join_insert, mid=mid, mpwd=mpwd, mname=mname, mtel=mtel, madmin=madmin)
+        conn.commit()
         # cursor.close()
-        # conn.commit()
-        # conn.close()
+        # conn.close
         return render(request, "finalProject/home_main.html")
     else:
         return render(request, "finalProject/join_gaip.html")
@@ -132,7 +133,7 @@ def logout(request):
 def qna(request):
     mid = request.session.get("mid")
     if (mid != None):
-        return render(request, "finalProject/moon_insert.html")
+        return render(request, "finalProject/myQ_insert.html")
     else:
         return render(request, "finalProject/login_required.html")
 
@@ -162,9 +163,9 @@ def qna_up(request):
             conn.commit()
             cursor.execute('select*from question')
             print(cursor.fetchall())
-            cursor.close()
-            conn.close
-            return render(request, "finalProject/moon_insert.html")
+            # cursor.close()
+            # conn.close
+            return render(request, "finalProject/myQ_insert.html")
         else:
             return render(request, "finalProject/login_required.html")
 
@@ -174,25 +175,14 @@ def myquestion(request):
     request.session.get('mid')
     print("세션 값 : ",request.session.get('mid'))
     member_id = request.session.get('mid')
-    print("세션 값 새로 저장 :",member_id)
+    print("세션 값 새로 저장 :", member_id)
     cursor = conn.cursor()
     myQ_sql = 'select * from question where mid =:mid'
+    conn.commit()
     cursor.execute(myQ_sql, mid=member_id)
     myqlist = cursor.fetchall()
-    # qnum, mid, qtitle, qcontent, qhit, qdate = myqlist
-    # for (qnum, mid, qtitle, qcontent, qhit, qdate) in myqlist:
-    #     # print("qlist : ",qlist)
-    #     print("글번호: ", qnum)
-    #     print("qnum 타입 확인 : ",type(qnum))
-    #     print("회원ID : ",mid)
-    #     print("제목 : ",qtitle)
-    #     print("조회수 : ",qhit)
-    #     print("qhit 타입 확인 : ", type(qhit))
-    #     print("작성날짜 : ",qdate)
-    #     print("qdate 타입 확인 : ", type(qdate))
     # cursor.close()
-    # conn.commit()
-    # conn.close()
+    # conn.close
     return render(request, "finalProject/myQlist.html",{"myqlist":myqlist})
 
 @csrf_exempt
@@ -205,28 +195,38 @@ def myq_view(request):
     print("qnum : ", qnum)
     # 로그인 아이디 세션 가져오기
     member_id = request.session.get('mid')
-    cursor = conn.cursor()
+    cursor_myq = conn.cursor()
+    cursor_comm = conn.cursor()
     # 문의글 번호가 PK 회원아이디가 FK
     # 회원아이디는 세션으로, qnum 은 template 버튼 클릭해서 가져오기
     myq_detail = 'select * from question where qnum = :qnum'
-    # qnum = qnum,
-    # qnum = qnum,
-    cursor.execute(myq_detail, qnum=qnum)
-    detail_view = cursor.fetchall()
+    # 댓글 테이블에서 qnum 으로 해당 글 댓글 불러오기
+    comm_sql = 'select * from comm where qnum = :qnum'
+    cursor_myq.execute(myq_detail, qnum=qnum)
+    cursor_comm.execute(comm_sql, qnum=qnum)
+    conn.commit()
+    detail_view = cursor_myq.fetchall()
+    comm_view = cursor_comm.fetchall()
     # cursor.close()
-    # conn.commit()
     # conn.close()
-    return render(request, "finalProject/myQ_detail.html", {"detail_view":detail_view})
+    return render(request, "finalProject/myQ_detail.html", {"detail_view":detail_view, "comm_view":comm_view})
 
+@csrf_exempt
 def myq_delete(request):
     # 내 문의글 상세보기에서 삭제 버튼 클릭시 여기로
-    # global conn;
+    global conn;
+    cursor_myq = conn.cursor()
+    cursor_comm = conn.cursor()
     qnum = request.GET["qnum"]
-    print(" 지우고 싶은 번호 : ", qnum)
-    request.session.get("mid")
-    print("아이디 : ",request.session.get("mid"))
-    del_myq = 'delete from question where mid = :mid and qtitle = :qtitle'
-    return render(request, "finalProject/myQ_delete.html")
+    # print(" 지우고 싶은 번호 : ", qnum)
+    del_myq = 'delete from question where qnum = :qnum'
+    del_comm = 'delete from comm where qnum = :qnum'
+    cursor_myq.execute(del_myq, qnum=qnum)
+    cursor_comm.execute(del_comm, qnum=qnum)
+    conn.commit()
+    # cursor.close()
+    # conn.close()
+    return render(request, 'finalProject/myQ_deleted.html')
 
 # 공지사항 불러오기
 # sysdate 로 생성된 qdate 값이 return 으로 넘어가지 않음
@@ -239,7 +239,6 @@ def notice1(request):
     # print("공지 제목 날짜 : ",res)
     nlist = cursor.fetchall()
     # cursor.close()
-    # conn.commit()
     # conn.close()
     return render(request, "finalProject/notice_gogzy.html", {"nlist": nlist})
 
@@ -254,12 +253,10 @@ def notice_detail(request):
     member_id = request.session.get('mid')
     cursor = conn.cursor()
     noti_detail = 'select * from notice where nnum = :nnum'
-    # qnum = qnum,
-    # qnum = qnum,
     cursor.execute(noti_detail, nnum=nnum)
+    conn.commit()
     noti_detail = cursor.fetchall()
     # cursor.close()
-    # conn.commit()
     # conn.close()
     return render(request, "finalProject/notice_view.html", {"noti_detail":noti_detail})
 
@@ -269,7 +266,6 @@ def review(request):
     cursor.execute('select*from review')
     rlist = cursor.fetchall
     # cursor.close()
-    # conn.commit()
     # conn.close()
     return render(request, "finalProject/review.html", {"rlist":rlist})
 
@@ -307,11 +303,10 @@ def write_review2(request):
         if (mid != None):
             sql_insert = 'insert into review VALUES(review_seq.nextVal, :retitle, :recontent, :rehit, sysdate)'
             cursor.execute(sql_insert, retitle=retitle, recontent=recontent, rehit = 0)
-            # conn.commit()
+            conn.commit()
             cursor.execute('select*from review')
             print(cursor.fetchall())
             # cursor.close()
-            # conn.commit()
             # conn.close()
             return render(request, "finalProject/review_upload.html")
         else:
@@ -324,7 +319,6 @@ def get_client_ip(request):
     else:
         ip = request.META.get('REMOTE_ADDR')
     return ip
-
 
 def review_detail(request):
     global conn;
@@ -361,18 +355,15 @@ def review_detail(request):
 
     re_detail = 'select * from review where renum = :renum'
     cursor.execute(re_detail, renum=renum)
+    conn.commit()
     detail_review = cursor.fetchall()
     # cursor.close()
-    # conn.commit()
     # conn.close()
-
     return render(request, 'finalProject/review_detail.html',{"detail_review":detail_review})
 
 def hit_up(request):
     rehit = request.GET.get("rehit") + 1
     return hit_up
-
-
 
 # 승마장 추천
 def riderecom1(request):
@@ -381,18 +372,7 @@ def riderecom1(request):
     cursor = conn.cursor()
     cursor.execute('select*from place')
     plist = cursor.fetchall()
-    # qnum, mid, qtitle, qcontent, qhit, qdate = qlist
-    # for (pnum, pname, paddr, ptel, plink, pplace, pdate) in plist:
-    #     # print("qlist : ",qlist)
-    #     print("승마장 번호: ", pnum)
-    #     print("승마장 이름 : ", pname)
-    #     print("주소 : ", paddr)
-    #     print("연락처 : ", ptel)
-    #     print("링크 : ", plink)
-    #     print("부대시설 : ", pplace)
-    #     print("등록날짜 : ", pdate)
     # cursor.close()
-    # conn.commit()
     # conn.close()
     return render(request, "finalProject/sungma_chu.html", {"plist": plist})
 
@@ -403,7 +383,6 @@ def recom_list(request):
     cursor = conn.cursor()
     cursor.execute('select*from place')
     # cursor.close()
-    # conn.commit()
     # conn.close()
     return render(request, 'finalProject/sungma_chu.html.html') #{'riderecom2': rsearch, 'q': q} #riderecom2.html 이었던 것
 
@@ -422,16 +401,7 @@ def rideSearch(request):
     # res1 = cursor.execute(sql_chk, pplace=chk_slct)
     res2 = cursor.fetchall()
     print("selelct where 쓴 결과 : ",res2) # fechall 괄호 안쓰면 object 로 넘어온다
-    # for (pnum, pname, paddr, ptel, plink, pplace, pdate) in res2:
-    #     print("승마장 번호: ", pnum)
-    #     print("승마장 이름 : ", pname)
-    #     print("주소 : ", paddr)
-    #     print("연락처 : ", ptel)
-    #     print("링크 : ", plink)
-    #     print("부대시설 : ", pplace)
-    #     print("등록날짜 : ", pdate)
     # cursor.close()
-    # conn.commit()
     # conn.close()
     return render(request, 'finalProject/sungma_radio1.html',{"res2": res2})  #, {'srch': srch, 'w': w}
 
@@ -449,18 +419,7 @@ def rideintro1(request):
     cursor = conn.cursor()
     cursor.execute('select*from place')
     plist = cursor.fetchall()
-    # qnum, mid, qtitle, qcontent, qhit, qdate = qlist
-    # for (pnum, pname, paddr, ptel, plink, pplace, pdate) in plist:
-    #     # print("qlist : ",qlist)
-    #     print("승마장 번호: ", pnum)
-    #     print("승마장 이름 : ", pname)
-    #     print("주소 : ", paddr)
-    #     print("연락처 : ", ptel)
-    #     print("링크 : ", plink)
-    #     print("부대시설 : ", pplace)
-    #     print("등록날짜 : ", pdate)
     # cursor.close()
-    # conn.commit()
     # conn.close()
     map_ori = folium.Map(location=[37.479833, 126.880097], zoom_start=17)
     folium.Marker([37.479833, 126.880097], popup='<b>가산</b>').add_to(map_ori)
