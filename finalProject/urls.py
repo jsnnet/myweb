@@ -36,11 +36,11 @@ urlpatterns = [
 
     # 승마장 소개
     path('rideintro1', views.rideintro1),
-    path('rideintro2', views.rideintro2), # 테스트 용
+    # path('rideintro2', views.rideintro2), # 테스트 용
 
     # 승마장 추천
     path('riderecom1', views.riderecom1),
-    path('recom_list', views.recom_list),
+    # path('recom_list', views.recom_list),
 
     # 렛츠런파크 제주 소개 (경마장 소개)
     path('raceintro1', views.raceintro1),

@@ -1,9 +1,6 @@
-from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
 import cx_Oracle as oci
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic.base import View
 from .models import JoinForm
 # ==============================================================================지도 api (google) 와 folium 패키지 사용
 # folium 설치가 안되어 있다면 pip install 해줘야 사용가능
@@ -17,10 +14,6 @@ from django.db.models import Q
 # from .models import Document
 from django.db import models
 # -----------------------------------
-
-#--------------페이징 처리------------------------
-from django.core.paginator import Paginator
-#--------------페이징 처리------------------------
 
 ########## 캐시 처리 ###########################################
 from django.core.cache import caches
@@ -41,8 +34,7 @@ def home(request):
 def join(request):
     return render(request, "finalProject/join_gaip.html")
 
-# (상) sqlite 과 oracle DB에 동시 회원가입하는 부분====================================
-from .forms import LoginForm,UserForm
+####################################################################### (상) sqlite 과 oracle DB에 동시 회원가입하는 부분
 from django.contrib import auth
 @csrf_exempt
 def join_Oraclite(request):
@@ -81,7 +73,7 @@ def join_Oraclite(request):
     else:
         return render(request, "finalProject/join_gaip.html")
     return redirect('home')
-# (하) sqlite 과 oracle DB에 동시 회원가입하는 부분==============================================================================
+####################################################################### (하) sqlite 과 oracle DB에 동시 회원가입하는 부분
 
 # 홈에서 로그인 글씨 누르면 login 페이지로 이동
 def login(request):
@@ -96,30 +88,38 @@ def login_session(request):
     print("html 에서 어떤 갑이 넘어오나 : ", request.POST["mid"])
     mid = request.POST["mid"]
     print("넘어온 아이디 : ", mid)
-    # login_chk = 'select * from member where :mid'
-    ###########################################################
-    # 연결 에러시 예외처리?
-    # except DatabaseError as e:
-    #     conn = "예외 발생"
-    #     print(e)
-    #     return
-    # return conn
-    ###########################################################
-    # cursor.execute(login_chk, mid=mid)
-    # chk_member = cursor.fecthall()
-    # if chk_member != None:
-    request.session['mid'] = mid
-    print("아이디 세션으로 : ", request.session['mid'])
-    # 비밀번호 테스트용
-    # request.session['password'] = ' '
-    # return HttpResponse("finalProject/home_main.html")
-    # conn.commit()
-    # conn.close()
-    return render(request, "finalProject/home_main.html")
-    # else:
-    #     # conn.commit()
-    #     # conn.close()
-    #     return render(request, "finalProject/login_required.html")
+    mpwd_pass = request.POST.get("mpwd")
+    print("패스워드 값 mpwd : ", mpwd_pass)
+    # 회원가입한 회원의 아이디/비밀번호를 사용, DB에 존재하는지에 따라 로그인 승인
+    if mpwd_pass is None:
+        return render(request, 'finalProject/none_value.html')
+    else:
+        global conn;
+        print("첫if mpwd_pass : ", mpwd_pass)
+        cursor = conn.cursor()
+        pwd_chk = 'select * from member where mid = :mid'
+        cursor.execute(pwd_chk, mid=mid)
+        chk_member = cursor.fetchall()
+        chk_pwd = None
+        print("선언한 chk_pwd : ", chk_pwd)
+        print("for문 들어가기 전 mpwd_pass : ", mpwd_pass)
+        for (mnum, mid, mpwd, mname, mtel, madmin, mdate) in chk_member:
+            print("가입된 패스워드 : ", mpwd)
+            chk_pwd = mpwd
+            print("chk_pwd : ", chk_pwd)
+        if mpwd_pass != chk_pwd:
+            print("if 진입한 mpwd : ", mpwd_pass)
+            print("if 진입한 chk_pqd : ", chk_pwd)
+            return render(request, 'finalProject/login_required.html')
+        else:
+            request.session['mid'] = mid
+            print("아이디 세션으로 : ", request.session['mid'])
+            # 비밀번호 테스트용
+            # request.session['password'] = ' '
+            # return HttpResponse("finalProject/home_main.html")
+            # conn.commit()
+            # conn.close()
+            return render(request, "finalProject/home_main.html")
 
 # 로그아웃
 def logout(request):
@@ -322,41 +322,40 @@ def get_client_ip(request):
 
 def review_detail(request):
     global conn;
-    cursor = conn.cursor()
-
+    cursor_review = conn.cursor()
+    cursor_rehit = conn.cursor()
     # 리뷰 중에서 클릭한 글만 보곡 싶을때
     # 해당 리뷰 번호를 가져온다
     renum = request.GET["renum"]
     print("renum : ", renum)
 
     # cache ; 리뷰 글 번호를 cache로 등록
-    cache.set('renum', renum, None)
-    renum_compare = cache.get('renum')
-    print("방문 페이지 : ", renum_compare)
+    # cache.set('renum', renum, None)
+    # renum_compare = cache.get('renum')
+    # print("방문 페이지 : ", renum_compare)
 
     # 조회수 증가를 위해 rehit 가져오기
     # rehit 를 가져오기 위해 .get 을 붙여준다
-    hit_up
-    # rehit = request.GET.get("rehit")
-    print("현재 조회수 :", hit_up)
-
+    rehit = request.GET.get("rehit")
+    print("현재 조회수 :", rehit)
+    print("rehit 타입 : ", type(rehit))
+    rehit = int(rehit)
+    print("rehit 타입2 : ", type(rehit))
+    rehit = rehit+1
     # 로그인 아이디 세션 가져오기
     # member_id = request.session.get('mid')
-
+    # cip = get_client_ip(request)
+    # print("ip 확인 : ", cip)
     # update sawon set sahire = to_date('2019/09/10) where sabun=83;
-
-
-
-
-
     hitup_sql = 'update review set rehit = :rehit where renum = :renum'
-    cip = get_client_ip(request)
-    print("ip 확인 : ", cip)
-
-    re_detail = 'select * from review where renum = :renum'
-    cursor.execute(re_detail, renum=renum)
+    cursor_rehit.execute(hitup_sql, rehit=rehit, renum=renum)
     conn.commit()
-    detail_review = cursor.fetchall()
+    # 조회수 증가 완료
+    
+    # 상세보기 출력
+    re_detail = 'select * from review where renum = :renum'
+    cursor_review.execute(re_detail, renum=renum)
+    detail_review = cursor_review.fetchall()
     # cursor.close()
     # conn.close()
     return render(request, 'finalProject/review_detail.html',{"detail_review":detail_review})
@@ -376,23 +375,12 @@ def riderecom1(request):
     # conn.close()
     return render(request, "finalProject/sungma_chu.html", {"plist": plist})
 
-# 승마장 추천 필터링 하려는 테스트
-def recom_list(request):
-    global conn;  # 전역변수 사용 위해
-    print(conn.version)
-    cursor = conn.cursor()
-    cursor.execute('select*from place')
-    # cursor.close()
-    # conn.close()
-    return render(request, 'finalProject/sungma_chu.html.html') #{'riderecom2': rsearch, 'q': q} #riderecom2.html 이었던 것
-
-# 승마체험장 추천에서 checkbox 사용 하는 함수
+# 승마체험장 추천에서 radio 사용 하는 함수
 def rideSearch(request):
     global conn;  # 전역변수 사용 위해
     request.POST.getlist('chk_pplace')
     chk_slct = request.POST.get('chk_pplace')
     print(chk_slct)
-    print("버젼 확인 :",conn.version)
     cursor = conn.cursor()
     # clob 데이터 타입은 char 로 바꿔서 바인딩 해야 한다 https://www.warevalley.com/support/orange_view.asp?page=30&num=11943
     sql_chk = 'select * from place where to_char(pplace) =:pplace'
@@ -411,9 +399,6 @@ def ride1(request):
 def race1(request):
     return render(request, "finalProject/gyungma_sogae.html")
 
-def footer(request):
-    return render(request, "finalProject/footer.html")
-
 def rideintro1(request):
     global conn;  # 전역변수 사용 위해
     cursor = conn.cursor()
@@ -421,19 +406,7 @@ def rideintro1(request):
     plist = cursor.fetchall()
     # cursor.close()
     # conn.close()
-    map_ori = folium.Map(location=[37.479833, 126.880097], zoom_start=17)
-    folium.Marker([37.479833, 126.880097], popup='<b>가산</b>').add_to(map_ori)
-    map_ori.save('finalProject/sungma_cheso.html')
     return render(request, "finalProject/sungma_cheso.html", {'plist':plist})
-
-def rideintro2(request):
-    # gkey = "AIzaSyDAbziSH8lb_794Kdf9VZSl5CIwMR2ImUI"
-    # gmaps = googlemaps.client(key=gkey)
-    # gmaps.geocode('대한민국 서울특별시 송파구 오륜동 올림픽로 424', language = 'ko')
-    # map_ori = folium.Map(location=[37.479833, 126.880097], zoom_start=17)
-    # folium.Marker([37.479833, 126.880097], popup='<b>가산</b>').add_to(map_ori)
-    # map_ori.save('finalProject/map1.html')
-    return render(request, "finalProject/map3.html")
 
 def raceintro1(request):
     return render(request, "finalProject/gyungma_jangso.html")
@@ -450,3 +423,5 @@ def todayzoo1(request):
 def countdown(request):
     return render(request, "finalProject/countdown.html")
 
+def footer(request):
+    return render(request, "finalProject/footer.html")
