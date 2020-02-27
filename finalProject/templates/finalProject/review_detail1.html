@@ -1,0 +1,82 @@
+{% extends 'finalProject/header4.html'%}
+{% block content %}
+<style>
+.board_view {width:adjust;border-top:2px solid #252525;border-bottom:1px solid #ccc;}
+.board_view tbody th {text-align:center;background:#f7f7f7;color:#3b3a3a}
+.board_view tbody th, .board_view tbody td {padding:15px 0 16px 16px;border-bottom:1px solid #ccc}
+.board_view tbody .board_content{color: #444343;font-size: 12pt;height: 400px;}
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-2 col-md-2"></div>
+        <div class="col-xs-8 col-md-8">
+            <h1 class="text-left">REVIEW</h1>
+            <br>
+            <h5 style="text-align:left; color:gray">리뷰 자세히 보기</h5>
+            <br>
+            <div class="table table-responsive">
+                <button type="button" onclick="location.href='review'" style="float:right">목록으로 되돌아가기</button>
+                <br>
+                <br>
+                <table class="board_view">
+                    {% for e in detail_review %}
+                    <br>
+                    <colgroup>
+                        <col width="15%">
+                        <col width="35%">
+                        <col width="15%">
+                        <col width="*">
+                    </colgroup>
+
+                    <tbody>
+                    <tr>
+                        <th>작성시간</th>
+                        <td>{{e.4}}</td>
+                        <th>조회수</th>
+                        <td>{{e.3}}</td>
+                    </tr>
+                    <tr>
+                        <th>제목</th>
+                        <td>{{e.1}}</td>
+                    </tr>
+                    <tr class="board_content">
+                        <th>내용</th>
+                        <td colspan="3">{{e.2}}</td>
+                    </tr>
+                    </tbody>
+                    {% endfor %}
+                </table>
+                <!--                <table class="table">-->
+                <!--                    {% for e in detail_review %}-->
+                <!--                    <tr>-->
+                <!--                        <th class="success">글번호</th>-->
+                <!--                        <td>{{e.0}}</td>-->
+
+                <!--                        <th class="success">작성일</th>-->
+                <!--                        <td>{{e.4}}</td>-->
+                <!--                    </tr>-->
+                <!--                    <tr>-->
+                <!--                        <th class="success">제목</th>-->
+                <!--                        <td>{{e.1}}</td>-->
+                <!--                        <th class="success">조회수</th>-->
+                <!--                        <td>{{e.3}}</td>-->
+                <!--                    </tr>-->
+                <!--                    <tr>-->
+                <!--                        <th class="success">글 내용</th>-->
+                <!--                        <td colspan="3"></td>-->
+                <!--                    </tr>-->
+                <!--                    <tr style="height:300px">-->
+                <!--                        <th></th>-->
+                <!--                        <td colspan="3">{{e.2}}</td>-->
+                <!--                    </tr>-->
+                <!--                    <tr>-->
+                <!--                        <th></th>-->
+                <!--                        <td></td>-->
+                <!--                    </tr>-->
+                <!--                    {% endfor %}-->
+                <!--                </table>-->
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

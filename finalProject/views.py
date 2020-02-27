@@ -24,9 +24,9 @@ from django.core.cache import cache
 # https://kgu0724.tistory.com/95
 
 # DB 사용에 따른 conn 연결 (전역변수 사용하려면 변수 앞에 global 써주고 함수마다 변수 선언해야만 한다)
-conn = oci.connect('doosun/doosun@localhost:1521/xe')
-#conn = oci.connect('doosun/doosun@192.168.0.7:1521/xe')
-#conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
+# conn = oci.connect('doosun/doosun@localhost:1521/xe')
+# conn = oci.connect('doosun/doosun@192.168.0.7:1521/xe')
+conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
 
 def home(request):
     return render(request, "finalProject/home_main.html")
@@ -258,7 +258,7 @@ def notice_detail(request):
     noti_detail = cursor.fetchall()
     # cursor.close()
     # conn.close()
-    return render(request, "finalProject/notice_view.html", {"noti_detail":noti_detail})
+    return render(request, "finalProject/notice_view1.html", {"noti_detail":noti_detail})
 
 def review(request):
     global conn;  # 전역변수 사용 위해
@@ -358,7 +358,7 @@ def review_detail(request):
     detail_review = cursor_review.fetchall()
     # cursor.close()
     # conn.close()
-    return render(request, 'finalProject/review_detail.html',{"detail_review":detail_review})
+    return render(request, 'finalProject/review_detail1.html',{"detail_review":detail_review})
 
 def hit_up(request):
     rehit = request.GET.get("rehit") + 1
@@ -408,20 +408,22 @@ def rideintro1(request):
     # conn.close()
     return render(request, "finalProject/sungma_cheso.html", {'plist':plist})
 
+# 경마 소개
 def raceintro1(request):
     return render(request, "finalProject/gyungma_jangso.html")
 
+# 경마 누가 주인공이냐
 def whoiszoo1(request):
     return render(request, "finalProject/whois_juingong.html")
 
+# 경마 누가 주인공인지 인기투표
 def whoispick1(request):
     return render(request, "finalProject/whois_onepick.html")
 
+# 오늘의 주인공은?
 def todayzoo1(request):
     return render(request, "finalProject/today_juingong.html")
 
-def countdown(request):
-    return render(request, "finalProject/countdown.html")
-
+# 풋터
 def footer(request):
     return render(request, "finalProject/footer.html")

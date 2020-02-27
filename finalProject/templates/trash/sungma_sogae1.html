@@ -1,0 +1,89 @@
+{% extends 'finalProject/header4.html'%}
+{% block content %}
+<style>
+#flipbook{
+color: yellow;
+background: purple;
+}
+.odd{
+background-color: orange;
+}
+.even{
+background-color:#55c8ff;
+}
+
+#flipbook{
+width:400px;
+height: 400px;
+margin: auto;
+}
+</style>
+<div id="page1">
+	<div id="content2">
+		<div id="search2" class="boxed" style="width: 600px">
+<h2 class="title">Turn.js(jQuery플러그인 예제)</h2>
+<div class="content">
+<!-- add Canvas -->
+<div id = "flipbook">
+<div class="hard">${page1 }</div>
+<div class="hard">${page2 }</div>
+<div class="hard">${page1 }</div>
+<div class="hard">${page2 }</div>
+<div class="hard">${page1 }</div>
+<div class="hard">${page2 }</div>
+
+</div>
+<!-- end -->
+</div>
+</div>
+
+<!-- end sidebar -->
+<!-- float을 해제한다-->
+<div style="clear: both;">&nbsp;</div>
+</div>
+<script src = "static/js/lib/turn.min.js"></script>
+<script>
+$(document).ready(function () {
+	$("#flipbook").turn({
+		width:500,
+		height:500,
+		//display: "single"
+	});
+});
+</script>
+<!-- <script type="text/javascript"> -->
+<!--  $(document).ready(function () { -->
+<!--   	// 중복확인 버튼이 클릭 되었을 때 동작하는 jQuery 함수를 만드시오. -->
+<!--   	$("#content2 #idchk").click(function(){ -->
+<!--   		let idv = $(this).prev().val(); -->
+<!--   		let sendData = "cmd=idk&id="+idv; -->
+<!--   		console.log("id:"+idv); -->
+<!--   		// 1. load 함수를 사용한 Ajax 통신 -->
+<!--   		// (선택자)load(url,[fn(response, status, xhr)]); -->
+<!--   		// 위의 대괄호안에 fn 은 생략가능 -->
+<!--   		$("#content2 #chkRes").load("my.kosmo?cmd=idk&id="+idv,function(){ // get 방식으로 보낸 형태 -->
+<!--   			console.log(response) -->
+<!--   			console.log(status) -->
+<!--   			console.log(xhr.status+","+xhr.statusText); -->
+<!--   			$(this).css("display", "block").css("color", "blue"); -->
+<!--   		}); -->
+<!--   		// 2. $.Ajax 방식 사용하기 (setUp)  -->
+<!--   		$.ajaxSetup({ -->
+<!--   			type: "POST", -->
+<!--   			url: "my.kosmo", -->
+<!--   			dataType: "text", -->
+<!--   			success: function (msg){ -->
+<!--   				$("#content2 #chkRes").css("display", "block").css("color", "blue").html(msg); -->
+
+<!--   			} -->
+<!--   		}); -->
+
+<!--   		// Ajax 전송 -->
+<!--   		$.ajax({data:sendData}); -->
+<!--   	}); -->
+<!--  }); -->
+<!-- </script> -->
+
+</div>
+{% endblock %}
+
