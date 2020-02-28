@@ -1,0 +1,30 @@
+{% extends 'finalProject/header4.html'%}
+{% block content %}
+<table>
+    <tr>
+    <th>문항</th>
+    <th>응답수</th>
+    <th>답변율</th>
+    </tr>
+    {%for raw,ans in surveyList%}
+        <tr>
+            <td>{{ans}}</td>
+            <td>{{raw.sum_sum}}</td>
+            <td>{{raw.rate}}</td>
+        </tr>
+    {%endfor%}
+    <tr>
+        <th colspan="3">
+            <input type="button" value="설문참여" id="btn1">
+        </th>
+    </tr>
+</table>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    $(function(){
+        $('#btn1').click(function(){
+            location.href="whoispick1";
+        });
+    });
+</script>
+{% endblock %}

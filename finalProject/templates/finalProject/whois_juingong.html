@@ -90,32 +90,33 @@
     </style>
 </head>
 <body>
-<ul class="countdown">
-    <!--        <li>-->
-    <!--            <span class="days">00</span>-->
-    <!--            <p class="days_ref">days</p>-->
-    <!--        </li>-->
-    <!--        <li class="seperator">.</li>-->
-    <li>
-        <span class="hours">00</span>
-        <p class="hours_ref">hours</p>
-    </li>
-    <li class="seperator">:</li>
-    <li>
-        <span class="minutes">00</span>
-        <p class="minutes_ref">minutes</p>
-    </li>
-    <li class="seperator">:</li>
-    <li>
-        <span class="seconds">00</span>
-        <p class="seconds_ref">seconds</p>
-    </li>
-</ul>
+<!--<ul class="countdown">-->
+<!--    &lt;!&ndash;        <li>&ndash;&gt;-->
+<!--    &lt;!&ndash;            <span class="days">00</span>&ndash;&gt;-->
+<!--    &lt;!&ndash;            <p class="days_ref">days</p>&ndash;&gt;-->
+<!--    &lt;!&ndash;        </li>&ndash;&gt;-->
+<!--    &lt;!&ndash;        <li class="seperator">.</li>&ndash;&gt;-->
+<!--    <li>-->
+<!--        <span class="hours">00</span>-->
+<!--        <p class="hours_ref">hours</p>-->
+<!--    </li>-->
+<!--    <li class="seperator">:</li>-->
+<!--    <li>-->
+<!--        <span class="minutes">00</span>-->
+<!--        <p class="minutes_ref">minutes</p>-->
+<!--    </li>-->
+<!--    <li class="seperator">:</li>-->
+<!--    <li>-->
+<!--        <span class="seconds">00</span>-->
+<!--        <p class="seconds_ref">seconds</p>-->
+<!--    </li>-->
+<!--</ul>-->
 
 <div class="container">
     <div class="row">
         <div class="col">
             <p>주인공 맞춰보기</p>
+            {{predict_list}}
             <ul class="nav nav-tabs">
                 <li class="nav-item">
                     <a class="nav-link active" data-toggle="tab" href="#round1">1라운드</a>
@@ -188,14 +189,14 @@
 <script type="text/javascript" src="{% static 'js/countdown.js' %}"></script>
 
 <!--시차가 utc 기준 kst 와 +9 이므로 아래 offset 바꿔주기-->
-<script> //class="source" type="text/javascript"
-        $('.countdown').downCount({
-            date: '02/17/2020 06:30:00',
-            offset: +9
-        }, function () {
-            alert('바로 시작합니다 :)');
-        });
-    </script>
+<!--<script> //class="source" type="text/javascript"-->
+<!--        $('.countdown').downCount({-->
+<!--            date: '02/17/2020 06:30:00',-->
+<!--            offset: +9-->
+<!--        }, function () {-->
+<!--            alert('바로 시작합니다 :)');-->
+<!--        });-->
+<!--    </script>-->
 
 
 {% endblock %}

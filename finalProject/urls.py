@@ -47,7 +47,13 @@ urlpatterns = [
 
     path('footer',views.footer),
     path('whoiszoo1', views.whoiszoo1),
+
+    # 응원마 투표
     path('whoispick1', views.whoispick1),
+    path('save_survey', views.save_survey),
+    path('show_result', views.show_result),
+    path('show_result2', views.show_result2),
+
     path('todayzoo1', views.todayzoo1),
     # path('countdown', views.countdown),
 

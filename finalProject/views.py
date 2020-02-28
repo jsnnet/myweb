@@ -1,3 +1,21 @@
+# 분석을 위한 import #################################################################
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from matplotlib import font_manager, rc
+import missingno as msno
+import csv
+import tensorflow as tf
+from PIL import Image
+import os, glob, numpy as np
+
+# keras 모델을 읽어오기 위한 keras 모델
+from tensorflow.python.keras.models import load_model
+from keras.models import model_from_json
+import scipy.stats as stats
+import matplotlib.pyplot as plt
+# 분석을 위한 import #################################################################
+
 from django.shortcuts import render, redirect
 import cx_Oracle as oci
 from django.views.decorators.csrf import csrf_exempt
@@ -20,13 +38,337 @@ from django.core.cache import caches
 from django.core.cache import cache
 ########## 캐시 처리 ###########################################
 
+# 인기 마 선택 (Survey와 똑같이) #############
+from django.http import HttpResponse
+from finalProject.models import MyPick,Horse
+#############################################
+
+
 # 단축키 참고
 # https://kgu0724.tistory.com/95
 
 # DB 사용에 따른 conn 연결 (전역변수 사용하려면 변수 앞에 global 써주고 함수마다 변수 선언해야만 한다)
-# conn = oci.connect('doosun/doosun@localhost:1521/xe')
+conn = oci.connect('doosun/doosun@localhost:1521/xe')
 # conn = oci.connect('doosun/doosun@192.168.0.7:1521/xe')
-conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
+# conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
+
+########################################### 작성해야 할 아래에 있던 코드 위로 올려 놓음 ############################################################################
+
+# 경마 누가 주인공이냐
+def whoiszoo1(request):
+    # csv 파일 경로에 따른 아래와 같은 표현
+    # 주피터로 테스트한 함수들 차례로 하위 함수 개념으로 전부 붙여넣음
+    # 주피터에서 함수 실행하던 것을은 필요하면 print() 메서드 안에 넣어서 출력해 볼 수 있음
+    HorScoP8 = "horsedata.csv"
+    HorScoP8 = pd.read_csv(HorScoP8)
+    df1 = pd.DataFrame(HorScoP8)
+    # print(df1)
+    del df1['Unnamed: 0']
+    # print("df1 : ",df1)
+
+    def sexage(hname, gmeter):
+        data = df1[(df1['마명'] == hname)]
+        sex = data['성별'].iloc[0]
+        rrange = df1['나이'].max()
+
+        # 나이 범위만큼 age 리스트를 만들고 각 나이의 수를 저장
+        # std 리스트를 생성하고 해당 경기와 같은 경주거리의 기록 데이터를 저장
+        age = [0 for i in range(rrange)]
+        agesum = 0
+        std_list = []
+        for i in range(len(df1)):
+            if df1.loc[i, '거리'] == gmeter:
+                std_list.append(df1.loc[i, '새기록'])
+            for j in range(rrange):
+                if df1.loc[i, '성별'] == sex:
+                    if df1.loc[i, '나이'] == j + 1:
+                        age[j] = age[j] + 1
+                        agesum = agesum + 1
+
+        # age 리스트 범위만큼 weight 리스트를 만들고 가중치를 저장
+        weight = [0 for i in range(rrange)]
+        for i in range(len(age)):
+            weight[i] = age[i] / agesum
+
+        # 가중치를 재조정하고 예측값을 저장
+        std = float(np.std(std_list))
+        readjust = []
+        for i in weight:
+            readjust.append(i * std)
+
+        # 해당 말의 나이에 해당하는 예측값을 반환
+        horseage = int(data['나이'].iloc[0])
+        sexage = readjust[horseage - 1]
+
+        return sexage
+
+    # 경기 거리와 거리별 속도를 분석하여 예측값을 반환
+    def meterspeed(hname, gmeter):
+        data = df1[(df1['마명'] == hname)].index
+
+        # 해당 마명의 해당 경기 거리
+        s1 = []
+        g3 = []
+        g1 = []
+        record = []
+        for i in data:
+            if df1.loc[i, '거리'] == gmeter:
+                s1.append(df1.loc[i, 'S1화롱'])
+                g3.append(df1.loc[i, 'G3화롱'])
+                g1.append(df1.loc[i, 'G1화롱'])
+                record.append(df1.loc[i, '새기록'])
+
+        # 각 화롱의 순간속도와 경주기록의 상관관계(기울기) 분석 및 가중치 부여
+        s1_slope, s1_intercept, s1_r_value, s1_p_value, s1_stderr = stats.linregress(s1, record)
+        g3_slope, g3_intercept, g3_r_value, g3_p_value, g3_stderr = stats.linregress(g3, record)
+        g1_slope, g1_intercept, g1_r_value, g1_p_value, g1_stderr = stats.linregress(g1, record)
+        slope_list = [s1_slope, g3_slope, g1_slope]
+        slope_weight = [0 for i in range(len(slope_list))]
+        slope_total = 0
+        for i in range(len(slope_list)):
+            slope_total = slope_total + slope_list[i]
+        for i in range(len(slope_list)):
+            slope_weight[i] = float(slope_list[i] / slope_total)
+
+        # 화롱의 표준편차에 가중치를 부여한 예측값 반환
+        std_s1 = float(np.std(s1)) * slope_weight[0]
+        std_g3 = float(np.std(g3)) * slope_weight[1]
+        std_g1 = float(np.std(g1)) * slope_weight[2]
+        meterspeed = (std_s1 + std_g3 + std_g1)
+
+        return meterspeed
+
+    # 습도와 기록의 상관관계를 분석하여 예측값을 반환
+    def humidity(hname, humidity):
+        data = df1[(df1['마명'] == hname)].index
+
+        # 습도와 기록의 상관관계 분석
+        humi_list = []
+        record_list = []
+        for i in range(len(df1)):
+            humi_list.append(df1.loc[i, '습도'])
+            record_list.append(df1.loc[i, '새기록'])
+        slope, intercept, r_value, p_value, stderr = stats.linregress(humi_list, record_list)
+
+        # 당해 경주마, 습도에 해당하는 새기록의 표준편차 계산
+        std_list = []
+        for i in data:
+            if df1.loc[i, '습도'] == humidity:
+                std_list.append(df1.loc[i, '새기록'])
+        std = float(np.std(std_list))
+
+        # 표준편차와 상관관계값 연산
+        humidity = std * slope
+
+        return humidity
+
+    # 기수와 기록의 상관관계를 분석하여 예측값을 반환
+    def rider(hname, gmeter, human):
+        data = df1[(df1['마명'] == hname) & (df1['거리'] == gmeter)].index
+        data_list = list(data)
+
+        # 기수 이름 데이터 정리
+        human_list = []
+        record_list = []
+        for i in range(len(data)):
+            human_list.append(df1.loc[i, '기수'])
+            record_list.append(df1.loc[i, '새기록'])
+        human_set = set(human_list)
+        set_list = list(human_set)
+
+        # 기수 이름에 따른 기록 중위값 리스트 작성
+        mean_list = []
+        for i in range(len(set_list)):
+            temp = []
+            for j in range(len(data_list)):
+                if df1.loc[j, '기수'] == set_list[i]:
+                    temp.append(df1.loc[j, '새기록'])
+            median = np.mean(temp)
+            mean_list.append(median)
+
+        # 중위값을 정렬하고 회귀도 분석
+        index_list = [i + 1 for i in range(len(mean_list))]
+        median_list = sorted(mean_list)
+        slope, intercept, r_value, p_value, stderr = stats.linregress(index_list, median_list)
+
+        # 당해 경주마, 기수에 해당하는 새기록의 표준편차 계산
+        std_list = []
+        for i in data:
+            if df1.loc[i, '기수'] == human:
+                std_list.append(df1.loc[i, '새기록'])
+        std = float(np.std(std_list))
+
+        # 표준편차와 상관관계값 연산
+        rider = std * slope
+
+        return rider
+
+    def predict(hname):
+
+        ## 임의로 값을 주입함
+        ## 해당 값들을 select 문으로 받아와야 함 ###################################################################
+
+        # gmeter 는 경기 테이블 game
+        # humi 는 어디에?
+        # human 은 기수 테이블 rider
+
+        gmeter = 800
+        humi = 6
+        human = '문현진'
+        ## 임의로 값을 주입함
+
+        data = df1[(df1['마명'] == hname) & (df1['거리'] == gmeter)]
+        median = data['새기록'].mean()
+
+        # 해당 경주마의 기록 추세 계산
+        hdata = df1[(df1['마명'] == hname)].index
+        hdata_list = list(hdata)
+        new_record = []
+        for i in hdata_list:
+            new_record.append(df1.loc[i, '새기록'])
+        slope, intercept, r_value, p_value, stderr = stats.linregress(hdata_list, new_record)
+
+        # def sexage 메서드 실행
+        sexage_predict = sexage(hname, gmeter)
+        if np.isnan(sexage_predict) == True:
+            sexage_predict = 0
+        # def meterspeed 메서드 실행
+        meterspeed_predict = meterspeed(hname, gmeter)
+        if np.isnan(meterspeed_predict) == True:
+            meterspeed_predict = 0
+        # def humidity 메서드 실행
+        humidity_predict = humidity(hname, humi)
+        if np.isnan(humidity_predict) == True:
+            humidity_predict = 0
+        # def rider 메서드 실행
+        rider_predict = rider(hname, gmeter, human)
+        if np.isnan(rider_predict) == True:
+            rider_predict = 0
+
+        # 예측값 데이터를 합하고 기록 추세를 가중치로 부여함
+        sum_predict = sexage_predict + meterspeed_predict + humidity_predict + rider_predict
+        pre_data = sum_predict * slope
+        predict = 0
+        if slope >= 0:
+            predict = median + pre_data
+        else:
+            predict = median - pre_data
+
+        return predict
+
+    # 메인 메서드
+    def main():
+        hname_list = ['개선문', '오라스타', '아라신화', '삼다지존', '승일교', '행복의문', '태산여왕', '만점왕']
+
+        # 마명에 해당하는 예측값을 반환
+        record_list = []
+        for i in hname_list:
+            prenum = round(predict(i), 2)
+            record_list.append(prenum)
+
+        # 마명에 해당하는 예측값을 딕셔너리 형태로 담아 오름차순으로 정렬
+        hzip = zip(hname_list, record_list)
+        hdict = dict(hzip)
+        res = sorted(hdict.items(), key=(lambda x: x[1]))
+
+        # 예측된 1, 2등마의 데이터를 반환
+        first_horse = res[0]
+        second_horse = res[1]
+        horse = [first_horse, second_horse]
+
+        return horse
+    print("여기까진?")
+    print("최종결과 : ", main())
+    predict_list = main()
+    return render(request, "finalProject/whois_juingong.html", {"predict_list":predict_list})
+
+# 경마 누가 주인공인지 인기투표
+def whoispick1(request):
+    # 경기마 테이블 horse select 로 가져와서 목록 보여주기
+    # global conn
+    # cursor_select = conn.cursor()
+    # hselect_sql = 'select * from horse'
+    # cursor_select.execute(hselect_sql)
+    # hlist = cursor_select.fetchall()
+    ######### 여기부터 Survey 에서 가져온 것 #####################################
+    # filter 는 where 절
+    # order_by 뒤에 - 표시는 : 내림차순 의미
+    # [0] : 레코드 중에서 첫번째 요소 limit 0 과 같다
+    survey = MyPick.objects.filter(status='y').order_by("-survey_idx")[0]
+    return render(request, "finalProject/whois_onepick.html", {"survey":survey})
+
+@csrf_exempt
+def save_survey(request):
+    survey_idx=request.POST["survey_idx"]
+    survey_dto = Horse(survey_idx=int(request.POST["survey_idx"]),num=request.POST["num"])
+    print("ans:",request.POST["ans"])
+    ans= request.POST["ans"]
+    survey_dto.save()
+    return render(request,"finalProject/success.html",{"ans":ans})
+
+def show_result(request):
+    idx = request.GET['survey_idx']
+    #select * from  where survey_idx=1
+    ans = MyPick.objects.get(survey_idx=idx)
+    answer_dto = [ans.ans1,ans.ans2,ans.ans3,ans.ans4,ans.ans5,ans.ans6,ans.ans7,ans.ans8,ans.ans9,ans.ans10,
+                  ans.ans11,ans.ans12,ans.ans13,ans.ans14,ans.ans15,ans.ans16,ans.ans17,ans.ans18,ans.ans19,ans.ans20,
+                  ans.ans21,ans.ans22,ans.ans23,ans.ans24,ans.ans25,ans.ans26,ans.ans27,ans.ans28,ans.ans29,ans.ans30,
+                  ans.ans31,ans.ans32,ans.ans33,ans.ans34,ans.ans35,ans.ans36,ans.ans37,ans.ans38,ans.ans39,ans.ans40,
+                  ans.ans41,ans.ans42,ans.ans43,ans.ans44,ans.ans45,ans.ans46,ans.ans47,ans.ans48,ans.ans49,ans.ans50,
+                  ans.ans51,ans.ans52,ans.ans53,ans.ans54,ans.ans55, ans.ans56, ans.ans57, ans.ans58, ans.ans59,ans.ans60,
+                  ans.ans61, ans.ans62, ans.ans63, ans.ans64, ans.ans65, ans.ans66, ans.ans67, ans.ans68, ans.ans69,
+                  ans.ans70,ans.ans71,ans.ans72,ans.ans73,ans.ans74,ans.ans75,ans.ans76,ans.ans77,ans.ans78]
+
+    surveyList = MyPick.objects.raw("""
+    select survey_idx,num,count(*) sum_sum,
+    round((select count(*) from finalProject_horse
+    where survey_idx=a.survey_idx and num= a.num) * 100.0
+    /(select count(*) from finalProject_horse where survey_idx=a.survey_idx)
+    ,1) rate
+    from finalProject_horse a where survey_idx=%s
+    group by survey_idx,num
+    order by num asc
+    """,idx)
+    print("surveyList : ", surveyList)
+    surveyList = zip(surveyList,answer_dto)
+    return render(request,"finalProject/result.html",{"surveyList":surveyList})
+
+def show_result2(request):
+    idx = request.GET['survey_idx']
+    #select * from survey where survey_idx=1
+    ans = MyPick.objects.get(survey_idx=idx)
+    answer_dto = [ans.ans1, ans.ans2, ans.ans3, ans.ans4, ans.ans5, ans.ans6, ans.ans7, ans.ans8, ans.ans9, ans.ans10,
+                  ans.ans11, ans.ans12, ans.ans13, ans.ans14, ans.ans15, ans.ans16, ans.ans17, ans.ans18, ans.ans19,
+                  ans.ans20,
+                  ans.ans21, ans.ans22, ans.ans23, ans.ans24, ans.ans25, ans.ans26, ans.ans27, ans.ans28, ans.ans29,
+                  ans.ans30,
+                  ans.ans31, ans.ans32, ans.ans33, ans.ans34, ans.ans35, ans.ans36, ans.ans37, ans.ans38, ans.ans39,
+                  ans.ans40,
+                  ans.ans41, ans.ans42, ans.ans43, ans.ans44, ans.ans45, ans.ans46, ans.ans47, ans.ans48, ans.ans49,
+                  ans.ans50,
+                  ans.ans51, ans.ans52, ans.ans53, ans.ans54, ans.ans55, ans.ans56, ans.ans57, ans.ans58, ans.ans59,
+                  ans.ans60,
+                  ans.ans61, ans.ans62, ans.ans63, ans.ans64, ans.ans65, ans.ans66, ans.ans67, ans.ans68, ans.ans69,
+                  ans.ans70, ans.ans71, ans.ans72, ans.ans73, ans.ans74, ans.ans75, ans.ans76, ans.ans77, ans.ans78]
+
+    surveyList = MyPick.objects.raw("""
+    select survey_idx,num,count(*) sum_sum,
+    round((select count(*) from finalProject_horse
+    where survey_idx=a.survey_idx and num= a.num) * 100.0
+    /(select count(*) from finalProject_horse where survey_idx=a.survey_idx)
+    ,1) rate
+    from finalProject_horse a where survey_idx=%s
+    group by survey_idx,num
+    order by num asc
+    """,idx)
+    print("surveyList : ",surveyList)
+    surveyList = zip(surveyList,answer_dto)
+    return render(request,"final/result2.html",{"surveyList":surveyList})
+
+# 오늘의 주인공은?
+def todayzoo1(request):
+    return render(request, "finalProject/today_juingong.html")
+
 
 def home(request):
     return render(request, "finalProject/home_main.html")
@@ -178,8 +520,8 @@ def myquestion(request):
     print("세션 값 새로 저장 :", member_id)
     cursor = conn.cursor()
     myQ_sql = 'select * from question where mid =:mid'
-    conn.commit()
     cursor.execute(myQ_sql, mid=member_id)
+    conn.commit()
     myqlist = cursor.fetchall()
     # cursor.close()
     # conn.close
@@ -412,18 +754,10 @@ def rideintro1(request):
 def raceintro1(request):
     return render(request, "finalProject/gyungma_jangso.html")
 
-# 경마 누가 주인공이냐
-def whoiszoo1(request):
-    return render(request, "finalProject/whois_juingong.html")
-
-# 경마 누가 주인공인지 인기투표
-def whoispick1(request):
-    return render(request, "finalProject/whois_onepick.html")
-
-# 오늘의 주인공은?
-def todayzoo1(request):
-    return render(request, "finalProject/today_juingong.html")
-
 # 풋터
 def footer(request):
     return render(request, "finalProject/footer.html")
+
+
+
+
