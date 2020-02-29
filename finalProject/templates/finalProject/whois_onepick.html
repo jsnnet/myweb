@@ -6,218 +6,298 @@
 <form method="post" action="save_survey" name="form1" id="form1">
     <input type="hidden" name="ans" value="" id="ans">
     {% csrf_token %}
-    <table>
+    <table align="center">
         <tr>
             <th><input type="radio" name="num" value="1" class="num"></th>
             <td><span>{{survey.ans1}}</span></td>
             <th><input type="radio" name="num" value="2" class="num"></th>
             <td><span>{{survey.ans2}}</span></td>
-            <th><input type="radio" name="num" value="3" class="num"></th>
-            <td><span>{{survey.ans3}}</span></td>
+
         </tr>
         <tr>
             <th><input type="radio" name="num" value="3" class="num"></th>
             <td><span>{{survey.ans3}}</span></td>
             <th><input type="radio" name="num" value="4" class="num"></th>
             <td><span>{{survey.ans4}}</span></td>
-            <th><input type="radio" name="num" value="5" class="num"></th>
-            <td><span>{{survey.ans5}}</span></td>
+
         </tr>
         <tr>
+            <th><input type="radio" name="num" value="5" class="num"></th>
+            <td><span>{{survey.ans5}}</span></td>
             <th><input type="radio" name="num" value="6" class="num"></th>
             <td><span>{{survey.ans6}}</span></td>
+
+        </tr>
+        <tr>
+
             <th><input type="radio" name="num" value="7" class="num"></th>
             <td><span>{{survey.ans7}}</span></td>
             <th><input type="radio" name="num" value="8" class="num"></th>
             <td><span>{{survey.ans8}}</span></td>
+
         </tr>
         <tr>
+
             <th><input type="radio" name="num" value="9" class="num"></th>
             <td><span>{{survey.ans9}}</span></td>
             <th><input type="radio" name="num" value="10" class="num"></th>
             <td><span>{{survey.ans10}}</span></td>
-            <th><input type="radio" name="num" value="11" class="num"></th>
-            <td><span>{{survey.ans11}}</span></td>
+
         </tr>
         <tr>
+
+            <th><input type="radio" name="num" value="11" class="num"></th>
+            <td><span>{{survey.ans11}}</span></td>
             <th><input type="radio" name="num" value="12" class="num"></th>
             <td><span>{{survey.ans12}}</span></td>
+
+        </tr>
+        <tr>
+
             <th><input type="radio" name="num" value="13" class="num"></th>
             <td><span>{{survey.ans13}}</span></td>
             <th><input type="radio" name="num" value="14" class="num"></th>
             <td><span>{{survey.ans14}}</span></td>
+
         </tr>
         <tr>
+
             <th><input type="radio" name="num" value="15" class="num"></th>
             <td><span>{{survey.ans15}}</span></td>
             <th><input type="radio" name="num" value="16" class="num"></th>
             <td><span>{{survey.ans16}}</span></td>
-            <th><input type="radio" name="num" value="17" class="num"></th>
-            <td><span>{{survey.ans17}}</span></td>
+
         </tr>
         <tr>
+
+            <th><input type="radio" name="num" value="17" class="num"></th>
+            <td><span>{{survey.ans17}}</span></td>
             <th><input type="radio" name="num" value="18" class="num"></th>
             <td><span>{{survey.ans18}}</span></td>
+
+        </tr>
+        <tr>
+
             <th><input type="radio" name="num" value="19" class="num"></th>
             <td><span>{{survey.ans19}}</span></td>
             <th><input type="radio" name="num" value="20" class="num"></th>
             <td><span>{{survey.ans20}}</span></td>
+
         </tr>
         <tr>
+
             <th><input type="radio" name="num" value="21" class="num"></th>
             <td><span>{{survey.ans21}}</span></td>
             <th><input type="radio" name="num" value="22" class="num"></th>
             <td><span>{{survey.ans22}}</span></td>
-            <th><input type="radio" name="num" value="23" class="num"></th>
-            <td><span>{{survey.ans23}}</span></td>
+
         </tr>
         <tr>
+
+            <th><input type="radio" name="num" value="23" class="num"></th>
+            <td><span>{{survey.ans23}}</span></td>
             <th><input type="radio" name="num" value="24" class="num"></th>
             <td><span>{{survey.ans24}}</span></td>
+
+        </tr>
+        <tr>
+
             <th><input type="radio" name="num" value="25" class="num"></th>
             <td><span>{{survey.ans25}}</span></td>
             <th><input type="radio" name="num" value="26" class="num"></th>
             <td><span>{{survey.ans26}}</span></td>
+
         </tr>
         <tr>
+
             <th><input type="radio" name="num" value="27" class="num"></th>
             <td><span>{{survey.ans27}}</span></td>
             <th><input type="radio" name="num" value="28" class="num"></th>
             <td><span>{{survey.ans28}}</span></td>
-            <th><input type="radio" name="num" value="29" class="num"></th>
-            <td><span>{{survey.ans29}}</span></td>
+
         </tr>
         <tr>
+
+            <th><input type="radio" name="num" value="29" class="num"></th>
+            <td><span>{{survey.ans29}}</span></td>
             <th><input type="radio" name="num" value="30" class="num"></th>
             <td><span>{{survey.ans30}}</span></td>
+
+        </tr>
+        <tr>
+
             <th><input type="radio" name="num" value="31" class="num"></th>
             <td><span>{{survey.ans31}}</span></td>
             <th><input type="radio" name="num" value="32" class="num"></th>
             <td><span>{{survey.ans32}}</span></td>
+
         </tr>
         <tr>
+
             <th><input type="radio" name="num" value="33" class="num"></th>
             <td><span>{{survey.ans33}}</span></td>
             <th><input type="radio" name="num" value="34" class="num"></th>
             <td><span>{{survey.ans34}}</span></td>
-            <th><input type="radio" name="num" value="35" class="num"></th>
-            <td><span>{{survey.ans35}}</span></td>
+
         </tr>
         <tr>
+
+            <th><input type="radio" name="num" value="35" class="num"></th>
+            <td><span>{{survey.ans35}}</span></td>
             <th><input type="radio" name="num" value="36" class="num"></th>
             <td><span>{{survey.ans36}}</span></td>
+
+        </tr>
+        <tr>
+
             <th><input type="radio" name="num" value="37" class="num"></th>
             <td><span>{{survey.ans37}}</span></td>
             <th><input type="radio" name="num" value="38" class="num"></th>
             <td><span>{{survey.ans38}}</span></td>
+
         </tr>
         <tr>
+
             <th><input type="radio" name="num" value="39" class="num"></th>
             <td><span>{{survey.ans39}}</span></td>
             <th><input type="radio" name="num" value="40" class="num"></th>
             <td><span>{{survey.ans40}}</span></td>
+
+        </tr>
+        <tr>
+
             <th><input type="radio" name="num" value="41" class="num"></th>
             <td><span>{{survey.ans41}}</span></td>
-        </tr>
-        <tr>
             <th><input type="radio" name="num" value="42" class="num"></th>
             <td><span>{{survey.ans42}}</span></td>
-            <th><input type="radio" name="num" value="43" class="num"></th>
-            <td><span>{{survey.ans43}}</span></td>
-            <th><input type="radio" name="num" value="44" class="num"></th>
-            <td><span>{{survey.ans44}}</span></td>
+
         </tr>
         <tr>
+
+            <th><input type="radio" name="num" value="43" class="num"></th>
+            <td><span>{{survey.ans43}}</span></td>
+            <th><input type="radio" name="num" value="78" class="num"></th>
+            <td><span>{{survey.ans78}}</span></td>
+
+        </tr>
+        <tr>
+            <th><input type="radio" name="num" value="44" class="num"></th>
+            <td><span>{{survey.ans44}}</span></td>
             <th><input type="radio" name="num" value="45" class="num"></th>
             <td><span>{{survey.ans45}}</span></td>
+
+        </tr>
+        <tr>
             <th><input type="radio" name="num" value="46" class="num"></th>
             <td><span>{{survey.ans46}}</span></td>
             <th><input type="radio" name="num" value="47" class="num"></th>
             <td><span>{{survey.ans47}}</span></td>
+
         </tr>
         <tr>
             <th><input type="radio" name="num" value="48" class="num"></th>
             <td><span>{{survey.ans48}}</span></td>
             <th><input type="radio" name="num" value="49" class="num"></th>
             <td><span>{{survey.ans49}}</span></td>
-            <th><input type="radio" name="num" value="50" class="num"></th>
-            <td><span>{{survey.ans50}}</span></td>
+
         </tr>
         <tr>
+            <th><input type="radio" name="num" value="50" class="num"></th>
+            <td><span>{{survey.ans50}}</span></td>
             <th><input type="radio" name="num" value="51" class="num"></th>
             <td><span>{{survey.ans51}}</span></td>
+
+        </tr>
+        <tr>
             <th><input type="radio" name="num" value="52" class="num"></th>
             <td><span>{{survey.ans52}}</span></td>
             <th><input type="radio" name="num" value="53" class="num"></th>
             <td><span>{{survey.ans53}}</span></td>
+
         </tr>
         <tr>
             <th><input type="radio" name="num" value="54" class="num"></th>
             <td><span>{{survey.ans54}}</span></td>
             <th><input type="radio" name="num" value="55" class="num"></th>
             <td><span>{{survey.ans55}}</span></td>
-            <th><input type="radio" name="num" value="56" class="num"></th>
-            <td><span>{{survey.ans56}}</span></td>
+
         </tr>
         <tr>
+            <th><input type="radio" name="num" value="56" class="num"></th>
+            <td><span>{{survey.ans56}}</span></td>
             <th><input type="radio" name="num" value="57" class="num"></th>
             <td><span>{{survey.ans57}}</span></td>
+
+        </tr>
+        <tr>
             <th><input type="radio" name="num" value="58" class="num"></th>
             <td><span>{{survey.ans58}}</span></td>
             <th><input type="radio" name="num" value="59" class="num"></th>
             <td><span>{{survey.ans59}}</span></td>
+
         </tr>
         <tr>
             <th><input type="radio" name="num" value="60" class="num"></th>
             <td><span>{{survey.ans60}}</span></td>
             <th><input type="radio" name="num" value="61" class="num"></th>
             <td><span>{{survey.ans61}}</span></td>
-            <th><input type="radio" name="num" value="62" class="num"></th>
-            <td><span>{{survey.ans62}}</span></td>
+
         </tr>
         <tr>
+            <th><input type="radio" name="num" value="62" class="num"></th>
+            <td><span>{{survey.ans62}}</span></td>
             <th><input type="radio" name="num" value="63" class="num"></th>
             <td><span>{{survey.ans63}}</span></td>
+
+        </tr>
+        <tr>
             <th><input type="radio" name="num" value="64" class="num"></th>
             <td><span>{{survey.ans64}}</span></td>
             <th><input type="radio" name="num" value="65" class="num"></th>
             <td><span>{{survey.ans65}}</span></td>
+
         </tr>
         <tr>
             <th><input type="radio" name="num" value="66" class="num"></th>
             <td><span>{{survey.ans66}}</span></td>
             <th><input type="radio" name="num" value="67" class="num"></th>
             <td><span>{{survey.ans67}}</span></td>
-            <th><input type="radio" name="num" value="68" class="num"></th>
-            <td><span>{{survey.ans68}}</span></td>
+
         </tr>
         <tr>
+            <th><input type="radio" name="num" value="68" class="num"></th>
+            <td><span>{{survey.ans68}}</span></td>
             <th><input type="radio" name="num" value="69" class="num"></th>
             <td><span>{{survey.ans69}}</span></td>
+
+        </tr>
+        <tr>
             <th><input type="radio" name="num" value="70" class="num"></th>
             <td><span>{{survey.ans70}}</span></td>
             <th><input type="radio" name="num" value="71" class="num"></th>
             <td><span>{{survey.ans71}}</span></td>
+
         </tr>
         <tr>
             <th><input type="radio" name="num" value="72" class="num"></th>
             <td><span>{{survey.ans72}}</span></td>
             <th><input type="radio" name="num" value="73" class="num"></th>
             <td><span>{{survey.ans73}}</span></td>
-            <th><input type="radio" name="num" value="74" class="num"></th>
-            <td><span>{{survey.ans74}}</span></td>
+
         </tr>
         <tr>
+            <th><input type="radio" name="num" value="74" class="num"></th>
+            <td><span>{{survey.ans74}}</span></td>
             <th><input type="radio" name="num" value="75" class="num"></th>
             <td><span>{{survey.ans75}}</span></td>
+
+        </tr>
+        <tr>
             <th><input type="radio" name="num" value="76" class="num"></th>
             <td><span>{{survey.ans76}}</span></td>
             <th><input type="radio" name="num" value="77" class="num"></th>
             <td><span>{{survey.ans77}}</span></td>
-        </tr>
-        <tr>
-            <th><input type="radio" name="num" value="78" class="num"></th>
-            <td><span>{{survey.ans78}}</span></td>
+
         </tr>
     </table>
     <!--    <p>설문 제목 : {{survey.question}}</p>-->

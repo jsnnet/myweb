@@ -1,0 +1,34 @@
+{% extends 'finalProject/header4.html'%}
+{% block content %}
+<style>
+.h_graph ul{margin:0 50px 0 50px;padding:1px 0 0 0;border:1px solid #ddd;border-top:0;border-right:0;font-size:11px;font-family:Tahoma, Geneva, sans-serif;list-style:none}
+.h_graph li{position:relative;margin:10px 0;vertical-align:top;white-space:nowrap; border-left:0}
+.h_graph .g_term{position:absolute;top:0;left:-50px;width:40px;font-weight:bold;color:#767676;line-height:20px;text-align:right}
+.h_graph .g_bar{display:inline-block;position:relative;height:20px;border:1px solid #ccc;border-left:0;background:#e9e9e9; align:left;}
+.h_graph .g_bar span{position:absolute;top:0;right:-50px;width:40px;color:#767676;line-height:20px}
+</style>
+
+<!-- UI Object 가로 -->
+<!--<div class="h_graph">-->
+<!--    {%for raw,ans in surveyList%}-->
+<!--    <ul>-->
+<!--        <li><span class="g_term">{{ans}}</span><span class="g_bar" style="width:{{raw.rate}}%"><span>{{raw.sum_sum}}</span></span></li>-->
+<!--    </ul>-->
+<!--    {% endfor %}-->
+<!--</div>-->
+
+<table align="center">
+    <div class="h_graph">
+        <ul>
+            <li><span class="g_term">SUN</span><span class="g_bar" style="width:0%"><span>0%</span></span></li>
+            <li><span class="g_term">MON</span><span class="g_bar" style="width:20%"><span>20%</span></span></li>
+            <li><span class="g_term">TUE</span><span class="g_bar" style="width:30%"><span>30%</span></span></li>
+            <li><span class="g_term">WED</span><span class="g_bar" style="width:40%"><span>40%</span></span></li>
+            <li><span class="g_term">THU</span><span class="g_bar" style="width:50%"><span>50%</span></span></li>
+            <li><span class="g_term">FRI</span><span class="g_bar" style="width:60%"><span>60%</span></span></li>
+            <li><span class="g_term">SAT</span><span class="g_bar" style="width:100%"><span>100%</span></span></li>
+        </ul>
+    </div>
+    </table>
+<!-- //UI Object -->
+{% endblock %}

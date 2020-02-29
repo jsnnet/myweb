@@ -1,0 +1,36 @@
+{% extends 'finalProject/header4.html'%}
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <style>
+        /* UI Object 가로 */
+        .h_graph ul{margin:0 50px 0 50px;padding:5px 0 10 0;border:1px solid #ddd;border-top:0;border-right:0;font-size:11px;font-family:Tahoma, Geneva, sans-serif;list-style:none;}
+        .h_graph li{position:relative;margin:10px 90px;vertical-align:top;white-space:nowrap}
+        .h_graph .g_term{position:absolute;top:0;left:-120px;width:40px;font-weight:bold;font-size:20px;color:#767676;line-height:20px;text-align:right}
+        .h_graph .g_bar{display:inline-block;position:relative;height:20px;border:1px solid #ccc;border-left:0;}
+        .h_graph .g_bar span{position:absolute;top:0;right:-50px;width:40px;color:#767676;line-height:20px}
+        /* //UI Object */
+
+        /* UI Object 세로 */
+        .ratio{padding-top:20px}
+        .ratio li{float:left;position:relative;width:100px;height:300px;margin-right:10px;list-style:none}
+        .ratio div{position:absolute;left:0;bottom:0;width:100%;background:url(img/bg_gage2.gif) repeat;font-size:0}
+        .ratio em{position:absolute;top:-20px;width:100%;font-size:12px;font-weight:bold;text-align:center}
+        /* //UI Object */
+    </style>
+</head>
+
+<body>
+<!-- UI Object 가로 -->
+<div align="center">
+    <div class="h_graph" align="left">
+        <ul>
+            {%for raw,ans in surveyList%}
+            <li><span class="g_term">{{ans}}</span><span class="g_bar" style="width:{{raw.rate}}%; background:#1B7CCC"><span>{{raw.rate}}% ({{raw.sum_sum}}표)</span></span></li>
+            {%endfor%}
+        </ul>
+    </div>
+</div>
+<!-- //UI Object -->
+</body>
+{% endblock %}
