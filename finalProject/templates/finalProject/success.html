@@ -1,20 +1,17 @@
 {% extends 'finalProject/header4.html'%}
 {% block content %}
-    <style>
-        img{width:200px}
-
-    </style>
+<style>
+    img{width:720px}
+</style>
 </head>
 <body>
 {% load static %}
-<img src="{% static 'image/peng1.jpeg' %}">
-<h3>당신이 응원하는 말은</h3>
-<br>
-<h1>{{ans}}</h1>
+{% static "" as baseUrl %}
+<img src="{% static 'image/jeju_horse1.jpg' %}">
+<h1>"{{ans}}"은</h1>
+<h3>당신의 응원을 받고 있습니다.</h3>
 <p>
-<!--    <a href = "/finalProject/whoispick1">투표하기</a>&nbsp; -->
-
-    <a href="/finalProject/show_result?survey_idx=2">전체 투표 결과 확인</a>
-
+    <!--    <a href = "/finalProject/whoispick1">투표하기</a>&nbsp; -->
+    <a href="/finalProject/show_result?survey_idx=2">클릭하여 전체 투표 결과 확인하러 가기</a>
 </p>
 {% endblock %}
