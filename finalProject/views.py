@@ -301,20 +301,20 @@ def whoispick1(request):
 
 @csrf_exempt
 def save_survey(request):
-    survey_idx=request.POST["survey_idx"]
-    print(survey_idx)
-    print("넘어오는 num 값 : ", request.POST["num"])
-    survey_dto = Horse(survey_idx=int(request.POST["survey_idx"]),num=request.POST["num"])
-    print("ans:",request.POST["ans"])
-    ans= request.POST["ans"]
-    print("투표 결과 : ", ans)
+    # survey_idx=request.POST["survey_idx"]
+    # print(survey_idx)
+    # print("넘어오는 num 값 : ", request.POST["num"])
+    survey_dto = Horse(survey_idx=request.POST["survey_idx"],num=request.POST["num"])
+    # print("ans:",request.POST["ans"])
+    ans = request.POST["ans"]
+    # print("투표 결과 : ", ans)
     survey_dto.save()
     return render(request,"finalProject/success.html",{"ans":ans})
 
 def show_result(request):
     idx = request.GET['survey_idx']
-    #select * from  where survey_idx=1
     ans = Select.objects.get(survey_idx=idx)
+    print("ans : ",ans)
     answer_dto = [ans.ans1,ans.ans2,ans.ans3,ans.ans4,ans.ans5,ans.ans6,ans.ans7,ans.ans8,ans.ans9,ans.ans10,
                   ans.ans11,ans.ans12,ans.ans13,ans.ans14,ans.ans15,ans.ans16,ans.ans17,ans.ans18,ans.ans19,ans.ans20,
                   ans.ans21,ans.ans22,ans.ans23,ans.ans24,ans.ans25,ans.ans26,ans.ans27,ans.ans28,ans.ans29,ans.ans30,
@@ -325,18 +325,21 @@ def show_result(request):
                   ans.ans71,ans.ans72,ans.ans73,ans.ans74,ans.ans75,ans.ans76,ans.ans77,ans.ans78]
 
     surveyList = Select.objects.raw("""
-    select survey_idx,num,count(*) sum_sum,
+    select 
+    survey_idx,num,count(*) sum_num,
     round((select count(*) from finalProject_horse
-    where survey_idx=a.survey_idx and num= a.num) * 100.0
-    /(select count(*) from finalProject_horse where survey_idx=a.survey_idx)
+    where survey_idx=a.survey_idx and num=a.num) * 100.0
+    /(select count(*) from finalProject_horse 
+    where survey_idx=a.survey_idx)
     ,1) rate
     from finalProject_horse a where survey_idx=%s
     group by survey_idx,num
-    order by num asc
+    order by num
     """, idx)
-    print("surveyList : ", surveyList)
-    surveyList = zip(surveyList,answer_dto)
-    print("surveyList 타입 : ", type(surveyList))
+    surveyList = zip(surveyList, answer_dto)
+    # print("surveyList : ", surveyList)
+    # print("answer_dto : ", answer_dto)
+    # count = Horse.objects.all().count()
     return render(request, "finalProject/whois_onepick_result6.html", {"surveyList":surveyList})
 
 # 오늘의 주인공은?

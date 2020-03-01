@@ -127,35 +127,27 @@ extra_js:
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">인기마 투표 결과</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
-          <!--          <div class="btn-group mr-2">-->
-          <!--            <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>-->
-          <!--            <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>-->
-          <!--          </div>-->
-          <!--          <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">-->
-          <!--            <span data-feather="calendar"></span>-->
-          <!--            This week-->
-          <!--          </button>-->
+          <table>
+            <tr>
+              <th>문항</th>
+              <th>응답수</th>
+              <th>답변율</th>
+            </tr>
+            {%for raw,ans in surveyList%}
+            <tr>
+              <td>{{ans}}</td>
+              <td>{{raw.sum_sum}}</td>
+              <td>{{raw.rate}}</td>
+            </tr>
+            {%endfor%}
+            <tr>
+              <th colspan="3">
+                <input type="button" value="설문참여" id="btn1">
+              </th>
+            </tr>
+          </table>
         </div>
       </div>
-      <table>
-        <tr>
-          <th>문항</th>
-          <th>응답수</th>
-          <th>답변율</th>
-        </tr>
-        {%for raw,ans in surveyList%}
-        <tr>
-          <td>{{ans}}</td>
-          <td>{{raw.sum_sum}}</td>
-          <td>{{raw.rate}}</td>
-        </tr>
-        {%endfor%}
-        <tr>
-          <th colspan="3">
-            <input type="button" value="설문참여" id="btn1">
-          </th>
-        </tr>
-      </table>
     </main>
   </div>
 </div>
