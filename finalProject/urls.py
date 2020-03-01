@@ -14,7 +14,7 @@ urlpatterns = [
     path('login', views.login),
     # 로그인 폼으로 이동하여 정보 입력 후 버튼 누르면 세션에 등록
     path('login_session', views.login_session),
-
+    #로그아웃
     path('logout',views.logout),
 
     #문의사항
@@ -52,9 +52,11 @@ urlpatterns = [
     path('whoispick1', views.whoispick1),
     path('save_survey', views.save_survey),
     path('show_result', views.show_result),
-    # path('show_result2', views.show_result2),
 
+    # 경기 결과 어떤 말이 우승 했는지 출력
     path('todayzoo1', views.todayzoo1),
+
+    # 카운트 다운 (보류)
     # path('countdown', views.countdown),
 
     # 검색 기능

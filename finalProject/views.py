@@ -336,39 +336,6 @@ def show_result(request):
     print("surveyList 타입 : ", type(surveyList))
     return render(request, "finalProject/whois_onepick_result5.html", {"surveyList":surveyList})
 
-# def show_result2(request):
-#     idx = request.GET['survey_idx']
-#     #select * from survey where survey_idx=1
-#     ans = MyPick.objects.get(survey_idx=idx)
-#     answer_dto = [ans.ans1, ans.ans2, ans.ans3, ans.ans4, ans.ans5, ans.ans6, ans.ans7, ans.ans8, ans.ans9, ans.ans10,
-#                   ans.ans11, ans.ans12, ans.ans13, ans.ans14, ans.ans15, ans.ans16, ans.ans17, ans.ans18, ans.ans19,
-#                   ans.ans20,
-#                   ans.ans21, ans.ans22, ans.ans23, ans.ans24, ans.ans25, ans.ans26, ans.ans27, ans.ans28, ans.ans29,
-#                   ans.ans30,
-#                   ans.ans31, ans.ans32, ans.ans33, ans.ans34, ans.ans35, ans.ans36, ans.ans37, ans.ans38, ans.ans39,
-#                   ans.ans40,
-#                   ans.ans41, ans.ans42, ans.ans43, ans.ans44, ans.ans45, ans.ans46, ans.ans47, ans.ans48, ans.ans49,
-#                   ans.ans50,
-#                   ans.ans51, ans.ans52, ans.ans53, ans.ans54, ans.ans55, ans.ans56, ans.ans57, ans.ans58, ans.ans59,
-#                   ans.ans60,
-#                   ans.ans61, ans.ans62, ans.ans63, ans.ans64, ans.ans65, ans.ans66, ans.ans67, ans.ans68, ans.ans69,
-#                   ans.ans70, ans.ans71, ans.ans72, ans.ans73, ans.ans74, ans.ans75, ans.ans76, ans.ans77, ans.ans78]
-#
-#     surveyList = MyPick.objects.raw("""
-#     select survey_idx,num,count(*) sum_sum,
-#     round((select count(*) from finalProject_horse
-#     where survey_idx=a.survey_idx and num= a.num) * 100.0
-#     /(select count(*) from finalProject_horse where survey_idx=a.survey_idx)
-#     ,1) rate
-#     from finalProject_horse a where survey_idx=%s
-#     group by survey_idx,num
-#     order by num asc
-#     """,idx)
-#     # print("surveyList : ",surveyList)
-#     # surveyList = zip(surveyList,answer_dto)
-#     print("surveyList : ", surveyList)
-#     return render(request,"final/whois_onepick_result5.html",{"surveyList":surveyList})
-
 # 오늘의 주인공은?
 def todayzoo1(request):
     # return render(request, "finalProject/today_juingong.html")
@@ -379,7 +346,7 @@ def home(request):
     return render(request, "finalProject/home_main.html")
 
 def join(request):
-    return render(request, "finalProject/join_gaip.html")
+    return render(request, "finalProject/join_gaip3.html")
 
 ####################################################################### (상) sqlite 과 oracle DB에 동시 회원가입하는 부분
 from django.contrib import auth
@@ -427,7 +394,7 @@ def login(request):
     if request.session.get('mid') != None:
         return render(request, 'finalProject/plzlogout.html')
     else:
-        return render(request, 'finalProject/login.html')
+        return render(request, 'finalProject/login1.html')
 
 # login 페이지에서 로그인 하면 session 에 등록
 # DB에 등록된 아이디와는 비교 기능 미구현

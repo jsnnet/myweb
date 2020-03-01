@@ -1,0 +1,73 @@
+{% extends 'finalProject/header4.html'%}
+{% block content %}
+
+{% load static %}
+{% static "" as baseUrl %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="{% static 'fonts_sign3/material-icon/css/material-design-iconic-font.min.css'%}">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="{% static 'css_sign3/style.css'%}">
+</head>
+<body>
+
+<div class="main">
+
+    <h1>뱃또롱</h1>
+    <div class="container">
+        <div class="sign-up-content">
+            <form method="POST" class="signup-form" action="join_Oraclite">
+                <div class="form-textbox">
+                    <label for="mid">아이디</label>
+                    <input type="text" name="mid" id="mid" />
+                </div>
+                <div class="form-textbox">
+                    <label for="mpwd">패스워드</label>
+                    <input type="password" name="mpwd" id="mpwd" />
+                </div>
+                <div class="form-textbox">
+                    <label for="mname">이름</label>
+                    <input type="text" name="mname" id="mname" />
+                </div>
+                <div class="form-textbox">
+                    <label for="mtel">연락처</label>
+                    <input type="text" name="mtel" id="mtel" />
+                </div>
+
+                <!--                <h6 class="form-title">일반회원으로 가입하시겠습니까?</h6>-->
+                <div class="form-select">
+
+                    <select name="madmin" id="madmin" style="width:95px">
+                        <option value="">선택</option>
+                        <option value="0">회원</option>
+                        <option value="1">관리자</option>
+                    </select>
+                    <h6 style="float:right">회원 또는 관리자로 가입이 가능합니다. </h6>
+                    <!--                    <input type="radio" name="member_level" value="0" id="user" checked="checked" />-->
+                    <!--                    <label for="user">일반회원</label>-->
+                    <!--                    <input type="radio" name="member_level" value="1" id="admin" />-->
+                    <!--                    <label for="admin">관리자</label>-->
+                </div>
+
+                <br>
+                <div class="form-textbox">
+                    <input type="submit" name="submit" id="submit" class="submit" value="가입" />
+                </div>
+            </form>
+            <p class="loginhere">
+                이미 가입된 회원이라면 Log in 을 클릭해주세요 >> <a href="login" class="loginhere-link"> Log in</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- JS -->
+<script src="{% static 'vendor_sign3/jquery/jquery.min.js'%}"></script>
+<script src="{% static 'js_sign3/main.js'%}"></script>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+{% endblock %}
