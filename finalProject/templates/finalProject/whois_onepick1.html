@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% load static %}
+  <meta charset="UTF-8">
+  <title>뱃또롱</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="{% static 'css_dashboard/dashboard.css' %}" />
+<!--  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/feather용-icons/4.9.0/feather.min.js" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">-->
+<!--  <link rel="stylesheet" type="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js" />-->
+  <script src="{% static 'js_dashboard/dashboard.js' %}"></script>
+
+  <style>
+        /* UI Object 가로 */
+        .h_graph ul{margin:0 50px 0 50px;padding:5px 0 10 0;border:1px solid #ddd;border-top:0;border-right:0;font-size:11px;font-family:Tahoma, Geneva, sans-serif;list-style:none;}
+        .h_graph li{position:relative;margin:10px 90px;vertical-align:top;white-space:nowrap}
+        .h_graph .g_term{position:absolute;top:0;left:-120px;width:40px;font-weight:bold;font-size:20px;color:#767676;line-height:20px;text-align:right}
+        .h_graph .g_bar{display:inline-block;position:relative;height:20px;border:1px solid #ccc;border-left:0;}
+        .h_graph .g_bar span{position:absolute;top:0;right:-50px;width:40px;color:#767676;line-height:20px}
+        /* //UI Object */
+  </style>
+</head>
+<body>
+---
+layout: examples
+title: Dashboard Template
+extra_css: "dashboard.css"
+extra_js:
+- "https://cdnjs.cloudflare.com/ajax/libs/feather용-icons/4.9.0/feather.min.js"
+- "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"
+- "dashboard.js"
+---
+
+<nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+  <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">뱃또롱</a>
+  <!--  <input class="form-control form-control-dark w-50" type="text" placeholder="Search" aria-label="Search">-->
+  {% if request.session.mid != None %}
+  <button onclick="location.href='login'" style="background:transparent; color:gray; border-radius:15px" src="{% static 'image/user_icon.jpg' %}">{{request.session.mid}}</button>
+  {% else %}
+  <div><a href="join" style="color:gray">회원가입</a><a> / </a><a href="login" style="color:gray">로그인</a></div>
+
+  </div>
+  {% endif %}
+</nav>
+
+<div class="container-fluid">
+  <div class="row">
+    <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+      <div class="sidebar-sticky">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link" href="home">
+              <span data-feather="file"></span>
+              홈
+            </a>
+          </li>
+        </ul>
+        <ul class="nav flex-column">
+          <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+            <span>승마</span>
+            <a class="d-flex align-items-center text-muted" href="#" aria-label="Add a new report">
+              <span data-feather="plus-circle"></span>
+            </a>
+          </h6>
+          <li class="nav-item">
+            <a class="nav-link" href="ride1">
+              <span data-feather="file"></span>
+              승마소개
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="rideintro1">
+              <span data-feather="shopping-cart"></span>
+              승마 체험장 소개
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="riderecom1">
+              <span data-feather="users"></span>
+              승마 체험장 추천
+            </a>
+          </li>
+        </ul>
+        <ul class="nav flex-column">
+          <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+            <span>경마</span>
+            <a class="d-flex align-items-center text-muted" href="#" aria-label="Add a new report">
+              <span data-feather="plus-circle"></span>
+            </a>
+          </h6>
+          <li class="nav-item">
+            <a class="nav-link" href="race1">
+              <span data-feather="file"></span>
+              경마소개
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="raceintro1">
+              <span data-feather="shopping-cart"></span>
+              경마장 소개
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="whoiszoo1">
+              <span data-feather="users"></span>
+              주인공 맟줘보기
+            </a>
+          </li>
+          <li class="nav-item">
+
+            <a class="nav-link active" href="whoispick1">
+              <span data-feather="home"></span>
+              주인공 응원하기 <span class="sr-only">(current)</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="todayzoo1">
+              <span data-feather="layers"></span>
+              오늘의 주인공
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+      <h2>투표로 당신의 주인공을 응원해주세요.</h2>
+      <div class="table-responsive">
+        <form method="post" action="save_survey" name="form1" id="form1">
+          <input type="hidden" name="ans" value="" id="ans">
+          {% csrf_token %}
+          <table class="table table-striped table-sm">
+            <thead>
+            <tr>
+              <th>선택</th>
+              <th>마명</th>
+              <th>선택</th>
+              <th>마명</th>
+              <th>선택</th>
+              <th>마명</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td><input type="radio" name="num" value="1" class="num"></td>
+              <td><span>{{survey.ans1}}</span></td>
+              <td><input type="radio" name="num" value="2" class="num"></td>
+              <td><span>{{survey.ans2}}</span></td>
+              <td><input type="radio" name="num" value="3" class="num"></td>
+              <td><span>{{survey.ans3}}</span></td>
+            </tr>
+            <tr>
+              <td><input type="radio" name="num" value="4" class="num"></td>
+              <td><span>{{survey.ans4}}</span></td>
+              <td><input type="radio" name="num" value="5" class="num"></td>
+              <td><span>{{survey.ans5}}</span></td>
+              <td><input type="radio" name="num" value="6" class="num"></td>
+              <td><span>{{survey.ans6}}</span></td>
+            </tr>
+            <tr>
+              <td><input type="radio" name="num" value="7" class="num"></td>
+              <td><span>{{survey.ans7}}</span></td>
+              <td><input type="radio" name="num" value="8" class="num"></td>
+              <td><span>{{survey.ans8}}</span></td>
+              <td><input type="radio" name="num" value="9" class="num"></td>
+              <td><span>{{survey.ans9}}</span></td>
+            </tr>
+            <tr>
+              <td><input type="radio" name="num" value="10" class="num"></td>
+              <td><span>{{survey.ans10}}</span></td>
+              <td><input type="radio" name="num" value="11" class="num"></td>
+              <td><span>{{survey.ans11}}</span></td>
+              <td><input type="radio" name="num" value="12" class="num"></td>
+              <td><span>{{survey.ans12}}</span></td>
+            </tr>
+            <tr>
+              <td><input type="radio" name="num" value="13" class="num"></td>
+              <td><span>{{survey.ans13}}</span></td>
+              <td><input type="radio" name="num" value="14" class="num"></td>
+              <td><span>{{survey.ans14}}</span></td>
+              <td><input type="radio" name="num" value="15" class="num"></td>
+              <td><span>{{survey.ans15}}</span></td>
+            </tr>
+            <tr>
+              <td><input type="radio" name="num" value="16" class="num"></td>
+              <td><span>{{survey.ans16}}</span></td>
+              <td><input type="radio" name="num" value="17" class="num"></td>
+              <td><span>{{survey.ans17}}</span></td>
+              <td><input type="radio" name="num" value="18" class="num"></td>
+              <td><span>{{survey.ans18}}</span></td>
+            </tr>
+            <tr>
+              <td><input type="radio" name="num" value="19" class="num"></td>
+              <td><span>{{survey.ans19}}</span></td>
+              <td><input type="radio" name="num" value="20" class="num"></td>
+              <td><span>{{survey.ans20}}</span></td>
+              <td><input type="radio" name="num" value="21" class="num"></td>
+              <td><span>{{survey.ans21}}</span></td>
+            </tr>
+            <tr>
+              <td><input type="radio" name="num" value="22" class="num"></td>
+              <td><span>{{survey.ans22}}</span></td>
+              <td><input type="radio" name="num" value="23" class="num"></td>
+              <td><span>{{survey.ans23}}</span></td>
+              <td><input type="radio" name="num" value="24" class="num"></td>
+              <td><span>{{survey.ans24}}</span></td>
+            </tr>
+            <tr>
+              <td><input type="radio" name="num" value="25" class="num"></td>
+              <td><span>{{survey.ans25}}</span></td>
+              <td><input type="radio" name="num" value="26" class="num"></td>
+              <td><span>{{survey.ans26}}</span></td>
+              <td><input type="radio" name="num" value="27" class="num"></td>
+              <td><span>{{survey.ans27}}</span></td>
+            </tr>
+            <tr>
+              <td><input type="radio" name="num" value="28" class="num"></td>
+              <td><span>{{survey.ans28}}</span></td>
+              <td><input type="radio" name="num" value="29" class="num"></td>
+              <td><span>{{survey.ans29}}</span></td>
+              <td><input type="radio" name="num" value="30" class="num"></td>
+              <td><span>{{survey.ans30}}</span></td>
+            </tr>
+            <tr>
+              <td><input type="radio" name="num" value="31" class="num"></td>
+              <td><span>{{survey.ans31}}</span></td>
+              <td><input type="radio" name="num" value="32" class="num"></td>
+              <td><span>{{survey.ans32}}</span></td>
+              <td><input type="radio" name="num" value="33" class="num"></td>
+              <td><span>{{survey.ans33}}</span></td>
+            </tr>
+            <tr>
+              <td><input type="radio" name="num" value="34" class="num"></td>
+              <td><span>{{survey.ans34}}</span></td>
+              <td><input type="radio" name="num" value="35" class="num"></td>
+              <td><span>{{survey.ans35}}</span></td>
+              <td><input type="radio" name="num" value="36" class="num"></td>
+              <td><span>{{survey.ans36}}</span></td>
+            </tr>
+            <tr>
+              <td><input type="radio" name="num" value="37" class="num"></td>
+              <td><span>{{survey.ans37}}</span></td>
+              <td><input type="radio" name="num" value="38" class="num"></td>
+              <td><span>{{survey.ans38}}</span></td>
+              <td><input type="radio" name="num" value="39" class="num"></td>
+              <td><span>{{survey.ans39}}</span></td>
+            </tr>
+            <tr>
+              <td><input type="radio" name="num" value="40" class="num"></td>
+              <td><span>{{survey.ans40}}</span></td>
+              <td><input type="radio" name="num" value="41" class="num"></td>
+              <td><span>{{survey.ans41}}</span></td>
+              <td><input type="radio" name="num" value="42" class="num"></td>
+              <td><span>{{survey.ans42}}</span></td>
+            </tr>
+            <tr>
+              <td><input type="radio" name="num" value="43" class="num"></td>
+              <td><span>{{survey.ans43}}</span></td>
+              <td><input type="radio" name="num" value="44" class="num"></td>
+              <td><span>{{survey.ans44}}</span></td>
+              <td><input type="radio" name="num" value="45" class="num"></td>
+              <td><span>{{survey.ans45}}</span></td>
+            </tr>
+            <tr>
+              <td><input type="radio" name="num" value="46" class="num"></td>
+              <td><span>{{survey.ans46}}</span></td>
+              <td><input type="radio" name="num" value="47" class="num"></td>
+              <td><span>{{survey.ans47}}</span></td>
+              <td><input type="radio" name="num" value="48" class="num"></td>
+              <td><span>{{survey.ans48}}</span></td>
+            </tr>
+            <tr>
+              <td><input type="radio" name="num" value="49" class="num"></td>
+              <td><span>{{survey.ans49}}</span></td>
+              <td><input type="radio" name="num" value="50" class="num"></td>
+              <td><span>{{survey.ans50}}</span></td>
+              <td><input type="radio" name="num" value="51" class="num"></td>
+              <td><span>{{survey.ans51}}</span></td>
+            </tr>
+            <tr>
+              <td><input type="radio" name="num" value="52" class="num"></td>
+              <td><span>{{survey.ans52}}</span></td>
+              <td><input type="radio" name="num" value="53" class="num"></td>
+              <td><span>{{survey.ans53}}</span></td>
+              <td><input type="radio" name="num" value="54" class="num"></td>
+              <td><span>{{survey.ans54}}</span></td>
+            </tr>
+            <tr>
+              <td><input type="radio" name="num" value="55" class="num"></td>
+              <td><span>{{survey.ans55}}</span></td>
+              <td><input type="radio" name="num" value="56" class="num"></td>
+              <td><span>{{survey.ans56}}</span></td>
+              <td><input type="radio" name="num" value="57" class="num"></td>
+              <td><span>{{survey.ans57}}</span></td>
+            </tr>
+            <tr>
+              <td><input type="radio" name="num" value="58" class="num"></td>
+              <td><span>{{survey.ans58}}</span></td>
+              <td><input type="radio" name="num" value="59" class="num"></td>
+              <td><span>{{survey.ans59}}</span></td>
+              <td><input type="radio" name="num" value="60" class="num"></td>
+              <td><span>{{survey.ans60}}</span></td>
+            </tr>
+            <tr>
+              <td><input type="radio" name="num" value="61" class="num"></td>
+              <td><span>{{survey.ans61}}</span></td>
+              <td><input type="radio" name="num" value="62" class="num"></td>
+              <td><span>{{survey.ans62}}</span></td>
+              <td><input type="radio" name="num" value="63" class="num"></td>
+              <td><span>{{survey.ans63}}</span></td>
+            </tr>
+            <tr>
+              <td><input type="radio" name="num" value="64" class="num"></td>
+              <td><span>{{survey.ans64}}</span></td>
+              <td><input type="radio" name="num" value="65" class="num"></td>
+              <td><span>{{survey.ans65}}</span></td>
+              <td><input type="radio" name="num" value="66" class="num"></td>
+              <td><span>{{survey.ans66}}</span></td>
+            </tr>
+            <tr>
+              <td><input type="radio" name="num" value="67" class="num"></td>
+              <td><span>{{survey.ans67}}</span></td>
+              <td><input type="radio" name="num" value="68" class="num"></td>
+              <td><span>{{survey.ans68}}</span></td>
+              <td><input type="radio" name="num" value="69" class="num"></td>
+              <td><span>{{survey.ans69}}</span></td>
+            </tr>
+            <tr>
+              <td><input type="radio" name="num" value="70" class="num"></td>
+              <td><span>{{survey.ans70}}</span></td>
+              <td><input type="radio" name="num" value="71" class="num"></td>
+              <td><span>{{survey.ans71}}</span></td>
+              <td><input type="radio" name="num" value="72" class="num"></td>
+              <td><span>{{survey.ans72}}</span></td>
+            </tr>
+            <tr>
+              <td><input type="radio" name="num" value="73" class="num"></td>
+              <td><span>{{survey.ans73}}</span></td>
+              <td><input type="radio" name="num" value="74" class="num"></td>
+              <td><span>{{survey.ans74}}</span></td>
+              <td><input type="radio" name="num" value="75" class="num"></td>
+              <td><span>{{survey.ans75}}</span></td>
+            </tr>
+            <tr>
+              <td><input type="radio" name="num" value="76" class="num"></td>
+              <td><span>{{survey.ans76}}</span></td>
+              <td><input type="radio" name="num" value="77" class="num"></td>
+              <td><span>{{survey.ans77}}</span></td>
+              <td><input type="radio" name="num" value="78" class="num"></td>
+              <td><span>{{survey.ans78}}</span></td>
+            </tr>
+            </tbody>
+          </table>
+          <p>
+            <input type="hidden" name="survey_idx" value="{{survey.survey_idx}}">
+            <input type="submit" value="투표하기">
+            <input type="button" value="결과확인" id="resBtn">
+          </p>
+        </form>
+      </div>
+    </main>
+  </div>
+</div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    $(function(){
+        $('#resBtn').click(function(){
+            location.href="show_result?survey_idx={{survey.survey_idx}}";
+        });
+        $('.num').click(function(){
+        console.log($(this).parent().next().children().text())
+        //선택한 라다오 버튼의 값을 히든으로 처리한 ans 로 입력하여 전송
+            $('#ans').val($(this).parent().next().children().text());
+        });
+        $('#surveyBtn').click(function(){
+            document.form1.action="save_survey";
+            document.form1.submit();
+        });
+    });
+</script>
+</html>

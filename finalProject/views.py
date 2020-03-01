@@ -41,7 +41,7 @@ from django.core.cache import cache
 
 # 인기 마 선택 (Survey와 똑같이) #############
 from django.http import HttpResponse
-from finalProject.models import MyPick,Horse
+from finalProject.models import Select,Horse
 #############################################
 
 
@@ -296,32 +296,35 @@ def whoispick1(request):
     # filter 는 where 절
     # order_by 뒤에 - 표시는 : 내림차순 의미
     # [0] : 레코드 중에서 첫번째 요소 limit 0 과 같다
-    survey = MyPick.objects.filter(status='y').order_by("-survey_idx")[0]
-    return render(request, "finalProject/whois_onepick.html", {"survey":survey})
+    survey = Select.objects.filter(status='y').order_by("-survey_idx")[0]
+    return render(request, "finalProject/whois_onepick1.html", {"survey":survey})
 
 @csrf_exempt
 def save_survey(request):
     survey_idx=request.POST["survey_idx"]
+    print(survey_idx)
+    print("넘어오는 num 값 : ", request.POST["num"])
     survey_dto = Horse(survey_idx=int(request.POST["survey_idx"]),num=request.POST["num"])
     print("ans:",request.POST["ans"])
     ans= request.POST["ans"]
+    print("투표 결과 : ", ans)
     survey_dto.save()
     return render(request,"finalProject/success.html",{"ans":ans})
 
 def show_result(request):
     idx = request.GET['survey_idx']
     #select * from  where survey_idx=1
-    ans = MyPick.objects.get(survey_idx=idx)
+    ans = Select.objects.get(survey_idx=idx)
     answer_dto = [ans.ans1,ans.ans2,ans.ans3,ans.ans4,ans.ans5,ans.ans6,ans.ans7,ans.ans8,ans.ans9,ans.ans10,
                   ans.ans11,ans.ans12,ans.ans13,ans.ans14,ans.ans15,ans.ans16,ans.ans17,ans.ans18,ans.ans19,ans.ans20,
                   ans.ans21,ans.ans22,ans.ans23,ans.ans24,ans.ans25,ans.ans26,ans.ans27,ans.ans28,ans.ans29,ans.ans30,
                   ans.ans31,ans.ans32,ans.ans33,ans.ans34,ans.ans35,ans.ans36,ans.ans37,ans.ans38,ans.ans39,ans.ans40,
                   ans.ans41,ans.ans42,ans.ans43,ans.ans44,ans.ans45,ans.ans46,ans.ans47,ans.ans48,ans.ans49,ans.ans50,
-                  ans.ans51,ans.ans52,ans.ans53,ans.ans54,ans.ans55, ans.ans56, ans.ans57, ans.ans58, ans.ans59,ans.ans60,
-                  ans.ans61, ans.ans62, ans.ans63, ans.ans64, ans.ans65, ans.ans66, ans.ans67, ans.ans68, ans.ans69,
-                  ans.ans70,ans.ans71,ans.ans72,ans.ans73,ans.ans74,ans.ans75,ans.ans76,ans.ans77,ans.ans78]
+                  ans.ans51,ans.ans52,ans.ans53,ans.ans54,ans.ans55,ans.ans56,ans.ans57,ans.ans58,ans.ans59,ans.ans60,
+                  ans.ans61,ans.ans62,ans.ans63,ans.ans64,ans.ans65,ans.ans66,ans.ans67,ans.ans68,ans.ans69,ans.ans70,
+                  ans.ans71,ans.ans72,ans.ans73,ans.ans74,ans.ans75,ans.ans76,ans.ans77,ans.ans78]
 
-    surveyList = MyPick.objects.raw("""
+    surveyList = Select.objects.raw("""
     select survey_idx,num,count(*) sum_sum,
     round((select count(*) from finalProject_horse
     where survey_idx=a.survey_idx and num= a.num) * 100.0
@@ -334,13 +337,15 @@ def show_result(request):
     print("surveyList : ", surveyList)
     surveyList = zip(surveyList,answer_dto)
     print("surveyList 타입 : ", type(surveyList))
-    return render(request, "finalProject/whois_onepick_result5.html", {"surveyList":surveyList})
+    return render(request, "finalProject/whois_onepick_result6.html", {"surveyList":surveyList})
 
 # 오늘의 주인공은?
 def todayzoo1(request):
-    # return render(request, "finalProject/today_juingong.html")
-    return render(request, "finalProject/whois_onepick_result5.html")
 
+    return render(request, "finalProject/today_juingong.html")
+##################################### 위로는 경마에 해당하는 함수들
+
+##################################### 아래는 홈부터 작성 차례로 자리한 함수들
 
 def home(request):
     return render(request, "finalProject/home_main.html")
@@ -730,6 +735,37 @@ def raceintro1(request):
 def footer(request):
     return render(request, "finalProject/footer.html")
 
-
+# def dashboard(request):
+#     idx = request.GET['survey_idx']
+#     # select * from  where survey_idx=1
+#     ans = MyPick.objects.get(survey_idx=idx)
+#     answer_dto = [ans.ans1, ans.ans2, ans.ans3, ans.ans4, ans.ans5, ans.ans6, ans.ans7, ans.ans8, ans.ans9, ans.ans10,
+#                   ans.ans11, ans.ans12, ans.ans13, ans.ans14, ans.ans15, ans.ans16, ans.ans17, ans.ans18, ans.ans19,
+#                   ans.ans20,
+#                   ans.ans21, ans.ans22, ans.ans23, ans.ans24, ans.ans25, ans.ans26, ans.ans27, ans.ans28, ans.ans29,
+#                   ans.ans30,
+#                   ans.ans31, ans.ans32, ans.ans33, ans.ans34, ans.ans35, ans.ans36, ans.ans37, ans.ans38, ans.ans39,
+#                   ans.ans40,
+#                   ans.ans41, ans.ans42, ans.ans43, ans.ans44, ans.ans45, ans.ans46, ans.ans47, ans.ans48, ans.ans49,
+#                   ans.ans50,
+#                   ans.ans51, ans.ans52, ans.ans53, ans.ans54, ans.ans55, ans.ans56, ans.ans57, ans.ans58, ans.ans59,
+#                   ans.ans60,
+#                   ans.ans61, ans.ans62, ans.ans63, ans.ans64, ans.ans65, ans.ans66, ans.ans67, ans.ans68, ans.ans69,
+#                   ans.ans70, ans.ans71, ans.ans72, ans.ans73, ans.ans74, ans.ans75, ans.ans76, ans.ans77, ans.ans78]
+#
+#     surveyList = MyPick.objects.raw("""
+#         select survey_idx,num,count(*) sum_sum,
+#         round((select count(*) from finalProject_horse
+#         where survey_idx=a.survey_idx and num= a.num) * 100.0
+#         /(select count(*) from finalProject_horse where survey_idx=a.survey_idx)
+#         ,1) rate
+#         from finalProject_horse a where survey_idx=%s
+#         group by survey_idx,num
+#         order by num asc
+#         """, idx)
+#     print("surveyList : ", surveyList)
+#     surveyList = zip(surveyList, answer_dto)
+#     print("surveyList 타입 : ", type(surveyList))
+#     return render(request, "finalProject/dashboard.html", {"surveyList":surveyList})
 
 

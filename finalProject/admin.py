@@ -1,5 +1,5 @@
 from django.contrib import admin
-from finalProject.models import MyPick,Horse
+from finalProject.models import Select,Horse
 
 # Register your models here.
 class FinalProjectAdmin(admin.ModelAdmin):
@@ -13,5 +13,5 @@ class FinalProjectAdmin(admin.ModelAdmin):
                     "ans71","ans72","ans73","ans74","ans75","ans76","ans77","ans78")
 
 # Admin에 등록
-admin.site.register(MyPick,FinalProjectAdmin)
+admin.site.register(Select,FinalProjectAdmin)
 admin.site.register(Horse)

@@ -30,7 +30,7 @@ class UserForm(ModelForm):
         model = User
         fields = ["username","email","password"] #Django 에서 제공하는 보안적용된 필드
 
-class MyPick(models.Model):
+class Select(models.Model):
     survey_idx = models.AutoField(primary_key=True)
     # 설문 문제
     question=models.TextField(null=True)

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% load static %}
+  <meta charset="UTF-8">
+  <title>뱃또롱</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="{% static 'css_dashboard/dashboard.css' %}" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/feather용-icons/4.9.0/feather.min.js" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" type="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js" />
+  <script src="{% static 'js_dashboard/dashboard.js' %}"></script>
+
+  <style>
+        /* UI Object 가로 */
+        .h_graph ul{margin:0 50px 0 50px;padding:5px 0 10 0;border:1px solid #ddd;border-top:0;border-right:0;font-size:11px;font-family:Tahoma, Geneva, sans-serif;list-style:none;}
+        .h_graph li{position:relative;margin:10px 90px;vertical-align:top;white-space:nowrap}
+        .h_graph .g_term{position:absolute;top:0;left:-120px;width:40px;font-weight:bold;font-size:20px;color:#767676;line-height:20px;text-align:right}
+        .h_graph .g_bar{display:inline-block;position:relative;height:20px;border:1px solid #ccc;border-left:0;}
+        .h_graph .g_bar span{position:absolute;top:0;right:-50px;width:40px;color:#767676;line-height:20px}
+        /* //UI Object */
+  </style>
+</head>
+<body>
+---
+layout: examples
+title: Dashboard Template
+extra_css: "dashboard.css"
+extra_js:
+- "https://cdnjs.cloudflare.com/ajax/libs/feather용-icons/4.9.0/feather.min.js"
+- "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"
+- "dashboard.js"
+---
+
+<nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+  <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">뱃또롱</a>
+  <!--  <input class="form-control form-control-dark w-50" type="text" placeholder="Search" aria-label="Search">-->
+  {% if request.session.mid != None %}
+  <button onclick="location.href='login'" style="background:transparent; color:gray; border-radius:15px" src="{% static 'image/user_icon.jpg' %}">{{request.session.mid}}</button>
+  {% else %}
+  <div><a href="join" style="color:gray">회원가입</a><a> / </a><a href="login" style="color:gray">로그인</a></div>
+
+  </div>
+  {% endif %}
+</nav>
+
+<div class="container-fluid">
+  <div class="row">
+    <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+      <div class="sidebar-sticky">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link" href="home">
+              <span data-feather="file"></span>
+              홈
+            </a>
+          </li>
+        </ul>
+        <ul class="nav flex-column">
+          <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+            <span>승마</span>
+            <a class="d-flex align-items-center text-muted" href="#" aria-label="Add a new report">
+              <span data-feather="plus-circle"></span>
+            </a>
+          </h6>
+          <li class="nav-item">
+            <a class="nav-link" href="ride1">
+              <span data-feather="file"></span>
+              승마소개
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="rideintro1">
+              <span data-feather="shopping-cart"></span>
+              승마 체험장 소개
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="riderecom1">
+              <span data-feather="users"></span>
+              승마 체험장 추천
+            </a>
+          </li>
+        </ul>
+        <ul class="nav flex-column">
+          <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+            <span>경마</span>
+            <a class="d-flex align-items-center text-muted" href="#" aria-label="Add a new report">
+              <span data-feather="plus-circle"></span>
+            </a>
+          </h6>
+          <li class="nav-item">
+            <a class="nav-link" href="race1">
+              <span data-feather="file"></span>
+              경마소개
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="raceintro1">
+              <span data-feather="shopping-cart"></span>
+              경마장 소개
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="whoiszoo1">
+              <span data-feather="users"></span>
+              주인공 맟줘보기
+            </a>
+          </li>
+          <li class="nav-item">
+
+            <a class="nav-link active" href="whoispick1">
+              <span data-feather="home"></span>
+              주인공 응원하기 <span class="sr-only">(current)</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="todayzoo1">
+              <span data-feather="layers"></span>
+              오늘의 주인공
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">인기마 투표 결과</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+          <!--          <div class="btn-group mr-2">-->
+          <!--            <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>-->
+          <!--            <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>-->
+          <!--          </div>-->
+          <!--          <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">-->
+          <!--            <span data-feather="calendar"></span>-->
+          <!--            This week-->
+          <!--          </button>-->
+        </div>
+      </div>
+      <div align="center">
+        <div class="h_graph" align="left">
+          <ul>
+            {%for raw,ans in surveyList%}
+            <li><span class="g_term">{{ans}}</span><span class="g_bar" style="width:{{raw.rate}}%; background:#1B7CCC"><span>{{raw.rate}}% ({{raw.sum_sum}}표)</span></span></li>
+            {%endfor%}
+          </ul>
+        </div>
+      </div>
+
+      <!--            <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>-->
+    </main>
+  </div>
+</div>
+</body>
+</html>
