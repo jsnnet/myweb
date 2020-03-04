@@ -1,20 +1,20 @@
 # 분석을 위한 import #################################################################
 import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-from matplotlib import font_manager, rc
-import missingno as msno
+# import pandas as pd
+# import matplotlib.pyplot as plt
+# from matplotlib import font_manager, rc
+# import missingno as msno
 import csv
-import tensorflow as tf
-from PIL import Image
+# import tensorflow as tf
+# from PIL import Image
 import os, glob, numpy as np
 
 # keras 모델을 읽어오기 위한 keras 모델
-from pandas import read_csv
-from tensorflow.python.keras.models import load_model
-from keras.models import model_from_json
-import scipy.stats as stats
-import matplotlib.pyplot as plt
+# from pandas import read_csv
+# from tensorflow.python.keras.models import load_model
+# from keras.models import model_from_json
+# import scipy.stats as stats
+# import matplotlib.pyplot as plt
 # 분석을 위한 import #################################################################
 
 from django.shortcuts import render, redirect
@@ -24,7 +24,7 @@ from .models import JoinForm
 # ==============================================================================지도 api (google) 와 folium 패키지 사용
 # folium 설치가 안되어 있다면 pip install 해줘야 사용가능
 import folium
-import googlemaps
+# import googlemaps
 # ==============================================================================지도 api (google) 와 folium 패키지 사용
 
 # 승마장추천 필터링을 위해 ------------
@@ -49,240 +49,141 @@ from finalProject.models import Select,Horse
 # https://kgu0724.tistory.com/95
 
 # DB 사용에 따른 conn 연결 (전역변수 사용하려면 변수 앞에 global 써주고 함수마다 변수 선언해야만 한다)
-conn = oci.connect('doosun/doosun@localhost:1521/xe')
+# conn = oci.connect('doosun/doosun@localhost:1521/xe')
+conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
 # conn = oci.connect('doosun/doosun@192.168.0.7:1521/xe')
 # conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
+# conn = oci.connect("finalB_horse/test11@192.168.0.149:1521/xe", encoding="UTF-8")
 
 ########################################### 작성해야 할 아래에 있던 코드 위로 올려 놓음 ############################################################################
 
+# 이미지 띄우기
+def info_run_horse(request):
+    return render(request, "finalProject/info_run_horse.html")
+
+def info_ride_horse(request):
+    return render(request, "finalProject/info_ride_horse.html")
+
 # 경마 누가 주인공이냐
 def whoiszoo1(request):
-    # csv 파일 경로에 따른 아래와 같은 표현
-    # 주피터로 테스트한 함수들 차례로 하위 함수 개념으로 전부 붙여넣음
-    # 주피터에서 함수 실행하던 것을은 필요하면 print() 메서드 안에 넣어서 출력해 볼 수 있음
-    HorScoP8 = 'horsedata.csv'
-    HorScoP8 = pd.read_csv(HorScoP8)
-    # df = read_csv(HorScoP8)
-    df1 = pd.DataFrame(HorScoP8)
-    # print(df1)
-    del df1['Unnamed: 0']
-    # print("df1 : ",df1)
+    # 커넥션을 반환하는 함수
+    # global conn
+    def connections():
+        # global conn
+        try:
+            conn = oci.connect("finalB_horse/test11@192.168.0.149:1521/xe", encoding="UTF-8")
+        except oci.DatabaseError as e:
+            conn = "접속 예외 발생"
+            print(e)
+            return
+        return conn
 
-    def sexage(hname, gmeter):
-        data = df1[(df1['마명'] == hname)]
-        sex = data['성별'].iloc[0]
-        rrange = df1['나이'].max()
+    # 해당 경기의 예측 데이터 반환
+    def select_predict(gnum):
+        conn = connections()
+        cursor = conn.cursor()
+        sql_select = "select p.pnum, p.gnum, p.hnum, h.hname, p.ptime, \
+            h.hpicture from horse h, predict p \
+            where h.hnum = p.hnum and p.gnum = :gnum order by 1 asc"
+        cursor.execute(sql_select, {"gnum": gnum})
+        numRows = 3
+        res = cursor.fetchmany(numRows=numRows)
+        cursor.close()
+        conn.close()
 
-        # 나이 범위만큼 age 리스트를 만들고 각 나이의 수를 저장
-        # std 리스트를 생성하고 해당 경기와 같은 경주거리의 기록 데이터를 저장
-        age = [0 for i in range(rrange)]
-        agesum = 0
-        std_list = []
-        for i in range(len(df1)):
-            if df1.loc[i, '거리'] == gmeter:
-                std_list.append(df1.loc[i, '새기록'])
-            for j in range(rrange):
-                if df1.loc[i, '성별'] == sex:
-                    if df1.loc[i, '나이'] == j + 1:
-                        age[j] = age[j] + 1
-                        agesum = agesum + 1
-
-        # age 리스트 범위만큼 weight 리스트를 만들고 가중치를 저장
-        weight = [0 for i in range(rrange)]
-        for i in range(len(age)):
-            weight[i] = age[i] / agesum
-
-        # 가중치를 재조정하고 예측값을 저장
-        std = float(np.std(std_list))
-        readjust = []
-        for i in weight:
-            readjust.append(i * std)
-
-        # 해당 말의 나이에 해당하는 예측값을 반환
-        horseage = int(data['나이'].iloc[0])
-        sexage = readjust[horseage - 1]
-
-        return sexage
-
-    # 경기 거리와 거리별 속도를 분석하여 예측값을 반환
-    def meterspeed(hname, gmeter):
-        data = df1[(df1['마명'] == hname)].index
-
-        # 해당 마명의 해당 경기 거리
-        s1 = []
-        g3 = []
-        g1 = []
-        record = []
-        for i in data:
-            if df1.loc[i, '거리'] == gmeter:
-                s1.append(df1.loc[i, 'S1화롱'])
-                g3.append(df1.loc[i, 'G3화롱'])
-                g1.append(df1.loc[i, 'G1화롱'])
-                record.append(df1.loc[i, '새기록'])
-
-        # 각 화롱의 순간속도와 경주기록의 상관관계(기울기) 분석 및 가중치 부여
-        s1_slope, s1_intercept, s1_r_value, s1_p_value, s1_stderr = stats.linregress(s1, record)
-        g3_slope, g3_intercept, g3_r_value, g3_p_value, g3_stderr = stats.linregress(g3, record)
-        g1_slope, g1_intercept, g1_r_value, g1_p_value, g1_stderr = stats.linregress(g1, record)
-        slope_list = [s1_slope, g3_slope, g1_slope]
-        slope_weight = [0 for i in range(len(slope_list))]
-        slope_total = 0
-        for i in range(len(slope_list)):
-            slope_total = slope_total + slope_list[i]
-        for i in range(len(slope_list)):
-            slope_weight[i] = float(slope_list[i] / slope_total)
-
-        # 화롱의 표준편차에 가중치를 부여한 예측값 반환
-        std_s1 = float(np.std(s1)) * slope_weight[0]
-        std_g3 = float(np.std(g3)) * slope_weight[1]
-        std_g1 = float(np.std(g1)) * slope_weight[2]
-        meterspeed = (std_s1 + std_g3 + std_g1)
-
-        return meterspeed
-
-    # 습도와 기록의 상관관계를 분석하여 예측값을 반환
-    def humidity(hname, humidity):
-        data = df1[(df1['마명'] == hname)].index
-
-        # 습도와 기록의 상관관계 분석
-        humi_list = []
-        record_list = []
-        for i in range(len(df1)):
-            humi_list.append(df1.loc[i, '습도'])
-            record_list.append(df1.loc[i, '새기록'])
-        slope, intercept, r_value, p_value, stderr = stats.linregress(humi_list, record_list)
-
-        # 당해 경주마, 습도에 해당하는 새기록의 표준편차 계산
-        std_list = []
-        for i in data:
-            if df1.loc[i, '습도'] == humidity:
-                std_list.append(df1.loc[i, '새기록'])
-        std = float(np.std(std_list))
-
-        # 표준편차와 상관관계값 연산
-        humidity = std * slope
-
-        return humidity
-
-    # 기수와 기록의 상관관계를 분석하여 예측값을 반환
-    def rider(hname, gmeter, human):
-        data = df1[(df1['마명'] == hname) & (df1['거리'] == gmeter)].index
-        data_list = list(data)
-
-        # 기수 이름 데이터 정리
-        human_list = []
-        record_list = []
-        for i in range(len(data)):
-            human_list.append(df1.loc[i, '기수'])
-            record_list.append(df1.loc[i, '새기록'])
-        human_set = set(human_list)
-        set_list = list(human_set)
-
-        # 기수 이름에 따른 기록 중위값 리스트 작성
-        mean_list = []
-        for i in range(len(set_list)):
-            temp = []
-            for j in range(len(data_list)):
-                if df1.loc[j, '기수'] == set_list[i]:
-                    temp.append(df1.loc[j, '새기록'])
-            median = np.mean(temp)
-            mean_list.append(median)
-
-        # 중위값을 정렬하고 회귀도 분석
-        index_list = [i + 1 for i in range(len(mean_list))]
-        median_list = sorted(mean_list)
-        slope, intercept, r_value, p_value, stderr = stats.linregress(index_list, median_list)
-
-        # 당해 경주마, 기수에 해당하는 새기록의 표준편차 계산
-        std_list = []
-        for i in data:
-            if df1.loc[i, '기수'] == human:
-                std_list.append(df1.loc[i, '새기록'])
-        std = float(np.std(std_list))
-
-        # 표준편차와 상관관계값 연산
-        rider = std * slope
-
-        return rider
-
-    def predict(hname):
-
-        ## 임의로 값을 주입함
-        ## 해당 값들을 select 문으로 받아와야 함 ###################################################################
-
-        # gmeter 는 경기 테이블 game
-        # humi 는 어디에?
-        # human 은 기수 테이블 rider
-
-        gmeter = 800
-        humi = 6
-        human = '문현진'
-        ## 임의로 값을 주입함
-
-        data = df1[(df1['마명'] == hname) & (df1['거리'] == gmeter)]
-        median = data['새기록'].mean()
-
-        # 해당 경주마의 기록 추세 계산
-        hdata = df1[(df1['마명'] == hname)].index
-        hdata_list = list(hdata)
-        new_record = []
-        for i in hdata_list:
-            new_record.append(df1.loc[i, '새기록'])
-        slope, intercept, r_value, p_value, stderr = stats.linregress(hdata_list, new_record)
-
-        # def sexage 메서드 실행
-        sexage_predict = sexage(hname, gmeter)
-        if np.isnan(sexage_predict) == True:
-            sexage_predict = 0
-        # def meterspeed 메서드 실행
-        meterspeed_predict = meterspeed(hname, gmeter)
-        if np.isnan(meterspeed_predict) == True:
-            meterspeed_predict = 0
-        # def humidity 메서드 실행
-        humidity_predict = humidity(hname, humi)
-        if np.isnan(humidity_predict) == True:
-            humidity_predict = 0
-        # def rider 메서드 실행
-        rider_predict = rider(hname, gmeter, human)
-        if np.isnan(rider_predict) == True:
-            rider_predict = 0
-
-        # 예측값 데이터를 합하고 기록 추세를 가중치로 부여함
-        sum_predict = sexage_predict + meterspeed_predict + humidity_predict + rider_predict
-        pre_data = sum_predict * slope
-        predict = 0
-        if slope >= 0:
-            predict = median + pre_data
-        else:
-            predict = median - pre_data
-
-        return predict
+        return res
 
     # 메인 메서드
-    def main():
-        hname_list = ['개선문', '오라스타', '아라신화', '삼다지존', '승일교', '행복의문', '태산여왕', '만점왕']
+    def predict_list1(gnum):
+        # 예측 데이터 반환 메서드 실행
+        # 1을 강제로 넣었는데 실제로는
+        # html 에서 숫자를 받아서 메인메서드에서 받아서
+        # 실행해야 하는 부분입니다.
+        gnum = 1;
+        predict = select_predict(gnum)
+        return predict
+    def predict_list2(gnum):
+        # 예측 데이터 반환 메서드 실행
+        # 1을 강제로 넣었는데 실제로는
+        # html 에서 숫자를 받아서 메인메서드에서 받아서
+        # 실행해야 하는 부분입니다.
+        gnum = 2;
+        predict = select_predict(gnum)
+        return predict
+    def predict_list3(gnum):
+        # 예측 데이터 반환 메서드 실행
+        # 1을 강제로 넣었는데 실제로는
+        # html 에서 숫자를 받아서 메인메서드에서 받아서
+        # 실행해야 하는 부분입니다.
+        gnum = 3;
+        predict = select_predict(gnum)
+        return predict
+    def predict_list4(gnum):
+        # 예측 데이터 반환 메서드 실행
+        # 1을 강제로 넣었는데 실제로는
+        # html 에서 숫자를 받아서 메인메서드에서 받아서
+        # 실행해야 하는 부분입니다.
+        gnum = 4;
+        predict = select_predict(gnum)
+        return predict
+    def predict_list5(gnum):
+        # 예측 데이터 반환 메서드 실행
+        # 1을 강제로 넣었는데 실제로는
+        # html 에서 숫자를 받아서 메인메서드에서 받아서
+        # 실행해야 하는 부분입니다.
+        gnum = 5;
+        predict = select_predict(gnum)
+        return predict
+    def predict_list6(gnum):
+        # 예측 데이터 반환 메서드 실행
+        # 1을 강제로 넣었는데 실제로는
+        # html 에서 숫자를 받아서 메인메서드에서 받아서
+        # 실행해야 하는 부분입니다.
+        gnum = 6;
+        predict = select_predict(gnum)
+        return predict
+    def predict_list7(gnum):
+        # 예측 데이터 반환 메서드 실행
+        # 1을 강제로 넣었는데 실제로는
+        # html 에서 숫자를 받아서 메인메서드에서 받아서
+        # 실행해야 하는 부분입니다.
+        gnum = 7;
+        predict = select_predict(gnum)
+        return predict
+    def predict_list8(gnum):
+        # 예측 데이터 반환 메서드 실행
+        # 1을 강제로 넣었는데 실제로는
+        # html 에서 숫자를 받아서 메인메서드에서 받아서
+        # 실행해야 하는 부분입니다.
+        gnum = 8;
+        predict = select_predict(gnum)
+        return predict
 
-        # 마명에 해당하는 예측값을 반환
-        record_list = []
-        for i in hname_list:
-            prenum = round(predict(i), 2)
-            record_list.append(prenum)
-
-        # 마명에 해당하는 예측값을 딕셔너리 형태로 담아 오름차순으로 정렬
-        hzip = zip(hname_list, record_list)
-        hdict = dict(hzip)
-        res = sorted(hdict.items(), key=(lambda x: x[1]))
-
-        # 예측된 1, 2등마의 데이터를 반환
-        first_horse = res[0]
-        second_horse = res[1]
-        horse = [first_horse, second_horse]
-
-        return horse
     print("여기까진?")
-    print("최종결과 : ", main())
-    predict_list = main()
-    return render(request, "finalProject/whois_juingong.html", {"predict_list":predict_list})
+    # 아래는 라운드 별 숫자값 넣어주는 곳
+    # 출력해보기
+    print("최종결과 : ", predict_list1(1))
+    print("최종결과 : ", predict_list2(2))
+    print("최종결과 : ", predict_list3(3))
+    print("최종결과 : ", predict_list4(4))
+    print("최종결과 : ", predict_list5(5))
+    print("최종결과 : ", predict_list6(6))
+    print("최종결과 : ", predict_list7(7))
+    print("최종결과 : ", predict_list8(8))
+
+    # html에 리스트 값으로 넘겨주기 준비
+    predict_list1 = predict_list1(1)
+    predict_list2 = predict_list2(2)
+    predict_list3 = predict_list3(3)
+    predict_list4 = predict_list4(4)
+    predict_list5 = predict_list5(5)
+    predict_list6 = predict_list6(6)
+    predict_list7 = predict_list7(7)
+    predict_list8 = predict_list8(8)
+    return render(request, "finalProject/whois_juingong.html", {"predict_list1":predict_list1,"predict_list2":predict_list2,
+                                                                "predict_list3":predict_list3,"predict_list4":predict_list4,
+                                                                "predict_list5":predict_list5,"predict_list6":predict_list6,
+                                                                "predict_list7":predict_list7,"predict_list8":predict_list8})
 
 # 경마 누가 주인공인지 인기투표
 def whoispick1(request):
@@ -431,7 +332,7 @@ def login_session(request):
             print("chk_pwd : ", chk_pwd)
         if mpwd_pass != chk_pwd:
             print("if 진입한 mpwd : ", mpwd_pass)
-            print("if 진입한 chk_pqd : ", chk_pwd)
+            print("if 진입한 chk_pwd : ", chk_pwd)
             return render(request, 'finalProject/login_required.html')
         else:
             request.session['mid'] = mid
@@ -688,6 +589,7 @@ def hit_up(request):
 
 # 승마장 추천
 def riderecom1(request):
+    print("여기까지")
     global conn;  # 전역변수 사용 위해
     print(conn.version)
     cursor = conn.cursor()
@@ -723,6 +625,7 @@ def race1(request):
 
 def rideintro1(request):
     global conn;  # 전역변수 사용 위해
+    print(conn.version)
     cursor = conn.cursor()
     cursor.execute('select*from place')
     plist = cursor.fetchall()

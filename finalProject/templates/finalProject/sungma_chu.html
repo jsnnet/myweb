@@ -53,15 +53,16 @@
                 <form action="rideSearch" method="post" style="width:auto ; float:center">
                     {% csrf_token %}
                     <div style="float:right">
-                        <input type="radio" id="select1" value="제주공항 근처" name="chk_pplace"><label for="select1">제주공항</label>
-                        <input type="radio" id="select2" value="한라산 등산길근처" name="chk_pplace"><label for="select2">한라산</label>
-                        <input type="radio" id="select3" value="사려니숲길 근처" name="chk_pplace"><label for="select3">사려니숲</label>
+                        <input type="radio" id="select1" value="제주공항" name="chk_pplace"><label for="select1">제주공항</label>
+                        <input type="radio" id="select2" value="한라산" name="chk_pplace"><label for="select2">한라산</label>
+                        <input type="radio" id="select3" value="사려니숲" name="chk_pplace"><label for="select3">사려니숲</label>
+                        <input type="radio" id="select4" value="가족" name="chk_pplace"><label for="select4">가족</label>
+                        <input type="radio" id="select5" value="공연" name="chk_pplace"><label for="select5">공연</label>
                         <input type="submit" value="정렬" onclick="location.href='rideSearch'">
                     </div>
                     <br>
                     <br>
                     <table class="sungma_chu">
-
                         <tbody>
                         <tr id="colums" class="colums" colspan="5">
                             <td>타이틀</td>

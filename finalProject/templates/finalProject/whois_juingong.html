@@ -52,6 +52,7 @@
 
             a:hover {
                 text-decoration: underline;
+                background : gray;
             }
 
             .source {
@@ -90,33 +91,12 @@
     </style>
 </head>
 <body>
-<!--<ul class="countdown">-->
-<!--    &lt;!&ndash;        <li>&ndash;&gt;-->
-<!--    &lt;!&ndash;            <span class="days">00</span>&ndash;&gt;-->
-<!--    &lt;!&ndash;            <p class="days_ref">days</p>&ndash;&gt;-->
-<!--    &lt;!&ndash;        </li>&ndash;&gt;-->
-<!--    &lt;!&ndash;        <li class="seperator">.</li>&ndash;&gt;-->
-<!--    <li>-->
-<!--        <span class="hours">00</span>-->
-<!--        <p class="hours_ref">hours</p>-->
-<!--    </li>-->
-<!--    <li class="seperator">:</li>-->
-<!--    <li>-->
-<!--        <span class="minutes">00</span>-->
-<!--        <p class="minutes_ref">minutes</p>-->
-<!--    </li>-->
-<!--    <li class="seperator">:</li>-->
-<!--    <li>-->
-<!--        <span class="seconds">00</span>-->
-<!--        <p class="seconds_ref">seconds</p>-->
-<!--    </li>-->
-<!--</ul>-->
-
 <div class="container">
     <div class="row">
         <div class="col">
-            <p>주인공 맞춰보기</p>
-            {{predict_list}}
+            <br>
+            <h1 align="left">주인공 맞춰보기</h1>
+            <br>
             <ul class="nav nav-tabs">
                 <li class="nav-item">
                     <a class="nav-link active" data-toggle="tab" href="#round1">1라운드</a>
@@ -129,54 +109,252 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="tab" href="#round4">4라운드</a>
-                </li><li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#round5">5라운드</a>
-            </li><li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#round6">6라운드</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#round5">5라운드</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#round6">6라운드</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#round7">7라운드</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#round8">8라운드</a>
+                </li>
             </ul>
             <div class="tab-content">
                 <div class="tab-pane fade show active" id="round1">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc id ornare libero. Vivamus iaculis, justo vel mattis pharetra, nisi ligula varius nisl, sit amet mollis tortor ligula vitae nisi.</p>
+                    <br>
+                    <table>
+                        <tr>
+                            <td><a><font size="24">사진</font></a></td>
+                            {% for a in predict_list1 %}
+                            <td>
+                                <img src="/static/image/horse/{{a.5}}" width="300px" height="150px"/>
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        <tr style="height:100px">
+                            <td><a><font size="24">마명</font></a></td>
+                            {% for a in predict_list1 %}
+                            <td>
+                                {{a.3}}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        <tr style="height:100px">
+                            <td><a><font size="24">기록</font></a></td>
+                            {% for a in predict_list1 %}
+                            <td>
+                                {{a.4}}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                    </table>
                 </div>
                 <div class="tab-pane fade" id="round2">
-                    <p>Nunc vitae turpis id nibh sodales commodo et non augue. Proin fringilla ex nunc. Integer tincidunt risus ut facilisis tristique.</p>
+                    <br>
+                    <table>
+                        <tr>
+                            <td>사진</td>
+                            {% for b in predict_list2 %}
+                            <td>
+                                <img src="/static/image/horse/{{b.5}}" width="300px" height="150px"/>
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        <tr style="height:100px">
+                            <td>마명</td>
+                            {% for b in predict_list2 %}
+                            <td>
+                                {{b.3}}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        <tr style="height:100px">
+                            <td>예측기록</td>
+                            {% for b in predict_list2 %}
+                            <td>
+                                {{b.4}}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                    </table>
                 </div>
                 <div class="tab-pane fade" id="round3">
-                    <p>Curabitur dignissim quis nunc vitae laoreet. Etiam ut mattis leo, vel fermentum tellus. Sed sagittis rhoncus venenatis. Quisque commodo consectetur faucibus. Aenean eget ultricies justo.</p>
+                    <br>
+                    <table>
+                        <tr>
+                            <td>사진</td>
+                            {% for c in predict_list3 %}
+                            <td>
+                                <img src="/static/image/horse/{{c.5}}" width="300px" height="150px"/>
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        <tr style="height:100px">
+                            <td>마명</td>
+                            {% for c in predict_list3 %}
+                            <td>
+                                {{c.3}}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        <tr style="height:100px">
+                            <td>예측기록</td>
+                            {% for c in predict_list3 %}
+                            <td>
+                                {{c.4}}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                    </table>
                 </div>
                 <div class="tab-pane fade" id="round4">
-                    <table style="width:240px; float:left">
-                        <thead>
-                        <th>승률이 가장 높은 주인공</th>
-                        <th>응원을 가장 많이 받은 주인공</th>
-                        </thead>
-                        <tbody>
-                        <img src="/static/image/toprating.jpg" style="width:240px; height:240px">
-                        </tbody>
-
-                        <td></td>
-                    </table>
-                    <table style="width:240px; float:right">
-                        <thead>
-                        <th>
-                        <td>
-                            <tr>
-                                <p>1234</p>
-                            </tr>
-                        </td>
-                        </th>
-                        <a>응원을 가장 많이 받은 주인공</a>
-                        </thead>
-                        <tbody>
-                        <td><img src="/static/image/toplike.jpg" style="width:240px; height:240px"></td>
-                        </tbody>
+                    <br>
+                    <table>
+                        <tr>
+                            <td>사진</td>
+                            {% for d in predict_list4 %}
+                            <td>
+                                <img src="/static/image/horse/{{d.5}}" width="300px" height="150px"/>
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        <tr style="height:100px">
+                            <td>마명</td>
+                            {% for d in predict_list4 %}
+                            <td>
+                                {{d.3}}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        <tr style="height:100px">
+                            <td>예측기록</td>
+                            {% for d in predict_list4 %}
+                            <td>
+                                {{d.4}}
+                            </td>
+                            {% endfor %}
+                        </tr>
                     </table>
                 </div>
                 <div class="tab-pane fade" id="round5">
-                    <p>5라운드꺼</p>
+                    <br>
+                    <table>
+                        <tr>
+                            <td>사진</td>
+                            {% for e in predict_list5 %}
+                            <td>
+                                <img src="/static/image/horse/{{e.5}}" width="300px" height="150px"/>
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        <tr style="height:100px">
+                            <td>마명</td>
+                            {% for e in predict_list5 %}
+                            <td>
+                                {{e.3}}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        <tr style="height:100px">
+                            <td>예측기록</td>
+                            {% for e in predict_list5 %}
+                            <td>
+                                {{e.4}}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                    </table>
                 </div>
                 <div class="tab-pane fade" id="round6">
-                    <p>6라운드꺼</p>
+                    <br>
+                    <table>
+                        <tr>
+                            <td>사진</td>
+                            {% for f in predict_list6 %}
+                            <td>
+                                <img src="/static/image/horse/{{f.5}}" width="300px" height="150px"/>
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        <tr style="height:100px">
+                            <td>마명</td>
+                            {% for f in predict_list6 %}
+                            <td>
+                                {{f.3}}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        <tr style="height:100px">
+                            <td>예측기록</td>
+                            {% for f in predict_list6 %}
+                            <td>
+                                {{f.4}}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="round7">
+                    <br>
+                    <table>
+                        <tr>
+                            <td>사진</td>
+                            {% for g in predict_list7 %}
+                            <td>
+                                <img src="/static/image/horse/{{g.5}}" width="300px" height="150px"/>
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        <tr style="height:100px">
+                            <td>마명</td>
+                            {% for g in predict_list7 %}
+                            <td>
+                                {{g.3}}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        <tr style="height:100px">
+                            <td>예측기록</td>
+                            {% for g in predict_list7 %}
+                            <td>
+                                {{g.4}}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="round8">
+                    <br>
+                    <table>
+                        <tr>
+                            <td>사진</td>
+                            {% for h in predict_list8 %}
+                            <td>
+                                <img src="/static/image/horse/{{h.5}}" width="300px" height="150px"/>
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        <tr style="height:100px">
+                            <td>마명</td>
+                            {% for h in predict_list8 %}
+                            <td>
+                                {{h.3}}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        <tr style="height:100px">
+                            <td>예측기록</td>
+                            {% for h in predict_list8 %}
+                            <td>
+                                {{h.4}}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>
@@ -184,19 +362,5 @@
 </div>
 </body>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-{% load static %}
-{% static "" as baseUrl %}
-<script type="text/javascript" src="{% static 'js/countdown.js' %}"></script>
-
-<!--시차가 utc 기준 kst 와 +9 이므로 아래 offset 바꿔주기-->
-<!--<script> //class="source" type="text/javascript"-->
-<!--        $('.countdown').downCount({-->
-<!--            date: '02/17/2020 06:30:00',-->
-<!--            offset: +9-->
-<!--        }, function () {-->
-<!--            alert('바로 시작합니다 :)');-->
-<!--        });-->
-<!--    </script>-->
-
 
 {% endblock %}

@@ -68,4 +68,9 @@ urlpatterns = [
     path('write_review2', views.write_review2),
     path('review_detail', views.review_detail),
 
+    # 이미지 보여주기
+    path('info_ride_horse', views.info_ride_horse),
+    path('info_run_horse', views.info_run_horse),
+
+
 ]

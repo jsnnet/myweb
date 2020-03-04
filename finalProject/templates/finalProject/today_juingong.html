@@ -2,15 +2,367 @@
 {% extends 'finalProject/header4.html'%}
 {% block content %}
 <!--위의 두 줄은 헤더 붙이기 위한-->
-<!--미완성 코드-->
-{% load static %}
-{% static "" as baseUrl %}
-<script src="{% static 'js/countdown.js'%}"></script>
+<!--위의 두 줄은 헤더를 붙이기 위한 코드-->
+<!--미완성-->
+<style>
+      p { margin:20px 0px; }
+    </style>
+<style type="text/css">
+            @import url(http://fonts.googleapis.com/css?family=Open+Sans:300,400);
 
+            body {
+<!--                background: #363f48;-->
+                color: black;
+                font: normal 12px 'Open Sans', sans-serif;
+                margin-top: 20px;
+            }
+
+            ul.countdown {
+                list-style: none;
+                margin: 75px 0;
+                padding: 0;
+                display: block;
+                text-align: center;
+            }
+
+            ul.countdown li {
+                display: inline-block;
+            }
+
+            ul.countdown li span {
+                font-size: 80px;
+                font-weight: 300;
+                line-height: 80px;
+            }
+
+            ul.countdown li.seperator {
+                font-size: 80px;
+                line-height: 70px;
+                vertical-align: top;
+            }
+
+            ul.countdown li p {
+                color: #a7abb1;
+                font-size: 14px;
+            }
+
+            a {
+                color: #76949F;
+                text-decoration: none;
+            }
+
+            a:hover {
+                text-decoration: underline;
+                background : gray;
+            }
+
+            .source {
+                width: 405px;
+                margin: 0 auto;
+                background: #4f5861;
+                color: #a7abb1;
+                font-weight: bold;
+                display: block;
+                white-space: pre;
+                -webkit-border-radius: 3px;
+                   -moz-border-radius: 3px;
+                        border-radius: 3px;
+            }
+
+            .btn {
+                background: #f56c4c;
+                margin: 40px auto;
+                padding: 12px;
+                display: block;
+                width: 100px;
+                color: white;
+                text-align: center;
+                text-transform: uppercase;
+                font-weight: bold;
+                text-decoration: none;
+                -webkit-border-radius: 2px;
+                   -moz-border-radius: 2px;
+                        border-radius: 2px;
+            }
+
+            .btn:hover {
+                text-decoration: none;
+                opacity: .7;
+            }
+    </style>
+</head>
 <body>
-
-<a>오늘의 주인공은?</a>
-
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <br>
+            <h1 align="left">오늘의 주인공은?</h1>
+            <br>
+            <h6 align="left" style="color:gray">실제 경기 결과 보여주기</h6>
+            <br>
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#round1">1라운드</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#round2">2라운드</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#round3">3라운드</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#round4">4라운드</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#round5">5라운드</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#round6">6라운드</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#round7">7라운드</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#round8">8라운드</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="round1">
+                    <br>
+                    <table>
+                        <tr>
+                            <td style="height:150px"><a><font size="">사진</font></a></td>
+                            {% for a in predict_list1 %}
+                            <td>
+                                <img src="/static/image/horse/{{a.5}}" width="300px" height="150px"/>
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        <tr style="height:150px">
+                            <td><a><font size="">마명</font></a></td>
+                            {% for a in predict_list1 %}
+                            <td>
+                                {{a.3}}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        <tr style="height:150px">
+                            <td><a><font size="">기록</font></a></td>
+                            {% for a in predict_list1 %}
+                            <td>
+                                {{a.4}}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="round2">
+                    <br>
+                    <table>
+                        <tr>
+                            <td>사진</td>
+                            {% for b in predict_list2 %}
+                            <td>
+                                <img src="/static/image/horse/{{b.5}}" width="300px" height="150px"/>
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        <tr style="height:100px">
+                            <td>마명</td>
+                            {% for b in predict_list2 %}
+                            <td>
+                                {{b.3}}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        <tr style="height:100px">
+                            <td>예측기록</td>
+                            {% for b in predict_list2 %}
+                            <td>
+                                {{b.4}}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="round3">
+                    <br>
+                    <table>
+                        <tr>
+                            <td>사진</td>
+                            {% for c in predict_list3 %}
+                            <td>
+                                <img src="/static/image/horse/{{c.5}}" width="300px" height="150px"/>
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        <tr style="height:100px">
+                            <td>마명</td>
+                            {% for c in predict_list3 %}
+                            <td>
+                                {{c.3}}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        <tr style="height:100px">
+                            <td>예측기록</td>
+                            {% for c in predict_list3 %}
+                            <td>
+                                {{c.4}}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="round4">
+                    <br>
+                    <table>
+                        <tr>
+                            <td>사진</td>
+                            {% for d in predict_list4 %}
+                            <td>
+                                <img src="/static/image/horse/{{d.5}}" width="300px" height="150px"/>
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        <tr style="height:100px">
+                            <td>마명</td>
+                            {% for d in predict_list4 %}
+                            <td>
+                                {{d.3}}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        <tr style="height:100px">
+                            <td>예측기록</td>
+                            {% for d in predict_list4 %}
+                            <td>
+                                {{d.4}}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="round5">
+                    <br>
+                    <table>
+                        <tr>
+                            <td>사진</td>
+                            {% for e in predict_list5 %}
+                            <td>
+                                <img src="/static/image/horse/{{e.5}}" width="300px" height="150px"/>
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        <tr style="height:100px">
+                            <td>마명</td>
+                            {% for e in predict_list5 %}
+                            <td>
+                                {{e.3}}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        <tr style="height:100px">
+                            <td>예측기록</td>
+                            {% for e in predict_list5 %}
+                            <td>
+                                {{e.4}}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="round6">
+                    <br>
+                    <table>
+                        <tr>
+                            <td>사진</td>
+                            {% for f in predict_list6 %}
+                            <td>
+                                <img src="/static/image/horse/{{f.5}}" width="300px" height="150px"/>
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        <tr style="height:100px">
+                            <td>마명</td>
+                            {% for f in predict_list6 %}
+                            <td>
+                                {{f.3}}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        <tr style="height:100px">
+                            <td>예측기록</td>
+                            {% for f in predict_list6 %}
+                            <td>
+                                {{f.4}}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="round7">
+                    <br>
+                    <table>
+                        <tr>
+                            <td>사진</td>
+                            {% for g in predict_list7 %}
+                            <td>
+                                <img src="/static/image/horse/{{g.5}}" width="300px" height="150px"/>
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        <tr style="height:100px">
+                            <td>마명</td>
+                            {% for g in predict_list7 %}
+                            <td>
+                                {{g.3}}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        <tr style="height:100px">
+                            <td>예측기록</td>
+                            {% for g in predict_list7 %}
+                            <td>
+                                {{g.4}}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="round8">
+                    <br>
+                    <table>
+                        <tr>
+                            <td>사진</td>
+                            {% for h in predict_list8 %}
+                            <td>
+                                <img src="/static/image/horse/{{h.5}}" width="300px" height="150px"/>
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        <tr style="height:100px">
+                            <td>마명</td>
+                            {% for h in predict_list8 %}
+                            <td>
+                                {{h.3}}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        <tr style="height:100px">
+                            <td>예측기록</td>
+                            {% for h in predict_list8 %}
+                            <td>
+                                {{h.4}}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 
 {% endblock %}
