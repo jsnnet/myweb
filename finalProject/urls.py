@@ -6,6 +6,7 @@ urlpatterns = [
     path('', views.home),
     # 메뉴에서 홈을 눌렀을때 대문 페이지로 가기
     path('home', views.home),
+    path('home_app', views.home_app),
     # 로그인 첫화면
     path('join', views.join),
     # sqlite & oracle DB 동시 회원가입
@@ -40,7 +41,7 @@ urlpatterns = [
 
     # 승마장 추천
     path('riderecom1', views.riderecom1),
-    # path('recom_list', views.recom_list),
+    path('riderecom1_app', views.riderecom1_app),
 
     # 렛츠런파크 제주 소개 (경마장 소개)
     path('raceintro1', views.raceintro1),
@@ -55,6 +56,7 @@ urlpatterns = [
 
     # 경기 결과 어떤 말이 우승 했는지 출력
     path('todayzoo1', views.todayzoo1),
+    path('todayzoo1_app', views.todayzoo1_app),
 
     # 카운트 다운 (보류)
     # path('countdown', views.countdown),

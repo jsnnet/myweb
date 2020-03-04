@@ -7,7 +7,7 @@
   <meta name="description" content="">
   <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
   <meta name="generator" content="Jekyll v3.8.5">
-  <title>뱃또롱승마</title>
+  <title>천군만마</title>
   <link rel="canonical" href="https://getbootstrap.com/docs/4.4/examples/sign-in/">
 
   <!--    헤더 스타일 (부트스트랩 스타터 형식 그대로 가져온 것) -->
@@ -35,7 +35,7 @@
 {% static "" as baseUrl %}
 <nav class="navbar navbar-dark bg-dark">
   <!-- 로고 또는 텍스트 클릭하면 다른 이동하는 nabar-brand 뒤에 href='' 있었다 -->
-  <a class="navbar-brand">뱃또롱승마</a>
+  <a class="navbar-brand">千軍萬馬</a>
   {% if request.session.mid != None %}
   <button onclick="location.href='login'" style="background:transparent; color:gray; border-radius:15px" src="{% static 'image/user_icon.jpg' %}">{{request.session.mid}}</button>
   {% else %}
@@ -67,7 +67,7 @@
           <div class="dropdown-menu" aria-labelledby="dropdown10">
             <a class="dropdown-item" href="race1">경마 소개</a>
             <a class="dropdown-item" href="raceintro1">경마장 소개</a>
-            <a class="dropdown-item" href="whoiszoo1">주인공 맞춰보기</a>
+            <a class="dropdown-item" href="whoiszoo1">주인공 예측하기</a>
             <a class="dropdown-item" href="whoispick1">주인공 응원하기</a>
             <a class="dropdown-item" href="todayzoo1">오늘의 주인공</a>
           </div>

@@ -15,36 +15,10 @@
                 font: normal 12px 'Open Sans', sans-serif;
                 margin-top: 20px;
             }
+            table {
+            position : center;
 
-            ul.countdown {
-                list-style: none;
-                margin: 75px 0;
-                padding: 0;
-                display: block;
-                text-align: center;
             }
-
-            ul.countdown li {
-                display: inline-block;
-            }
-
-            ul.countdown li span {
-                font-size: 80px;
-                font-weight: 300;
-                line-height: 80px;
-            }
-
-            ul.countdown li.seperator {
-                font-size: 80px;
-                line-height: 70px;
-                vertical-align: top;
-            }
-
-            ul.countdown li p {
-                color: #a7abb1;
-                font-size: 14px;
-            }
-
             a {
                 color: #76949F;
                 text-decoration: none;
@@ -95,7 +69,7 @@
     <div class="row">
         <div class="col">
             <br>
-            <h1 align="left">주인공 맞춰보기</h1>
+            <h1 align="left">주인공 예측하기</h1>
             <br>
             <ul class="nav nav-tabs">
                 <li class="nav-item">
@@ -131,25 +105,103 @@
                             <td><a><font size="24">사진</font></a></td>
                             {% for a in predict_list1 %}
                             <td>
-                                <img src="/static/image/horse/{{a.5}}" width="300px" height="150px"/>
+                                <img src="/static/image/horse/{{a.8}}" width="300px" height="150px"/>
                             </td>
                             {% endfor %}
                         </tr>
-                        <tr style="height:100px">
+                        <tr style="height:200px">
                             <td><a><font size="24">마명</font></a></td>
                             {% for a in predict_list1 %}
                             <td>
-                                {{a.3}}
+                                <font size="16">{{a.1}}</font>
                             </td>
                             {% endfor %}
                         </tr>
-                        <tr style="height:100px">
+                        <tr style="height:200px">
                             <td><a><font size="24">기록</font></a></td>
                             {% for a in predict_list1 %}
                             <td>
-                                {{a.4}}
+                                <font size="16">{{a.9}}</font>
                             </td>
                             {% endfor %}
+                        </tr>
+                        <tr float="right" style="height:200px">
+                            <td><a><font size="24">스펙</font></a></td>
+                            <td colspan="3">
+                                {% for a in predict_list1 %}
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                <table class="juingong" style="display:inline-block; float:center" >
+                                    <tr>
+                                        <th>이름</th>
+                                        <td>{{a.1}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>나이</th>
+                                        <td>{{a.2}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>성별</th>
+                                        <td>{{a.3}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>산지</th>
+                                        <td>{{a.4}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>부중</th>
+                                        <td>{{a.5}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>출전횟수</th>
+                                        <td>{{a.6}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>우승횟수</th>
+                                        <td>{{a.7}}</td>
+                                    </tr>
+                                </table>
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                {% endfor %}
+                            </td>
                         </tr>
                     </table>
                 </div>
@@ -157,28 +209,112 @@
                     <br>
                     <table>
                         <tr>
-                            <td>사진</td>
+                            <td><font size="24">사진</font></td>
                             {% for b in predict_list2 %}
                             <td>
-                                <img src="/static/image/horse/{{b.5}}" width="300px" height="150px"/>
+                                <img src="/static/image/horse/{{b.8}}" width="300px" height="150px"/>
                             </td>
                             {% endfor %}
                         </tr>
-                        <tr style="height:100px">
-                            <td>마명</td>
+                        <tr style="height:200px">
+                            <td><font size="24">마명</font></td>
                             {% for b in predict_list2 %}
                             <td>
-                                {{b.3}}
+                                <font size="16">{{b.1}}</font>
                             </td>
                             {% endfor %}
                         </tr>
-                        <tr style="height:100px">
-                            <td>예측기록</td>
+                        <tr style="height:200px">
+                            <td><font size="24">기록</font></td>
                             {% for b in predict_list2 %}
                             <td>
-                                {{b.4}}
+                                {{b.9}}
                             </td>
                             {% endfor %}
+                        </tr>
+                        <tr style="height:200px">
+                            <td><font size="24">스펙</font></td>
+                            <td colspan="3">
+                                {% for b in predict_list2 %}
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                <table class="juingong" style="display:inline-block;">
+                                    <tr>
+                                        <th>이름</th>
+                                        <td>{{b.1}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>나이</th>
+                                        <td>{{b.2}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>성별</th>
+                                        <td>{{b.3}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>산지</th>
+                                        <td>{{b.4}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>부중</th>
+                                        <td>{{b.5}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>출전횟수</th>
+                                        <td>{{b.6}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>우승횟수</th>
+                                        <td>{{b.7}}</td>
+                                    </tr>
+                                </table>
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                {% endfor %}
+                            </td>
                         </tr>
                     </table>
                 </div>
@@ -189,7 +325,7 @@
                             <td>사진</td>
                             {% for c in predict_list3 %}
                             <td>
-                                <img src="/static/image/horse/{{c.5}}" width="300px" height="150px"/>
+                                <img src="/static/image/horse/{{c.8}}" width="300px" height="150px"/>
                             </td>
                             {% endfor %}
                         </tr>
@@ -197,7 +333,7 @@
                             <td>마명</td>
                             {% for c in predict_list3 %}
                             <td>
-                                {{c.3}}
+                                {{c.1}}
                             </td>
                             {% endfor %}
                         </tr>
@@ -205,9 +341,78 @@
                             <td>예측기록</td>
                             {% for c in predict_list3 %}
                             <td>
-                                {{c.4}}
+                                {{c.9}}
                             </td>
                             {% endfor %}
+                        </tr>
+                        <tr>
+                            <td>스펙</td>
+                            <td colspan="3">
+                                {% for c in predict_list3 %}
+                                <table class="juingong" style="display:inline-block;">
+                                    <tr>
+                                        <th>이름</th>
+                                        <td>{{c.1}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>나이</th>
+                                        <td>{{c.2}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>성별</th>
+                                        <td>{{c.3}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>산지</th>
+                                        <td>{{c.4}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>부중</th>
+                                        <td>{{c.5}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>출전횟수</th>
+                                        <td>{{c.6}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>우승횟수</th>
+                                        <td>{{c.7}}</td>
+                                    </tr>
+                                </table>
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                {% endfor %}
+                            </td>
                         </tr>
                     </table>
                 </div>
@@ -218,7 +423,7 @@
                             <td>사진</td>
                             {% for d in predict_list4 %}
                             <td>
-                                <img src="/static/image/horse/{{d.5}}" width="300px" height="150px"/>
+                                <img src="/static/image/horse/{{d.8}}" width="300px" height="150px"/>
                             </td>
                             {% endfor %}
                         </tr>
@@ -226,7 +431,7 @@
                             <td>마명</td>
                             {% for d in predict_list4 %}
                             <td>
-                                {{d.3}}
+                                {{d.1}}
                             </td>
                             {% endfor %}
                         </tr>
@@ -234,9 +439,78 @@
                             <td>예측기록</td>
                             {% for d in predict_list4 %}
                             <td>
-                                {{d.4}}
+                                {{d.9}}
                             </td>
                             {% endfor %}
+                        </tr>
+                        <tr>
+                            <td>스펙</td>
+                            <td colspan="3">
+                                {% for d in predict_list4 %}
+                                <table class="juingong" style="display:inline-block;">
+                                    <tr>
+                                        <th>이름</th>
+                                        <td>{{d.1}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>나이</th>
+                                        <td>{{d.2}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>성별</th>
+                                        <td>{{d.3}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>산지</th>
+                                        <td>{{d.4}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>부중</th>
+                                        <td>{{d.5}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>출전횟수</th>
+                                        <td>{{d.6}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>우승횟수</th>
+                                        <td>{{d.7}}</td>
+                                    </tr>
+                                </table>
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                {% endfor %}
+                            </td>
                         </tr>
                     </table>
                 </div>
@@ -247,7 +521,7 @@
                             <td>사진</td>
                             {% for e in predict_list5 %}
                             <td>
-                                <img src="/static/image/horse/{{e.5}}" width="300px" height="150px"/>
+                                <img src="/static/image/horse/{{e.8}}" width="300px" height="150px"/>
                             </td>
                             {% endfor %}
                         </tr>
@@ -255,7 +529,7 @@
                             <td>마명</td>
                             {% for e in predict_list5 %}
                             <td>
-                                {{e.3}}
+                                {{e.1}}
                             </td>
                             {% endfor %}
                         </tr>
@@ -263,9 +537,78 @@
                             <td>예측기록</td>
                             {% for e in predict_list5 %}
                             <td>
-                                {{e.4}}
+                                {{e.9}}
                             </td>
                             {% endfor %}
+                        </tr>
+                        <tr>
+                            <td>스펙</td>
+                            <td colspan="3">
+                                {% for e in predict_list5 %}
+                                <table class="juingong" style="display:inline-block;">
+                                    <tr>
+                                        <th>이름</th>
+                                        <td>{{e.1}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>나이</th>
+                                        <td>{{e.2}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>성별</th>
+                                        <td>{{e.3}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>산지</th>
+                                        <td>{{e.4}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>부중</th>
+                                        <td>{{e.5}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>출전횟수</th>
+                                        <td>{{e.6}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>우승횟수</th>
+                                        <td>{{e.7}}</td>
+                                    </tr>
+                                </table>
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                {% endfor %}
+                            </td>
                         </tr>
                     </table>
                 </div>
@@ -276,7 +619,7 @@
                             <td>사진</td>
                             {% for f in predict_list6 %}
                             <td>
-                                <img src="/static/image/horse/{{f.5}}" width="300px" height="150px"/>
+                                <img src="/static/image/horse/{{f.8}}" width="300px" height="150px"/>
                             </td>
                             {% endfor %}
                         </tr>
@@ -284,7 +627,7 @@
                             <td>마명</td>
                             {% for f in predict_list6 %}
                             <td>
-                                {{f.3}}
+                                {{f.1}}
                             </td>
                             {% endfor %}
                         </tr>
@@ -292,9 +635,78 @@
                             <td>예측기록</td>
                             {% for f in predict_list6 %}
                             <td>
-                                {{f.4}}
+                                {{f.9}}
                             </td>
                             {% endfor %}
+                        </tr>
+                        <tr>
+                            <td>스펙</td>
+                            <td colspan="3">
+                                {% for f in predict_list6 %}
+                                <table class="juingong" style="display:inline-block;">
+                                    <tr>
+                                        <th>이름</th>
+                                        <td>{{f.1}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>나이</th>
+                                        <td>{{f.2}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>성별</th>
+                                        <td>{{f.3}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>산지</th>
+                                        <td>{{f.4}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>부중</th>
+                                        <td>{{f.5}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>출전횟수</th>
+                                        <td>{{f.6}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>우승횟수</th>
+                                        <td>{{f.7}}</td>
+                                    </tr>
+                                </table>
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                {% endfor %}
+                            </td>
                         </tr>
                     </table>
                 </div>
@@ -305,7 +717,7 @@
                             <td>사진</td>
                             {% for g in predict_list7 %}
                             <td>
-                                <img src="/static/image/horse/{{g.5}}" width="300px" height="150px"/>
+                                <img src="/static/image/horse/{{g.8}}" width="300px" height="150px"/>
                             </td>
                             {% endfor %}
                         </tr>
@@ -313,7 +725,7 @@
                             <td>마명</td>
                             {% for g in predict_list7 %}
                             <td>
-                                {{g.3}}
+                                {{g.1}}
                             </td>
                             {% endfor %}
                         </tr>
@@ -321,9 +733,78 @@
                             <td>예측기록</td>
                             {% for g in predict_list7 %}
                             <td>
-                                {{g.4}}
+                                {{g.9}}
                             </td>
                             {% endfor %}
+                        </tr>
+                        <tr>
+                            <td>스펙</td>
+                            <td colspan="3">
+                                {% for g in predict_list7 %}
+                                <table class="juingong" style="display:inline-block;">
+                                    <tr>
+                                        <th>이름</th>
+                                        <td>{{g.1}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>나이</th>
+                                        <td>{{g.2}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>성별</th>
+                                        <td>{{g.3}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>산지</th>
+                                        <td>{{g.4}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>부중</th>
+                                        <td>{{g.5}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>출전횟수</th>
+                                        <td>{{g.6}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>우승횟수</th>
+                                        <td>{{g.7}}</td>
+                                    </tr>
+                                </table>
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                {% endfor %}
+                            </td>
                         </tr>
                     </table>
                 </div>
@@ -334,7 +815,7 @@
                             <td>사진</td>
                             {% for h in predict_list8 %}
                             <td>
-                                <img src="/static/image/horse/{{h.5}}" width="300px" height="150px"/>
+                                <img src="/static/image/horse/{{h.8}}" width="300px" height="150px"/>
                             </td>
                             {% endfor %}
                         </tr>
@@ -342,7 +823,7 @@
                             <td>마명</td>
                             {% for h in predict_list8 %}
                             <td>
-                                {{h.3}}
+                                {{h.1}}
                             </td>
                             {% endfor %}
                         </tr>
@@ -350,9 +831,78 @@
                             <td>예측기록</td>
                             {% for h in predict_list8 %}
                             <td>
-                                {{h.4}}
+                                {{h.9}}
                             </td>
                             {% endfor %}
+                        </tr>
+                        <tr>
+                            <td>스펙</td>
+                            <td colspan="3">
+                                {% for h in predict_list8 %}
+                                <table class="juingong" style="display:inline-block;">
+                                    <tr>
+                                        <th>이름</th>
+                                        <td>{{h.1}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>나이</th>
+                                        <td>{{h.2}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>성별</th>
+                                        <td>{{h.3}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>산지</th>
+                                        <td>{{h.4}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>부중</th>
+                                        <td>{{h.5}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>출전횟수</th>
+                                        <td>{{h.6}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>우승횟수</th>
+                                        <td>{{h.7}}</td>
+                                    </tr>
+                                </table>
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                {% endfor %}
+                            </td>
                         </tr>
                     </table>
                 </div>

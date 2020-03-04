@@ -52,7 +52,7 @@ from finalProject.models import Select,Horse
 # conn = oci.connect('doosun/doosun@localhost:1521/xe')
 conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
 # conn = oci.connect('doosun/doosun@192.168.0.7:1521/xe')
-# conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
+# conn = oci.connect('final_teamB_xman/test11@localhost:1521/xe')
 # conn = oci.connect("finalB_horse/test11@192.168.0.149:1521/xe", encoding="UTF-8")
 
 ########################################### 작성해야 할 아래에 있던 코드 위로 올려 놓음 ############################################################################
@@ -78,20 +78,36 @@ def whoiszoo1(request):
             return
         return conn
 
-    # 해당 경기의 예측 데이터 반환
     def select_predict(gnum):
         conn = connections()
         cursor = conn.cursor()
-        sql_select = "select p.pnum, p.gnum, p.hnum, h.hname, p.ptime, \
-            h.hpicture from horse h, predict p \
+        sql_select = "select p.pnum, h.hname, h.hage, h.hsex, h.hsanji, \
+            h.hweight, h.htotal, h.hwin, h.hpicture, p.ptime from horse h, predict p \
             where h.hnum = p.hnum and p.gnum = :gnum order by 1 asc"
         cursor.execute(sql_select, {"gnum": gnum})
         numRows = 3
-        res = cursor.fetchmany(numRows=numRows)
+        res_select_predict = cursor.fetchmany(numRows=numRows)
+        gmeter = res_select_predict[0][0]
         cursor.close()
         conn.close()
 
-        return res
+        return res_select_predict
+
+    # 해당 경기의 우승마 데이터 반환
+    def select_winner(gnum):
+        conn = connections()
+        cursor = conn.cursor()
+        sql_select = "select w.wnum, h.hname, h.hage, h.hsex, h.hsanji, \
+            h.hweight, h.htotal, h.hwin, h.hpicture from horse h, winner w \
+            where h.hnum = w.hnum and w.gnum = :gnum order by 1 asc"
+        cursor.execute(sql_select, {"gnum": gnum})
+        numRows = 3
+        res_select_winner = cursor.fetchmany(numRows=numRows)
+        gmeter = res_select_winner[0][0]
+        cursor.close()
+        conn.close()
+
+        return res_select_winner
 
     # 메인 메서드
     def predict_list1(gnum):
@@ -101,7 +117,9 @@ def whoiszoo1(request):
         # 실행해야 하는 부분입니다.
         gnum = 1;
         predict = select_predict(gnum)
+        # predict_info(gnum)
         return predict
+
     def predict_list2(gnum):
         # 예측 데이터 반환 메서드 실행
         # 1을 강제로 넣었는데 실제로는
@@ -110,6 +128,7 @@ def whoiszoo1(request):
         gnum = 2;
         predict = select_predict(gnum)
         return predict
+
     def predict_list3(gnum):
         # 예측 데이터 반환 메서드 실행
         # 1을 강제로 넣었는데 실제로는
@@ -118,6 +137,7 @@ def whoiszoo1(request):
         gnum = 3;
         predict = select_predict(gnum)
         return predict
+
     def predict_list4(gnum):
         # 예측 데이터 반환 메서드 실행
         # 1을 강제로 넣었는데 실제로는
@@ -126,6 +146,7 @@ def whoiszoo1(request):
         gnum = 4;
         predict = select_predict(gnum)
         return predict
+
     def predict_list5(gnum):
         # 예측 데이터 반환 메서드 실행
         # 1을 강제로 넣었는데 실제로는
@@ -134,6 +155,7 @@ def whoiszoo1(request):
         gnum = 5;
         predict = select_predict(gnum)
         return predict
+
     def predict_list6(gnum):
         # 예측 데이터 반환 메서드 실행
         # 1을 강제로 넣었는데 실제로는
@@ -142,6 +164,7 @@ def whoiszoo1(request):
         gnum = 6;
         predict = select_predict(gnum)
         return predict
+
     def predict_list7(gnum):
         # 예측 데이터 반환 메서드 실행
         # 1을 강제로 넣었는데 실제로는
@@ -150,6 +173,7 @@ def whoiszoo1(request):
         gnum = 7;
         predict = select_predict(gnum)
         return predict
+
     def predict_list8(gnum):
         # 예측 데이터 반환 메서드 실행
         # 1을 강제로 넣었는데 실제로는
@@ -245,14 +269,309 @@ def show_result(request):
 
 # 오늘의 주인공은?
 def todayzoo1(request):
+    def whoiszoo1(request):
+        # 커넥션을 반환하는 함수
+        # global conn
+        def connections():
+            # global conn
+            try:
+                conn = oci.connect("finalB_horse/test11@192.168.0.149:1521/xe", encoding="UTF-8")
+            except oci.DatabaseError as e:
+                conn = "접속 예외 발생"
+                print(e)
+                return
+            return conn
 
+        def select_predict(gnum):
+            conn = connections()
+            cursor = conn.cursor()
+            sql_select = "select p.pnum, h.hname, h.hage, h.hsex, h.hsanji, \
+                h.hweight, h.htotal, h.hwin, h.hpicture, p.ptime from horse h, predict p \
+                where h.hnum = p.hnum and p.gnum = :gnum order by 1 asc"
+            cursor.execute(sql_select, {"gnum": gnum})
+            numRows = 3
+            res_select_predict = cursor.fetchmany(numRows=numRows)
+            gmeter = res_select_predict[0][0]
+            cursor.close()
+            conn.close()
+
+            return res_select_predict
+
+        # 해당 경기의 우승마 데이터 반환
+        def select_winner(gnum):
+            conn = connections()
+            cursor = conn.cursor()
+            sql_select = "select w.wnum, h.hname, h.hage, h.hsex, h.hsanji, \
+                h.hweight, h.htotal, h.hwin, h.hpicture from horse h, winner w \
+                where h.hnum = w.hnum and w.gnum = :gnum order by 1 asc"
+            cursor.execute(sql_select, {"gnum": gnum})
+            numRows = 3
+            res_select_winner = cursor.fetchmany(numRows=numRows)
+            gmeter = res_select_winner[0][0]
+            cursor.close()
+            conn.close()
+
+            return res_select_winner
+
+        # 메인 메서드
+        def predict_list1(gnum):
+            # 예측 데이터 반환 메서드 실행
+            # 1을 강제로 넣었는데 실제로는
+            # html 에서 숫자를 받아서 메인메서드에서 받아서
+            # 실행해야 하는 부분입니다.
+            gnum = 1;
+            predict = select_predict(gnum)
+            # predict_info(gnum)
+            return predict
+
+        def predict_list2(gnum):
+            # 예측 데이터 반환 메서드 실행
+            # 1을 강제로 넣었는데 실제로는
+            # html 에서 숫자를 받아서 메인메서드에서 받아서
+            # 실행해야 하는 부분입니다.
+            gnum = 2;
+            predict = select_predict(gnum)
+            return predict
+
+        def predict_list3(gnum):
+            # 예측 데이터 반환 메서드 실행
+            # 1을 강제로 넣었는데 실제로는
+            # html 에서 숫자를 받아서 메인메서드에서 받아서
+            # 실행해야 하는 부분입니다.
+            gnum = 3;
+            predict = select_predict(gnum)
+            return predict
+
+        def predict_list4(gnum):
+            # 예측 데이터 반환 메서드 실행
+            # 1을 강제로 넣었는데 실제로는
+            # html 에서 숫자를 받아서 메인메서드에서 받아서
+            # 실행해야 하는 부분입니다.
+            gnum = 4;
+            predict = select_predict(gnum)
+            return predict
+
+        def predict_list5(gnum):
+            # 예측 데이터 반환 메서드 실행
+            # 1을 강제로 넣었는데 실제로는
+            # html 에서 숫자를 받아서 메인메서드에서 받아서
+            # 실행해야 하는 부분입니다.
+            gnum = 5;
+            predict = select_predict(gnum)
+            return predict
+
+        def predict_list6(gnum):
+            # 예측 데이터 반환 메서드 실행
+            # 1을 강제로 넣었는데 실제로는
+            # html 에서 숫자를 받아서 메인메서드에서 받아서
+            # 실행해야 하는 부분입니다.
+            gnum = 6;
+            predict = select_predict(gnum)
+            return predict
+
+        def predict_list7(gnum):
+            # 예측 데이터 반환 메서드 실행
+            # 1을 강제로 넣었는데 실제로는
+            # html 에서 숫자를 받아서 메인메서드에서 받아서
+            # 실행해야 하는 부분입니다.
+            gnum = 7;
+            predict = select_predict(gnum)
+            return predict
+
+        def predict_list8(gnum):
+            # 예측 데이터 반환 메서드 실행
+            # 1을 강제로 넣었는데 실제로는
+            # html 에서 숫자를 받아서 메인메서드에서 받아서
+            # 실행해야 하는 부분입니다.
+            gnum = 8;
+            predict = select_predict(gnum)
+            return predict
+
+        print("여기까진?")
+        # 아래는 라운드 별 숫자값 넣어주는 곳
+        # 출력해보기
+        print("최종결과 : ", predict_list1(1))
+        print("최종결과 : ", predict_list2(2))
+        print("최종결과 : ", predict_list3(3))
+        print("최종결과 : ", predict_list4(4))
+        print("최종결과 : ", predict_list5(5))
+        print("최종결과 : ", predict_list6(6))
+        print("최종결과 : ", predict_list7(7))
+        print("최종결과 : ", predict_list8(8))
+
+        # html에 리스트 값으로 넘겨주기 준비
+        predict_list1 = predict_list1(1)
+        predict_list2 = predict_list2(2)
+        predict_list3 = predict_list3(3)
+        predict_list4 = predict_list4(4)
+        predict_list5 = predict_list5(5)
+        predict_list6 = predict_list6(6)
+        predict_list7 = predict_list7(7)
+        predict_list8 = predict_list8(8)
+        return render(request, "finalProject/whois_juingong.html",
+                      {"winner_list1": winner_list1, "winner_list2": winner_list2,
+                       "winner_list3": winner_list3, "winner_list4": winner_list4,
+                       "winner_list5": winner_list5, "winner_list6": winner_list6,
+                       "winner_list7": winner_list7, "winner_list8": winner_list8})
     return render(request, "finalProject/today_juingong.html")
+
+def todayzoo1_app(request):
+    def whoiszoo1(request):
+        # 커넥션을 반환하는 함수
+        # global conn
+        def connections():
+            # global conn
+            try:
+                conn = oci.connect("finalB_horse/test11@192.168.0.149:1521/xe", encoding="UTF-8")
+            except oci.DatabaseError as e:
+                conn = "접속 예외 발생"
+                print(e)
+                return
+            return conn
+
+        def select_predict(gnum):
+            conn = connections()
+            cursor = conn.cursor()
+            sql_select = "select p.pnum, h.hname, h.hage, h.hsex, h.hsanji, \
+                h.hweight, h.htotal, h.hwin, h.hpicture, p.ptime from horse h, predict p \
+                where h.hnum = p.hnum and p.gnum = :gnum order by 1 asc"
+            cursor.execute(sql_select, {"gnum": gnum})
+            numRows = 3
+            res_select_predict = cursor.fetchmany(numRows=numRows)
+            gmeter = res_select_predict[0][0]
+            cursor.close()
+            conn.close()
+
+            return res_select_predict
+
+        # 해당 경기의 우승마 데이터 반환
+        def select_winner(gnum):
+            conn = connections()
+            cursor = conn.cursor()
+            sql_select = "select w.wnum, h.hname, h.hage, h.hsex, h.hsanji, \
+                h.hweight, h.htotal, h.hwin, h.hpicture from horse h, winner w \
+                where h.hnum = w.hnum and w.gnum = :gnum order by 1 asc"
+            cursor.execute(sql_select, {"gnum": gnum})
+            numRows = 3
+            res_select_winner = cursor.fetchmany(numRows=numRows)
+            gmeter = res_select_winner[0][0]
+            cursor.close()
+            conn.close()
+
+            return res_select_winner
+
+        # 메인 메서드
+        def predict_list1(gnum):
+            # 예측 데이터 반환 메서드 실행
+            # 1을 강제로 넣었는데 실제로는
+            # html 에서 숫자를 받아서 메인메서드에서 받아서
+            # 실행해야 하는 부분입니다.
+            gnum = 1;
+            predict = select_predict(gnum)
+            # predict_info(gnum)
+            return predict
+
+        def predict_list2(gnum):
+            # 예측 데이터 반환 메서드 실행
+            # 1을 강제로 넣었는데 실제로는
+            # html 에서 숫자를 받아서 메인메서드에서 받아서
+            # 실행해야 하는 부분입니다.
+            gnum = 2;
+            predict = select_predict(gnum)
+            return predict
+
+        def predict_list3(gnum):
+            # 예측 데이터 반환 메서드 실행
+            # 1을 강제로 넣었는데 실제로는
+            # html 에서 숫자를 받아서 메인메서드에서 받아서
+            # 실행해야 하는 부분입니다.
+            gnum = 3;
+            predict = select_predict(gnum)
+            return predict
+
+        def predict_list4(gnum):
+            # 예측 데이터 반환 메서드 실행
+            # 1을 강제로 넣었는데 실제로는
+            # html 에서 숫자를 받아서 메인메서드에서 받아서
+            # 실행해야 하는 부분입니다.
+            gnum = 4;
+            predict = select_predict(gnum)
+            return predict
+
+        def predict_list5(gnum):
+            # 예측 데이터 반환 메서드 실행
+            # 1을 강제로 넣었는데 실제로는
+            # html 에서 숫자를 받아서 메인메서드에서 받아서
+            # 실행해야 하는 부분입니다.
+            gnum = 5;
+            predict = select_predict(gnum)
+            return predict
+
+        def predict_list6(gnum):
+            # 예측 데이터 반환 메서드 실행
+            # 1을 강제로 넣었는데 실제로는
+            # html 에서 숫자를 받아서 메인메서드에서 받아서
+            # 실행해야 하는 부분입니다.
+            gnum = 6;
+            predict = select_predict(gnum)
+            return predict
+
+        def predict_list7(gnum):
+            # 예측 데이터 반환 메서드 실행
+            # 1을 강제로 넣었는데 실제로는
+            # html 에서 숫자를 받아서 메인메서드에서 받아서
+            # 실행해야 하는 부분입니다.
+            gnum = 7;
+            predict = select_predict(gnum)
+            return predict
+
+        def predict_list8(gnum):
+            # 예측 데이터 반환 메서드 실행
+            # 1을 강제로 넣었는데 실제로는
+            # html 에서 숫자를 받아서 메인메서드에서 받아서
+            # 실행해야 하는 부분입니다.
+            gnum = 8;
+            predict = select_predict(gnum)
+            return predict
+
+        print("여기까진?")
+        # 아래는 라운드 별 숫자값 넣어주는 곳
+        # 출력해보기
+        print("최종결과 : ", predict_list1(1))
+        print("최종결과 : ", predict_list2(2))
+        print("최종결과 : ", predict_list3(3))
+        print("최종결과 : ", predict_list4(4))
+        print("최종결과 : ", predict_list5(5))
+        print("최종결과 : ", predict_list6(6))
+        print("최종결과 : ", predict_list7(7))
+        print("최종결과 : ", predict_list8(8))
+
+        # html에 리스트 값으로 넘겨주기 준비
+        predict_list1 = predict_list1(1)
+        predict_list2 = predict_list2(2)
+        predict_list3 = predict_list3(3)
+        predict_list4 = predict_list4(4)
+        predict_list5 = predict_list5(5)
+        predict_list6 = predict_list6(6)
+        predict_list7 = predict_list7(7)
+        predict_list8 = predict_list8(8)
+        return render(request, "finalProject/whois_juingong.html",
+                      {"predict_list1": predict_list1, "predict_list2": predict_list2,
+                       "predict_list3": predict_list3, "predict_list4": predict_list4,
+                       "predict_list5": predict_list5, "predict_list6": predict_list6,
+                       "predict_list7": predict_list7, "predict_list8": predict_list8})
+    return render(request, "finalProject/today_juingong_app.html")
+
 ##################################### 위로는 경마에 해당하는 함수들
+
 
 ##################################### 아래는 홈부터 작성 차례로 자리한 함수들
 
 def home(request):
     return render(request, "finalProject/home_main.html")
+
+def home_app(request):
+    return render(request, "finalProject/home_app.html")
 
 def join(request):
     return render(request, "finalProject/join_gaip3.html")
@@ -286,16 +605,26 @@ def join_Oraclite(request):
     print("mtel : ", mtel)
     madmin = request.POST.get("madmin")
     print("madmin : ", madmin)
-    if madmin is not None:
-        join_insert = "insert into member VALUES(member_seq.nextVal, :mid, :mpwd, :mname, :mtel, :madmin, sysdate)"
-        cursor.execute(join_insert, mid=mid, mpwd=mpwd, mname=mname, mtel=mtel, madmin=madmin)
-        conn.commit()
-        # cursor.close()
-        # conn.close
-        return render(request, "finalProject/home_main.html")
+
+    if (mid == ''):
+        return render(request, 'finalProject/none_value.html')
+    elif (mpwd == ''):
+        return render(request, 'finalProject/none_value.html')
+    elif (mname == ''):
+        return render(request, 'finalProject/none_value.html')
+    # elif (mtel is not ):
+    #     return render(request, 'finalProject/none_value.html')
     else:
-        return render(request, "finalProject/join_gaip.html")
-    return redirect('home')
+        if madmin is not None:
+            join_insert = "insert into member VALUES(member_seq.nextVal, :mid, :mpwd, :mname, :mtel, :madmin, sysdate)"
+            cursor.execute(join_insert, mid=mid, mpwd=mpwd, mname=mname, mtel=mtel, madmin=madmin)
+            conn.commit()
+            # cursor.close()
+            # conn.close
+            return render(request, "finalProject/home_main.html")
+        else:
+            return render(request, "finalProject/join_gaip.html")
+        return redirect('home')
 ####################################################################### (하) sqlite 과 oracle DB에 동시 회원가입하는 부분
 
 # 홈에서 로그인 글씨 누르면 login 페이지로 이동
@@ -486,7 +815,7 @@ def notice_detail(request):
 def review(request):
     global conn;  # 전역변수 사용 위해
     cursor = conn.cursor()
-    cursor.execute('select*from review')
+    cursor.execute('select*from review order by 1 desc')
     rlist = cursor.fetchall
     # cursor.close()
     # conn.close()
@@ -574,7 +903,7 @@ def review_detail(request):
     cursor_rehit.execute(hitup_sql, rehit=rehit, renum=renum)
     conn.commit()
     # 조회수 증가 완료
-    
+
     # 상세보기 출력
     re_detail = 'select * from review where renum = :renum'
     cursor_review.execute(re_detail, renum=renum)
@@ -598,6 +927,19 @@ def riderecom1(request):
     # cursor.close()
     # conn.close()
     return render(request, "finalProject/sungma_chu.html", {"plist": plist})
+
+# 승마장 추천
+def riderecom1_app(request):
+    print("여기까지")
+    global conn;  # 전역변수 사용 위해
+    print(conn.version)
+    cursor = conn.cursor()
+    cursor.execute('select*from place')
+    plist = cursor.fetchall()
+    # cursor.close()
+    # conn.close()
+    return render(request, "finalProject/sungma_chu_app.html", {"plist": plist})
+
 
 # 승마체험장 추천에서 radio 사용 하는 함수
 def rideSearch(request):
