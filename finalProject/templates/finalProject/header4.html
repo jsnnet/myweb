@@ -34,8 +34,7 @@
 {% load static %}
 {% static "" as baseUrl %}
 <nav class="navbar navbar-dark bg-dark">
-  <!-- 로고 또는 텍스트 클릭하면 다른 이동하는 nabar-brand 뒤에 href='' 있었다 -->
-  <a class="navbar-brand">千軍萬馬</a>
+  <a class="navbar-brand" href='home_app'>千軍萬馬</a>
   {% if request.session.mid != None %}
   <button onclick="location.href='login'" style="background:transparent; color:gray; border-radius:15px" src="{% static 'image/user_icon.jpg' %}">{{request.session.mid}}</button>
   {% else %}

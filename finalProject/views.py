@@ -209,6 +209,152 @@ def whoiszoo1(request):
                                                                 "predict_list5":predict_list5,"predict_list6":predict_list6,
                                                                 "predict_list7":predict_list7,"predict_list8":predict_list8})
 
+# 오늘의 주인공은?
+def todayzoo1(request):
+    # 커넥션을 반환하는 함수
+    # global conn
+    def connections():
+        # global conn
+        try:
+            conn = oci.connect("finalB_horse/test11@192.168.0.149:1521/xe", encoding="UTF-8")
+        except oci.DatabaseError as e:
+            conn = "접속 예외 발생"
+            print(e)
+            return
+        return conn
+
+    def select_predict(gnum):
+        conn = connections()
+        cursor = conn.cursor()
+        sql_select = "select p.pnum, h.hname, h.hage, h.hsex, h.hsanji, \
+            h.hweight, h.htotal, h.hwin, h.hpicture, p.ptime from horse h, predict p \
+            where h.hnum = p.hnum and p.gnum = :gnum order by 1 asc"
+        cursor.execute(sql_select, {"gnum": gnum})
+        numRows = 3
+        res_select_predict = cursor.fetchmany(numRows=numRows)
+        gmeter = res_select_predict[0][0]
+        cursor.close()
+        conn.close()
+
+        return res_select_predict
+
+    # 해당 경기의 우승마 데이터 반환
+    def select_winner(gnum):
+        conn = connections()
+        cursor = conn.cursor()
+        sql_select = "select w.wnum, h.hname, h.hage, h.hsex, h.hsanji, \
+            h.hweight, h.htotal, h.hwin, h.hpicture from horse h, winner w \
+            where h.hnum = w.hnum and w.gnum = :gnum order by 1 asc"
+        cursor.execute(sql_select, {"gnum": gnum})
+        numRows = 3
+        res_select_winner = cursor.fetchmany(numRows=numRows)
+        gmeter = res_select_winner[0][0]
+        cursor.close()
+        conn.close()
+
+        return res_select_winner
+
+    # 메인 메서드
+    def winner_list1(gnum):
+        # 예측 데이터 반환 메서드 실행
+        # 1을 강제로 넣었는데 실제로는
+        # html 에서 숫자를 받아서 메인메서드에서 받아서
+        # 실행해야 하는 부분입니다.
+        gnum = 1;
+        winner = select_winner(gnum)
+        # winner_info(gnum)
+        return winner
+
+    def winner_list2(gnum):
+        # 예측 데이터 반환 메서드 실행
+        # 1을 강제로 넣었는데 실제로는
+        # html 에서 숫자를 받아서 메인메서드에서 받아서
+        # 실행해야 하는 부분입니다.
+        gnum = 2;
+        winner = select_winner(gnum)
+        return winner
+
+    def winner_list3(gnum):
+        # 예측 데이터 반환 메서드 실행
+        # 1을 강제로 넣었는데 실제로는
+        # html 에서 숫자를 받아서 메인메서드에서 받아서
+        # 실행해야 하는 부분입니다.
+        gnum = 3;
+        winner = select_winner(gnum)
+        return winner
+
+    def winner_list4(gnum):
+        # 예측 데이터 반환 메서드 실행
+        # 1을 강제로 넣었는데 실제로는
+        # html 에서 숫자를 받아서 메인메서드에서 받아서
+        # 실행해야 하는 부분입니다.
+        gnum = 4;
+        winner = select_winner(gnum)
+        return winner
+
+    def winner_list5(gnum):
+        # 예측 데이터 반환 메서드 실행
+        # 1을 강제로 넣었는데 실제로는
+        # html 에서 숫자를 받아서 메인메서드에서 받아서
+        # 실행해야 하는 부분입니다.
+        gnum = 5;
+        winner = select_winner(gnum)
+        return winner
+
+    def winner_list6(gnum):
+        # 예측 데이터 반환 메서드 실행
+        # 1을 강제로 넣었는데 실제로는
+        # html 에서 숫자를 받아서 메인메서드에서 받아서
+        # 실행해야 하는 부분입니다.
+        gnum = 6;
+        winner = select_winner(gnum)
+        return winner
+
+    def winner_list7(gnum):
+        # 예측 데이터 반환 메서드 실행
+        # 1을 강제로 넣었는데 실제로는
+        # html 에서 숫자를 받아서 메인메서드에서 받아서
+        # 실행해야 하는 부분입니다.
+        gnum = 7;
+        winner = select_winner(gnum)
+        return winner
+
+    def winner_list8(gnum):
+        # 예측 데이터 반환 메서드 실행
+        # 1을 강제로 넣었는데 실제로는
+        # html 에서 숫자를 받아서 메인메서드에서 받아서
+        # 실행해야 하는 부분입니다.
+        gnum = 8;
+        winner = select_winner(gnum)
+        return winner
+
+    print("여기까진?")
+    # 아래는 라운드 별 숫자값 넣어주는 곳
+    # 출력해보기
+    print("최종결과 : ", winner_list1(1))
+    print("최종결과 : ", winner_list2(2))
+    print("최종결과 : ", winner_list3(3))
+    print("최종결과 : ", winner_list4(4))
+    print("최종결과 : ", winner_list5(5))
+    print("최종결과 : ", winner_list6(6))
+    print("최종결과 : ", winner_list7(7))
+    print("최종결과 : ", winner_list8(8))
+
+    # html에 리스트 값으로 넘겨주기 준비
+    winner_list1 = winner_list1(1)
+    winner_list2 = winner_list2(2)
+    winner_list3 = winner_list3(3)
+    winner_list4 = winner_list4(4)
+    winner_list5 = winner_list5(5)
+    winner_list6 = winner_list6(6)
+    winner_list7 = winner_list7(7)
+    winner_list8 = winner_list8(8)
+    return render(request, "finalProject/today_juingong.html",
+                  {"winner_list1": winner_list1, "winner_list2": winner_list2,
+                   "winner_list3": winner_list3, "winner_list4": winner_list4,
+                   "winner_list5": winner_list5, "winner_list6": winner_list6,
+                   "winner_list7": winner_list7, "winner_list8": winner_list8})
+
 # 경마 누가 주인공인지 인기투표
 def whoispick1(request):
     # 경기마 테이블 horse select 로 가져와서 목록 보여주기
@@ -266,154 +412,6 @@ def show_result(request):
     # print("answer_dto : ", answer_dto)
     # count = Horse.objects.all().count()
     return render(request, "finalProject/whois_onepick_result6.html", {"surveyList":surveyList})
-
-# 오늘의 주인공은?
-def todayzoo1(request):
-    def whoiszoo1(request):
-        # 커넥션을 반환하는 함수
-        # global conn
-        def connections():
-            # global conn
-            try:
-                conn = oci.connect("finalB_horse/test11@192.168.0.149:1521/xe", encoding="UTF-8")
-            except oci.DatabaseError as e:
-                conn = "접속 예외 발생"
-                print(e)
-                return
-            return conn
-
-        def select_predict(gnum):
-            conn = connections()
-            cursor = conn.cursor()
-            sql_select = "select p.pnum, h.hname, h.hage, h.hsex, h.hsanji, \
-                h.hweight, h.htotal, h.hwin, h.hpicture, p.ptime from horse h, predict p \
-                where h.hnum = p.hnum and p.gnum = :gnum order by 1 asc"
-            cursor.execute(sql_select, {"gnum": gnum})
-            numRows = 3
-            res_select_predict = cursor.fetchmany(numRows=numRows)
-            gmeter = res_select_predict[0][0]
-            cursor.close()
-            conn.close()
-
-            return res_select_predict
-
-        # 해당 경기의 우승마 데이터 반환
-        def select_winner(gnum):
-            conn = connections()
-            cursor = conn.cursor()
-            sql_select = "select w.wnum, h.hname, h.hage, h.hsex, h.hsanji, \
-                h.hweight, h.htotal, h.hwin, h.hpicture from horse h, winner w \
-                where h.hnum = w.hnum and w.gnum = :gnum order by 1 asc"
-            cursor.execute(sql_select, {"gnum": gnum})
-            numRows = 3
-            res_select_winner = cursor.fetchmany(numRows=numRows)
-            gmeter = res_select_winner[0][0]
-            cursor.close()
-            conn.close()
-
-            return res_select_winner
-
-        # 메인 메서드
-        def predict_list1(gnum):
-            # 예측 데이터 반환 메서드 실행
-            # 1을 강제로 넣었는데 실제로는
-            # html 에서 숫자를 받아서 메인메서드에서 받아서
-            # 실행해야 하는 부분입니다.
-            gnum = 1;
-            predict = select_predict(gnum)
-            # predict_info(gnum)
-            return predict
-
-        def predict_list2(gnum):
-            # 예측 데이터 반환 메서드 실행
-            # 1을 강제로 넣었는데 실제로는
-            # html 에서 숫자를 받아서 메인메서드에서 받아서
-            # 실행해야 하는 부분입니다.
-            gnum = 2;
-            predict = select_predict(gnum)
-            return predict
-
-        def predict_list3(gnum):
-            # 예측 데이터 반환 메서드 실행
-            # 1을 강제로 넣었는데 실제로는
-            # html 에서 숫자를 받아서 메인메서드에서 받아서
-            # 실행해야 하는 부분입니다.
-            gnum = 3;
-            predict = select_predict(gnum)
-            return predict
-
-        def predict_list4(gnum):
-            # 예측 데이터 반환 메서드 실행
-            # 1을 강제로 넣었는데 실제로는
-            # html 에서 숫자를 받아서 메인메서드에서 받아서
-            # 실행해야 하는 부분입니다.
-            gnum = 4;
-            predict = select_predict(gnum)
-            return predict
-
-        def predict_list5(gnum):
-            # 예측 데이터 반환 메서드 실행
-            # 1을 강제로 넣었는데 실제로는
-            # html 에서 숫자를 받아서 메인메서드에서 받아서
-            # 실행해야 하는 부분입니다.
-            gnum = 5;
-            predict = select_predict(gnum)
-            return predict
-
-        def predict_list6(gnum):
-            # 예측 데이터 반환 메서드 실행
-            # 1을 강제로 넣었는데 실제로는
-            # html 에서 숫자를 받아서 메인메서드에서 받아서
-            # 실행해야 하는 부분입니다.
-            gnum = 6;
-            predict = select_predict(gnum)
-            return predict
-
-        def predict_list7(gnum):
-            # 예측 데이터 반환 메서드 실행
-            # 1을 강제로 넣었는데 실제로는
-            # html 에서 숫자를 받아서 메인메서드에서 받아서
-            # 실행해야 하는 부분입니다.
-            gnum = 7;
-            predict = select_predict(gnum)
-            return predict
-
-        def predict_list8(gnum):
-            # 예측 데이터 반환 메서드 실행
-            # 1을 강제로 넣었는데 실제로는
-            # html 에서 숫자를 받아서 메인메서드에서 받아서
-            # 실행해야 하는 부분입니다.
-            gnum = 8;
-            predict = select_predict(gnum)
-            return predict
-
-        print("여기까진?")
-        # 아래는 라운드 별 숫자값 넣어주는 곳
-        # 출력해보기
-        print("최종결과 : ", predict_list1(1))
-        print("최종결과 : ", predict_list2(2))
-        print("최종결과 : ", predict_list3(3))
-        print("최종결과 : ", predict_list4(4))
-        print("최종결과 : ", predict_list5(5))
-        print("최종결과 : ", predict_list6(6))
-        print("최종결과 : ", predict_list7(7))
-        print("최종결과 : ", predict_list8(8))
-
-        # html에 리스트 값으로 넘겨주기 준비
-        predict_list1 = predict_list1(1)
-        predict_list2 = predict_list2(2)
-        predict_list3 = predict_list3(3)
-        predict_list4 = predict_list4(4)
-        predict_list5 = predict_list5(5)
-        predict_list6 = predict_list6(6)
-        predict_list7 = predict_list7(7)
-        predict_list8 = predict_list8(8)
-        return render(request, "finalProject/whois_juingong.html",
-                      {"winner_list1": winner_list1, "winner_list2": winner_list2,
-                       "winner_list3": winner_list3, "winner_list4": winner_list4,
-                       "winner_list5": winner_list5, "winner_list6": winner_list6,
-                       "winner_list7": winner_list7, "winner_list8": winner_list8})
-    return render(request, "finalProject/today_juingong.html")
 
 def todayzoo1_app(request):
     def whoiszoo1(request):
@@ -580,7 +578,8 @@ def join(request):
 from django.contrib import auth
 @csrf_exempt
 def join_Oraclite(request):
-    global conn;
+    # global conn;
+    conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
     # 폼 안쓰고 새로 생성한 모델 활용 ==================================================================================
     sign_up = JoinForm(mid=request.POST['mid'],
                        mpwd=request.POST['mpwd'],
@@ -646,7 +645,8 @@ def login_session(request):
     if mpwd_pass is None:
         return render(request, 'finalProject/none_value.html')
     else:
-        global conn;
+        # global conn;
+        conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
         print("첫if mpwd_pass : ", mpwd_pass)
         cursor = conn.cursor()
         pwd_chk = 'select * from member where mid = :mid'
@@ -690,7 +690,8 @@ def qna(request):
         return render(request, "finalProject/login_required.html")
 
 def qna_up(request):
-    global conn; #전역변수 사용 위해
+    # global conn; #전역변수 사용 위해
+    conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
     print(conn.version)
     cursor = conn.cursor()
     mid = request.session.get("mid")
@@ -723,7 +724,8 @@ def qna_up(request):
 
 # 문의사항 출력 (추후에 내 문의로 수정할 것)
 def myquestion(request):
-    global conn;  # 전역변수 사용 위해
+    # global conn;  # 전역변수 사용 위해
+    conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
     request.session.get('mid')
     print("세션 값 : ",request.session.get('mid'))
     member_id = request.session.get('mid')
@@ -740,7 +742,8 @@ def myquestion(request):
 @csrf_exempt
 def myq_view(request):
     # 내 문의 보기/수정/삭제 그리고 추가 폼으로 comm 테이블의 리스트 (문의 번호랑 회원 아이디가 FK)
-    global conn;
+    # global conn;
+    conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
     # 문의 리스트에서 클릭한 문의만 가져오고 싶을때
     # 해당 문의의 문의 번호를 가져온다
     qnum = request.GET["qnum"]
@@ -766,7 +769,8 @@ def myq_view(request):
 @csrf_exempt
 def myq_delete(request):
     # 내 문의글 상세보기에서 삭제 버튼 클릭시 여기로
-    global conn;
+    # global conn;
+    conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
     cursor_myq = conn.cursor()
     cursor_comm = conn.cursor()
     qnum = request.GET["qnum"]
@@ -783,10 +787,11 @@ def myq_delete(request):
 # 공지사항 불러오기
 # sysdate 로 생성된 qdate 값이 return 으로 넘어가지 않음
 def notice1(request):
-    global conn;  # 전역변수 사용 위해
+    # global conn;  # 전역변수 사용 위해
+    conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
     print(conn.version)
     cursor = conn.cursor()
-    cursor.execute('select*from notice')
+    cursor.execute('select * from notice order by nnum desc')
     # cursor.execute('select nnum, ntitle, ncontent, nhit, to_char(ndate) from notice')
     # print("공지 제목 날짜 : ",res)
     nlist = cursor.fetchall()
@@ -796,7 +801,8 @@ def notice1(request):
 
 # 공지글 클릭해서 상세보기
 def notice_detail(request):
-    global conn;
+    # global conn;
+    conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
     # 공지사항들 중에서 클릭한 글만 보곡 싶을때
     # 해당 공지글의 번호를 가져온다
     nnum = request.GET["nnum"]
@@ -813,16 +819,18 @@ def notice_detail(request):
     return render(request, "finalProject/notice_view1.html", {"noti_detail":noti_detail})
 
 def review(request):
-    global conn;  # 전역변수 사용 위해
+    # global conn;  # 전역변수 사용 위해
+    conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
     cursor = conn.cursor()
-    cursor.execute('select*from review order by 1 desc')
+    cursor.execute('select * from review order by 1 desc')
     rlist = cursor.fetchall
     # cursor.close()
     # conn.close()
     return render(request, "finalProject/review.html", {"rlist":rlist})
 
 def up_review(request):
-    global conn;
+    # global conn;
+    conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
     cursor = conn.cursor()
     mid = request.session.get("mid")
     if (mid != None):
@@ -837,7 +845,8 @@ def up_review(request):
         return render(request, 'finalProject/login_required.html')
 
 def write_review2(request):
-    global conn; #전역변수 사용 위해
+    # global conn; #전역변수 사용 위해
+    conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
     mid = request.session.get("mid")
     print(conn.version)
     cursor = conn.cursor()
@@ -873,7 +882,8 @@ def get_client_ip(request):
     return ip
 
 def review_detail(request):
-    global conn;
+    # global conn;
+    conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
     cursor_review = conn.cursor()
     cursor_rehit = conn.cursor()
     # 리뷰 중에서 클릭한 글만 보곡 싶을때
@@ -919,7 +929,8 @@ def hit_up(request):
 # 승마장 추천
 def riderecom1(request):
     print("여기까지")
-    global conn;  # 전역변수 사용 위해
+    # global conn;  # 전역변수 사용 위해
+    conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
     print(conn.version)
     cursor = conn.cursor()
     cursor.execute('select*from place')
@@ -931,7 +942,8 @@ def riderecom1(request):
 # 승마장 추천
 def riderecom1_app(request):
     print("여기까지")
-    global conn;  # 전역변수 사용 위해
+    # global conn;  # 전역변수 사용 위해
+    conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
     print(conn.version)
     cursor = conn.cursor()
     cursor.execute('select*from place')
@@ -943,7 +955,8 @@ def riderecom1_app(request):
 
 # 승마체험장 추천에서 radio 사용 하는 함수
 def rideSearch(request):
-    global conn;  # 전역변수 사용 위해
+    # global conn;  # 전역변수 사용 위해
+    conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
     request.POST.getlist('chk_pplace')
     chk_slct = request.POST.get('chk_pplace')
     print(chk_slct)
@@ -966,7 +979,8 @@ def race1(request):
     return render(request, "finalProject/gyungma_sogae.html")
 
 def rideintro1(request):
-    global conn;  # 전역변수 사용 위해
+    # global conn;  # 전역변수 사용 위해
+    conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
     print(conn.version)
     cursor = conn.cursor()
     cursor.execute('select*from place')
