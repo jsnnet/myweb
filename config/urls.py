@@ -16,25 +16,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 from config import views
+from django.views.generic import RedirectView
 
 urlpatterns = [
+    # py manage.py runserver 8099 (원하는 port 지정)
     path('admin/', admin.site.urls), # admin 사이트의 url 로 가라는 의미
     #http://localhost:8099/
-    path('',views.home), # 위에 import views 해주면 활성화된다.
-    #address
-    path('address/',include('address.urls')), # address라는 요청이 오면 거기에 있는 home 함수의 index 를 찾는다
-    #survey
-    path('survey/',include('survey.urls')),
-    #board
-    path('board/',include('board.urls')),
-    #mobile
-    path('mobile/',include('mobile.urls')),
-    #member
-    path('member/',include('member.urls')),
-    #shop
-    path('shop/',include('shop.urls')),
-    # back
-    path('back/',include('back.urls')),
+    #path('',views.home), # 위에 import views 해주면 활성화된다.
     #finalProject
     path('finalProject/',include('finalProject.urls')),
+    #start url 수정
+    path('', RedirectView.as_view(url='/finalProject/', permanent=True)),
 ]

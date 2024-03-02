@@ -1,7 +1,7 @@
 import cx_Oracle as oci
 from django.db import connections
 
-conn = oci.connect('doosun/doosun@localhost:1521/xe')
+conn = oci.connect('system/doosun@localhost:1521/xe')
 
 print(conn.version)
 

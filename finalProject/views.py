@@ -49,8 +49,8 @@ from finalProject.models import Select,Horse
 # https://kgu0724.tistory.com/95
 
 # DB 사용에 따른 conn 연결 (전역변수 사용하려면 변수 앞에 global 써주고 함수마다 변수 선언해야만 한다)
-# conn = oci.connect('doosun/doosun@localhost:1521/xe')
-conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
+conn = oci.connect('system/doosun@localhost:1521/xe')
+# conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
 # conn = oci.connect('doosun/doosun@192.168.0.7:1521/xe')
 # conn = oci.connect('final_teamB_xman/test11@localhost:1521/xe')
 # conn = oci.connect("finalB_horse/test11@192.168.0.149:1521/xe", encoding="UTF-8")
@@ -71,7 +71,7 @@ def whoiszoo1(request):
     def connections():
         # global conn
         try:
-            conn = oci.connect("finalB_horse/test11@192.168.0.149:1521/xe", encoding="UTF-8")
+            conn = oci.connect('system/doosun@localhost:1521/xe')
         except oci.DatabaseError as e:
             conn = "접속 예외 발생"
             print(e)
@@ -216,7 +216,7 @@ def todayzoo1(request):
     def connections():
         # global conn
         try:
-            conn = oci.connect("finalB_horse/test11@192.168.0.149:1521/xe", encoding="UTF-8")
+            conn = oci.connect('system/doosun@localhost:1521/xe')
         except oci.DatabaseError as e:
             conn = "접속 예외 발생"
             print(e)
@@ -420,7 +420,7 @@ def todayzoo1_app(request):
         def connections():
             # global conn
             try:
-                conn = oci.connect("finalB_horse/test11@192.168.0.149:1521/xe", encoding="UTF-8")
+                conn = oci.connect('system/doosun@localhost:1521/xe')
             except oci.DatabaseError as e:
                 conn = "접속 예외 발생"
                 print(e)
@@ -579,7 +579,7 @@ from django.contrib import auth
 @csrf_exempt
 def join_Oraclite(request):
     # global conn;
-    conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
+    conn = oci.connect('system/doosun@localhost:1521/xe')
     # 폼 안쓰고 새로 생성한 모델 활용 ==================================================================================
     sign_up = JoinForm(mid=request.POST['mid'],
                        mpwd=request.POST['mpwd'],
@@ -646,7 +646,7 @@ def login_session(request):
         return render(request, 'finalProject/none_value.html')
     else:
         # global conn;
-        conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
+        conn = oci.connect('system/doosun@localhost:1521/xe')
         print("첫if mpwd_pass : ", mpwd_pass)
         cursor = conn.cursor()
         pwd_chk = 'select * from member where mid = :mid'
@@ -691,7 +691,7 @@ def qna(request):
 
 def qna_up(request):
     # global conn; #전역변수 사용 위해
-    conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
+    conn = oci.connect('system/doosun@localhost:1521/xe')
     print(conn.version)
     cursor = conn.cursor()
     mid = request.session.get("mid")
@@ -725,7 +725,7 @@ def qna_up(request):
 # 문의사항 출력 (추후에 내 문의로 수정할 것)
 def myquestion(request):
     # global conn;  # 전역변수 사용 위해
-    conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
+    conn = oci.connect('system/doosun@localhost:1521/xe')
     request.session.get('mid')
     print("세션 값 : ",request.session.get('mid'))
     member_id = request.session.get('mid')
@@ -743,7 +743,7 @@ def myquestion(request):
 def myq_view(request):
     # 내 문의 보기/수정/삭제 그리고 추가 폼으로 comm 테이블의 리스트 (문의 번호랑 회원 아이디가 FK)
     # global conn;
-    conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
+    conn = oci.connect('system/doosun@localhost:1521/xe')
     # 문의 리스트에서 클릭한 문의만 가져오고 싶을때
     # 해당 문의의 문의 번호를 가져온다
     qnum = request.GET["qnum"]
@@ -770,7 +770,7 @@ def myq_view(request):
 def myq_delete(request):
     # 내 문의글 상세보기에서 삭제 버튼 클릭시 여기로
     # global conn;
-    conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
+    conn = oci.connect('system/doosun@localhost:1521/xe')
     cursor_myq = conn.cursor()
     cursor_comm = conn.cursor()
     qnum = request.GET["qnum"]
@@ -788,7 +788,7 @@ def myq_delete(request):
 # sysdate 로 생성된 qdate 값이 return 으로 넘어가지 않음
 def notice1(request):
     # global conn;  # 전역변수 사용 위해
-    conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
+    conn = oci.connect('system/doosun@localhost:1521/xe')
     print(conn.version)
     cursor = conn.cursor()
     cursor.execute('select * from notice order by nnum desc')
@@ -802,7 +802,7 @@ def notice1(request):
 # 공지글 클릭해서 상세보기
 def notice_detail(request):
     # global conn;
-    conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
+    conn = oci.connect('system/doosun@localhost:1521/xe')
     # 공지사항들 중에서 클릭한 글만 보곡 싶을때
     # 해당 공지글의 번호를 가져온다
     nnum = request.GET["nnum"]
@@ -820,7 +820,7 @@ def notice_detail(request):
 
 def review(request):
     # global conn;  # 전역변수 사용 위해
-    conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
+    conn = oci.connect('system/doosun@localhost:1521/xe')
     cursor = conn.cursor()
     cursor.execute('select * from review order by 1 desc')
     rlist = cursor.fetchall
@@ -830,7 +830,7 @@ def review(request):
 
 def up_review(request):
     # global conn;
-    conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
+    conn = oci.connect('system/doosun@localhost:1521/xe')
     cursor = conn.cursor()
     mid = request.session.get("mid")
     if (mid != None):
@@ -846,7 +846,7 @@ def up_review(request):
 
 def write_review2(request):
     # global conn; #전역변수 사용 위해
-    conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
+    conn = oci.connect('system/doosun@localhost:1521/xe')
     mid = request.session.get("mid")
     print(conn.version)
     cursor = conn.cursor()
@@ -883,7 +883,7 @@ def get_client_ip(request):
 
 def review_detail(request):
     # global conn;
-    conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
+    conn = oci.connect('system/doosun@localhost:1521/xe')
     cursor_review = conn.cursor()
     cursor_rehit = conn.cursor()
     # 리뷰 중에서 클릭한 글만 보곡 싶을때
@@ -930,7 +930,7 @@ def hit_up(request):
 def riderecom1(request):
     print("여기까지")
     # global conn;  # 전역변수 사용 위해
-    conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
+    conn = oci.connect('system/doosun@localhost:1521/xe')
     print(conn.version)
     cursor = conn.cursor()
     cursor.execute('select*from place')
@@ -943,7 +943,7 @@ def riderecom1(request):
 def riderecom1_app(request):
     print("여기까지")
     # global conn;  # 전역변수 사용 위해
-    conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
+    conn = oci.connect('system/doosun@localhost:1521/xe')
     print(conn.version)
     cursor = conn.cursor()
     cursor.execute('select*from place')
@@ -956,7 +956,7 @@ def riderecom1_app(request):
 # 승마체험장 추천에서 radio 사용 하는 함수
 def rideSearch(request):
     # global conn;  # 전역변수 사용 위해
-    conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
+    conn = oci.connect('system/doosun@localhost:1521/xe')
     request.POST.getlist('chk_pplace')
     chk_slct = request.POST.get('chk_pplace')
     print(chk_slct)
@@ -980,7 +980,7 @@ def race1(request):
 
 def rideintro1(request):
     # global conn;  # 전역변수 사용 위해
-    conn = oci.connect('final_teamB_xman/test11@192.168.0.15:1521/xe')
+    conn = oci.connect('system/doosun@localhost:1521/xe')
     print(conn.version)
     cursor = conn.cursor()
     cursor.execute('select*from place')

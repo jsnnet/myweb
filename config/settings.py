@@ -37,13 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'address',
-    'survey',
-    'board',
-    'mobile',
-    'member',
-    'shop',
-    'back',
     'finalProject',
 ]
 
@@ -87,7 +80,7 @@ DATABASES = {
         # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         'ENGINE' : 'django.db.backends.oracle',
         'NAME' : 'xe',
-        'USER' : 'doosun',
+        'USER' : 'system',
         'PASSWORD' : 'doosun',
         'HOST' : 'localhost',
         'PORT' : '1521',
